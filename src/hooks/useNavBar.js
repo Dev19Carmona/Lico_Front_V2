@@ -1,5 +1,5 @@
 import { LoginContext } from "@/context/login"
-import { useDisclosure } from "@chakra-ui/react"
+import { useColorMode, useDisclosure } from "@chakra-ui/react"
 import { useState, useContext, useEffect } from "react"
 
 export const useNavBar = () => {
@@ -8,8 +8,10 @@ export const useNavBar = () => {
   //States
   const [showUser, setShowUser] = useState(false)
   const [loginOrRegister, setLoginOrRegister] = useState(false)
+
   //ModalOptions
   const LoginOpenAndClose = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode();
   //Handles
   const handleClickToChangeLoginOrRegister = () => {
     setLoginOrRegister(!loginOrRegister)
@@ -31,5 +33,6 @@ export const useNavBar = () => {
     setLoginOrRegister,
     handleClickToChangeLoginOrRegister,
     localSession,
+    colorMode
   }
 }

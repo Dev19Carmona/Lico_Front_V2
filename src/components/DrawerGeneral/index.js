@@ -7,31 +7,34 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Input,
+  Center,
   Button,
 } from '@chakra-ui/react'
-export const DrawerGeneral = ({isOpen, onClose, body, buttonExtra}) => {
+export const DrawerGeneral = ({ isOpen, onClose, body, buttonExtra }) => {
   const btnRef = useRef()
-  return(
+  return (
     <Drawer
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        size={'md'}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          
+      isOpen={isOpen}
+      placement='left'
+      onClose={onClose}
+      finalFocusRef={btnRef}
+      size={'md'}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
 
-          <DrawerBody>
-            {body}
-          </DrawerBody>
+
+        <DrawerBody>
+          {body}
+        </DrawerBody>
+        <Center>
           <DrawerFooter>
             {buttonExtra}
+
           </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+        </Center>
+      </DrawerContent>
+    </Drawer>
   )
 }

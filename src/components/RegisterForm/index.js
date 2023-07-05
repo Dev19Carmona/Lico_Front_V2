@@ -7,15 +7,17 @@ import {
   Grid,
   Heading,
   Input,
-  Stack,
+  Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { useRegisterLogin } from "@/hooks/useRegisterLogin";
 import { FormField } from "@codecraftkit/core";
+import { AlertGeneral } from "../AlertGeneral";
+
 export const RegisterForm = () => {
-  const { genders, handleUserRegister, initialValRegister } =
+  const { genders, handleUserRegister, initialValRegister, alertSaveTrue, alertSaveFalse, loadRegister } =
     useRegisterLogin();
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
@@ -24,6 +26,15 @@ export const RegisterForm = () => {
           <Form>
             <Grid gap={2}>
               <Heading>Register</Heading>
+              <FormControl id="rolPassword">
+                <FormLabel>Rol password</FormLabel>
+                <Field
+                  name="rolPassword"
+                  as={Input}
+                  type="password"
+                  placeholder="********"
+                />
+              </FormControl>
               <FormControl id="fullName">
                 <FormLabel>Name</FormLabel>
                 <Field
@@ -93,11 +104,35 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <ButtonGeneral
-                title={"Register"}
-                colorA={"green.400"}
-                colorB={"green.500"}
+                title={loadRegister ?
+                  <Spinner 
+                  thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='black'
+                    size='md' />
+                  : "Register Account"}
+                colorA={"blue.400"}
+                colorB={"blue.500"}
                 type={"submit"}
               />
+              {
+                alertSaveTrue && (
+                  <AlertGeneral 
+                  status={'success'}
+                  title={'Cuenta creada con exito'}
+                  description={'Ya puedes darle click al boton LogIn para iniciar session. Nos vemos!'}
+                  />
+                )
+              }
+              {
+                alertSaveFalse && (
+                  <AlertGeneral status={'error'}
+                  title={'Ocurrio un error'}
+                  description={'Vuelve a ingresar los datos correctamente.'}
+                  />
+                )
+              }
             </Grid>
           </Form>
         )}

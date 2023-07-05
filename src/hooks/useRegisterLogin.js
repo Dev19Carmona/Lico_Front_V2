@@ -2,16 +2,11 @@ import { Genders } from "@/graphql/Gender";
 import { User_login, User_save } from "@/graphql/User";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
-import { CLIENT_ID } from "../../config/Constants";
-import { Grid } from "@chakra-ui/react";
-import { useNavBar } from "./useNavBar";
+
 
 
 export const useRegisterLogin = () => {
   //Hooks
-  const {
-    setShowUser,
-  } = useNavBar();
   //Mutations
   const [userSave, { data: IsUserCreate, loading:loadRegister }] = useMutation(User_save);
   //Queries
@@ -27,6 +22,7 @@ export const useRegisterLogin = () => {
     genderId: "",
     nit: "",
     phone: "",
+    rolPassword:""
   };
   const initialValLogin = {
     email: "",
@@ -45,7 +41,7 @@ export const useRegisterLogin = () => {
           genderId: values.genderId,
           nit: values.nit,
           phone: values.phone,
-          rolId: CLIENT_ID,
+          rolPassword:values.rolPassword
         },
       },
     });
@@ -62,24 +58,83 @@ export const useRegisterLogin = () => {
       },
     });
     resetForm()
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+    
   };
   //States
-  
+  const [alertSaveTrue, setalertSaveTrue] = useState(false)
+  const [alertSaveFalse, setalertSaveFalse] = useState(false)
+
+  const [alertLogInTrue, setalertLogInTrue] = useState(false)
+  const [alertLogInFalse, setalertLogInFalse] = useState(false)
   //Effects
   useEffect(() => {
-    if (token) {
+    if (token?.User_login) {
+      setalertLogInTrue(true)
       if (token?.User_login!==null) {
         localStorage.setItem("session",token?.User_login)
+        setTimeout(() => {
+          location.reload();
+        }, 4000);
+      }
+      
+    }else{
+      if(token?.User_login===null){
+        setalertLogInFalse(true)
       }
     }
+    
   
     
   }, [token])
-  
-  
+
+  useEffect(() => {
+    let timer;
+    if (alertSaveTrue) {
+      timer = setTimeout(() => {
+        setalertSaveTrue(false);
+      }, 5000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveTrue]);
+
+  useEffect(() => {
+    let timer;
+    if (alertSaveFalse) {
+      timer = setTimeout(() => {
+        setalertSaveFalse(false);
+      }, 5000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveFalse]);
+
+  useEffect(() => {
+    let timer;
+    if (alertLogInTrue) {
+      timer = setTimeout(() => {
+        setalertLogInTrue(false);
+      }, 5000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertLogInTrue]);
+
+  useEffect(() => {
+    let timer;
+    if (alertLogInFalse) {
+      timer = setTimeout(() => {
+        setalertLogInFalse(false);
+      }, 5000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertLogInFalse]);
+
+  useEffect(() => {
+    if (IsUserCreate?.User_save) {
+      setalertSaveTrue(true)
+    }
+    if(IsUserCreate?.User_save===false){
+      setalertSaveFalse(true);
+    }
+  }, [IsUserCreate])
 
   return {
     genders,
@@ -87,5 +142,10 @@ export const useRegisterLogin = () => {
     handleUserLogin,
     initialValRegister,
     initialValLogin,
+    alertSaveTrue,
+    alertSaveFalse,
+    loadRegister,
+    alertLogInTrue,
+    alertLogInFalse,
   };
 };

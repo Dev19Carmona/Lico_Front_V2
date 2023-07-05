@@ -3,16 +3,16 @@ import {
   Box,
   Flex,
   Avatar,
-  Link,
+  Text,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
+  Grid,
   useColorModeValue,
-  Stack,
+  NavItem,
   useColorMode,
   Center,
 } from "@chakra-ui/react";
@@ -23,19 +23,35 @@ import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { DrawerGeneral } from "@/components/DrawerGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm";
-
+import {
+  FiHome,
+  FiTrendingUp,
+  FiCompass,
+  FiStar,
+  FiSettings,
+  FiMenu,
+} from 'react-icons/fi';
+import{ TbBrandAirtable } from "react-icons/tb"
+import{ FaFileInvoiceDollar } from "react-icons/fa"
+import{ GiExitDoor } from "react-icons/gi"
+import{ MdLiquor } from "react-icons/md"
+import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
 export const NavBarLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const LinkItems = [
+    { name: 'Inicio', icon: FiHome },
+    { name: 'Mesas', icon: TbBrandAirtable },
+    { name: 'Salidas', icon: GiExitDoor },
+    { name: 'Facturas', icon: FaFileInvoiceDollar },
+    { name: 'Productos', icon: MdLiquor },
+  ];
   const {
     showUser,
     localSession,
     LoginOpenAndClose,
     loginOrRegister,
-    setLoginOrRegister,
     handleClickToChangeLoginOrRegister
   } = useNavBar();
-  // console.log(localSession?.avatar);
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")} >
       <Flex h={16} alignItems={"center"} justifyContent={"space-around"}>
@@ -97,10 +113,27 @@ export const NavBarLayout = () => {
         buttonExtra={<ButtonGeneral
           onClick={handleClickToChangeLoginOrRegister}
           title={!loginOrRegister?"Register":"Log In"}
-          colorA={"blue.400"}
-          colorB = {"blue.500"}
+          colorA={!loginOrRegister?"blue.400":"green.400"}
+          colorB = {!loginOrRegister?"blue.500":"green.500"}
         />}
       />
+      <Box
+      bg={useColorModeValue('white', 'gray.900')}
+      borderRight="1px"
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
+      pos="fixed"
+      h="full">
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+          Logo
+        </Text>
+        
+      </Flex>
+      {LinkItems.map((link, i) => (
+        <AnimatedLinkItem key={i} name={link.name} icon={link.icon} textAlign="rigth" mr={4}/>
+      ))}
+    </Box>
     </Box>
   );
 };

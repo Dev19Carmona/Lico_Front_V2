@@ -14,8 +14,6 @@ import { useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { NavBarLayout } from "@/layouts/NavBarLayout";
 import { LoginContextProvider } from "@/context/login";
-import { ChatButton } from "@/components/ChatButton";
-import { ChatContainer } from "@/containers/ChatContainer";
 
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
@@ -65,7 +63,6 @@ export default function App({ Component, pageProps }) {
       <ChakraProvider>
         <LoginContextProvider>
         <NavBarLayout/>
-        <ChatContainer/>
           <Component {...pageProps} />
         </LoginContextProvider>
       </ChakraProvider>

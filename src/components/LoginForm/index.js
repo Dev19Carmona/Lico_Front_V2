@@ -13,9 +13,10 @@ import {
 import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { useRegisterLogin } from "@/hooks/useRegisterLogin";
+import { AlertGeneral } from "../AlertGeneral";
 
 export const LoginForm = ({ buttonExtra }) => {
-  const { initialValLogin, handleUserLogin } = useRegisterLogin();
+  const { initialValLogin, handleUserLogin, alertLogInTrue, alertLogInFalse, } = useRegisterLogin();
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Formik onSubmit={handleUserLogin} initialValues={initialValLogin}>
@@ -51,6 +52,23 @@ export const LoginForm = ({ buttonExtra }) => {
           </Form>
         )}
       </Formik>
+      {
+                alertLogInTrue && (
+                  <AlertGeneral 
+                  status={'success'}
+                  title={'Inicio de session correcto'}
+                  description={'Ya puedes darle click al boton LogIn para iniciar session. Nos vemos!'}
+                  />
+                )
+              }
+              {
+                alertLogInFalse && (
+                  <AlertGeneral status={'error'}
+                  title={'Ocurrio un error'}
+                  description={'Vuelve a ingresar los datos correctamente.'}
+                  />
+                )
+              }
     </Box>
   );
 };

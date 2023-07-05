@@ -1,5 +1,5 @@
 import { Button, ButtonProps, Flex } from "@chakra-ui/react";
-export const ButtonGeneral = ({ title, onClick = () => {}, colorA, colorB, type='button' }) => {
+export const ButtonGeneral = ({ title, onClick = () => {}, colorA="blue.400", colorB="blue.500", type='button' }) => {
   return (
     <>
       <Flex justifyContent="center" alignItems="center">

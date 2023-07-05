@@ -4,7 +4,7 @@ import React from 'react'
 
 function Index() {
   return (
-    <Box minH={'100vh'}>Home</Box>
+    <Box ml={250} minH={'100vh'}>Home</Box>
   )
 }
 

@@ -10,9 +10,8 @@ export const LoginContextProvider = ({ children }) => {
 
   useEffect(() => {
     const localSessionToken = localStorage.getItem("session");
-    const decodedToken = jwt.decode(localSessionToken);
-    const localSessionUser = decodedToken?._doc;
-
+    const localSessionUser = jwt.decode(localSessionToken);
+    // const localSessionUser = decodedToken?._doc;
     if (localSessionToken !== null) {
       setLocalSession(localSessionUser);
     }
