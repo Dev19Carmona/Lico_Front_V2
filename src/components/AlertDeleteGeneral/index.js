@@ -1,7 +1,8 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Spinner, Text } from "@chakra-ui/react";
 import { AiFillWarning } from "react-icons/ai";
 import { ButtonGeneral } from "../ButtonGeneral";
-export const AlertDeleteGeneral = ({ title, description, onSubmit = () => {} }) => {
+import { AlertGeneral } from "../AlertGeneral";
+export const AlertDeleteGeneral = ({ title, description, onSubmit = () => {}, load, alertSaveFalse, alertSaveTrue }) => {
   return (
     <Box gap={2} py={10} px={6}>
       <Box textAlign="center">
@@ -11,7 +12,34 @@ export const AlertDeleteGeneral = ({ title, description, onSubmit = () => {} }) 
         {title}
       </Heading>
       <Text color="gray.500">{description}</Text>
-      <ButtonGeneral onClick={onSubmit} title = {'Eliminar'} colorA="#F56565" colorB="#C53030"/>
+      <ButtonGeneral onClick={onSubmit} title = {load ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="black"
+                      size="md"
+                    />
+                  ) : (
+                    "Eliminar"
+                  )} colorA="#F56565" colorB="#C53030"/>
+                  {
+                alertSaveTrue && (
+                  <AlertGeneral 
+                  status={'success'}
+                  title={'Accion eliminar realizada con exito!'}
+                  description={'Los datos se eliminaron Correctamente'}
+                  />
+                )
+              }
+              {
+                alertSaveFalse && (
+                  <AlertGeneral status={'error'}
+                  title={'Ocurrio un error'}
+                  description={'No se pudo eliminar...'}
+                  />
+                )
+              }
     </Box>
   );
 };

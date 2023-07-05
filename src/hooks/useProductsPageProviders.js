@@ -1,14 +1,36 @@
 import { CreateGeneralProducts } from "@/components/CreateGeneralProducts";
 import { ModalGeneral } from "@/components/ModalGeneral";
 import { ProviderList } from "@/components/ProviderList";
-import { Category_save } from "@/graphql/Category";
-import { Provider_delete, Provider_save, Providers } from "@/graphql/Provider";
-import { useMutation, useQuery } from "@apollo/client";
+import {
+  Categories,
+  Category_delete,
+  Category_save,
+  categoriesTotal,
+} from "@/graphql/Category";
+import {
+  Provider_delete,
+  Provider_save,
+  Providers,
+  providersTotal,
+} from "@/graphql/Provider";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Box, Grid, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdCreateNewFolder } from "react-icons/md";
+import { LIMIT } from "../../config/Constants";
+import { PaginatorGeneral } from "@/components/PaginatorGeneral";
+import { CategoryList } from "@/components/CategoryList";
+import {
+  SubCategories,
+  SubCategory_save,
+  subCategoriesTotal,
+} from "@/graphql/SubCategory";
+import { SubCategoryList } from "@/components/SubCategoryList";
 export const useProductsPageProviders = () => {
   //State
+  const [pageProviders, setPageProviders] = useState(1);
+  const [pageCategories, setPageCategories] = useState(1);
+  const [pageSubCategories, setPageSubCategories] = useState(1);
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
   const [providerData, setProviderData] = useState({
@@ -18,11 +40,19 @@ export const useProductsPageProviders = () => {
     address: "",
     email: "",
   });
-  console.log("ESTE ES",providerData._id);
+
   const [categoryData, setCategoryData] = useState({
+    _id: "",
     name: "",
   });
-
+  const [subCategoryData, setSubCategoryData] = useState({
+    _id: "",
+    name: "",
+    categoryId: "",
+  });
+  const [searchProvider, setSearchProvider] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchSubCategory, setSearchSubCategory] = useState("");
   //InitialValues
   const initialValProviderRegister = {
     _id: providerData._id,
@@ -33,41 +63,223 @@ export const useProductsPageProviders = () => {
   };
 
   const initialValCategoryRegister = {
+    _id: categoryData._id,
     name: categoryData.name,
   };
-
+  const initialValSubCategoryRegister = {
+    _id: subCategoryData._id,
+    name: subCategoryData.name,
+    categoryId: subCategoryData.categoryId,
+  };
+  const initialValSearch = {
+    search: "",
+  };
   //Queries
-  const { data: providers } = useQuery(Providers);
+  const [getProviders, { data: providers }] = useLazyQuery(Providers);
+  const [getCategories, { data: categories }] = useLazyQuery(Categories);
+  const [getSubCategories, { data: subCategories }] =
+    useLazyQuery(SubCategories);
+  const { data: totalProviders } = useQuery(providersTotal);
+  const { data: totalCategories } = useQuery(categoriesTotal);
+  const { data: totalSubCategories } = useQuery(subCategoriesTotal);
+
+  //CONSTANTS
+  const pagesTotalProviders = Math.ceil(totalProviders?.providersTotal / LIMIT);
+  const pagesTotalCategories = Math.ceil(
+    totalCategories?.categoriesTotal / LIMIT
+  );
+  const pagesTotalSubCategories = Math.ceil(
+    totalSubCategories?.subCategoriesTotal / LIMIT
+  );
 
   //Mutations
   const [
     providerSave,
     { data: isProviderCreate, loading: loadRegisterProvider },
   ] = useMutation(Provider_save, {
-    refetchQueries: [
-      {
-        query: Providers,
-      },
-    ],
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalProviders; page++) {
+        refetchQueries.push({
+          query: Providers,
+          variables: {
+            filters: {
+              search: searchProvider,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: providersTotal,
+      });
+      return refetchQueries;
+    },
   });
 
   const [
     categorySave,
     { data: isCategorySave, loading: loadRegisterCategory },
-  ] = useMutation(Category_save);
+  ] = useMutation(Category_save, {
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalCategories; page++) {
+        refetchQueries.push({
+          query: Categories,
+          variables: {
+            filters: {
+              search: searchCategory,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: categoriesTotal,
+      });
+      return refetchQueries;
+    },
+  });
 
   const [
     deleteProvider,
     { data: isProviderDelete, loading: loadProviderDelete },
   ] = useMutation(Provider_delete, {
-    refetchQueries: [
-      {
-        query: Providers,
-      },
-    ],
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalProviders; page++) {
+        refetchQueries.push({
+          query: Providers,
+          variables: {
+            filters: {
+              search: searchProvider,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: providersTotal,
+      });
+      return refetchQueries;
+    },
+  });
+
+  const [
+    deleteCategory,
+    { data: isCategoryDelete, loading: loadCategoryDelete },
+  ] = useMutation(Category_delete, {
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalCategories; page++) {
+        refetchQueries.push({
+          query: Categories,
+          variables: {
+            filters: {
+              search: searchCategory,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: categoriesTotal,
+      });
+      return refetchQueries;
+    },
+  });
+
+  const [
+    subCategorySave,
+    { data: isSubCategorySave, loading: loadRegisterSubCategory },
+  ] = useMutation(SubCategory_save, {
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalSubCategories; page++) {
+        refetchQueries.push({
+          query: SubCategories,
+          variables: {
+            filters: {
+              search: searchSubCategory,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: subCategoriesTotal,
+      });
+      return refetchQueries;
+    },
   });
 
   //Effects
+  useEffect(() => {
+    getCategories({
+      variables: {
+        filters: {
+          search: searchCategory,
+        },
+        options: {
+          limit: LIMIT,
+          page: pageCategories,
+        },
+      },
+    });
+  }, [searchCategory, getCategories, pageCategories, LIMIT]);
+
+  useEffect(() => {
+    getSubCategories({
+      variables: {
+        filters: {
+          search: searchSubCategory,
+        },
+        options: {
+          limit: LIMIT,
+          page: pageSubCategories,
+        },
+      },
+    });
+  }, [searchSubCategory, getSubCategories, pageSubCategories, LIMIT]);
+
+  useEffect(() => {
+    getProviders({
+      variables: {
+        filters: {
+          search: searchProvider,
+        },
+        options: {
+          limit: LIMIT,
+          page: pageProviders,
+        },
+      },
+    });
+  }, [searchProvider, getProviders, pageProviders, LIMIT]);
+
+  useEffect(() => {
+    if (isCategorySave?.Category_save) {
+      setalertSaveTrue(true);
+    }
+    if (isCategorySave?.Category_save === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isCategorySave]);
+
   useEffect(() => {
     if (isProviderCreate?.Provider_save) {
       setalertSaveTrue(true);
@@ -76,6 +288,34 @@ export const useProductsPageProviders = () => {
       setalertSaveFalse(true);
     }
   }, [isProviderCreate]);
+
+  useEffect(() => {
+    if (isProviderDelete?.Provider_delete) {
+      setalertSaveTrue(true);
+    }
+    if (isProviderDelete?.Provider_delete === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isProviderDelete]);
+
+  useEffect(() => {
+    if (isCategoryDelete?.Category_delete) {
+      setalertSaveTrue(true);
+    }
+    if (isCategoryDelete?.Category_delete === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isCategoryDelete]);
+
+  useEffect(() => {
+    if (isSubCategorySave?.SubCategory_save) {
+      setalertSaveTrue(true);
+    }
+    if (isSubCategorySave?.SubCategory_save === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isSubCategorySave]);
+
   useEffect(() => {
     let timer;
     if (alertSaveTrue) {
@@ -97,9 +337,13 @@ export const useProductsPageProviders = () => {
   }, [alertSaveFalse]);
   //Modal Settings
   const settingsModalCreateProvider = useDisclosure();
-  const settingsModalCreateCategory = useDisclosure();
   const settingsModalUpdateProvider = useDisclosure();
   const settingsModalDeleteProvider = useDisclosure();
+  const settingsModalCreateCategory = useDisclosure();
+  const settingsModalUpdateCategory = useDisclosure();
+  const settingsModalDeleteCategory = useDisclosure();
+  const settingsModalCreateSubCategory = useDisclosure();
+
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -111,15 +355,15 @@ export const useProductsPageProviders = () => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
   const handleOpenModalCreateCategory = () => {
-    // setProviderData({
-    //   name: "",
-    //   phone: "",
-    //   address: "",
-    //   email: "",
-    // });
     setOverlay(<OverlayTwo />);
     settingsModalCreateCategory.onOpen();
   };
+
+  const handleOpenModalCreateSubCategory = () => {
+    setOverlay(<OverlayTwo />);
+    settingsModalCreateSubCategory.onOpen();
+  };
+
   const handleOpenModalCreateProvider = () => {
     setProviderData({
       name: "",
@@ -140,6 +384,16 @@ export const useProductsPageProviders = () => {
     setProviderData(data);
     setOverlay(<OverlayTwo />);
     settingsModalDeleteProvider.onOpen();
+  };
+  const handleOpenModalUpdateCategory = (data) => {
+    setCategoryData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalUpdateCategory.onOpen();
+  };
+  const handleOpenModalDeleteCategory = (data) => {
+    setCategoryData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteCategory.onOpen();
   };
   const handleProviderRegister = (values, { resetForm }) => {
     if (values._id) {
@@ -169,13 +423,49 @@ export const useProductsPageProviders = () => {
     resetForm();
   };
   const handleCategoryRegister = (values, { resetForm }) => {
-    categorySave({
-      variables: {
-        categoryData: {
-          name: values.name,
+    if (values._id) {
+      categorySave({
+        variables: {
+          categoryData: {
+            _id: values._id,
+            name: values.name,
+          },
         },
-      },
-    });
+      });
+    } else {
+      categorySave({
+        variables: {
+          categoryData: {
+            name: values.name,
+          },
+        },
+      });
+    }
+    resetForm();
+  };
+
+  const handleSubCategoryRegister = (values, { resetForm }) => {
+    if (values._id) {
+      subCategorySave({
+        variables: {
+          subCategoryData: {
+            _id: values._id,
+            name: values.name,
+            categoryId: values.categoryId,
+          },
+        },
+      });
+    } else {
+      subCategorySave({
+        variables: {
+          subCategoryData: {
+            name: values.name,
+            categoryId: values.categoryId,
+          },
+        },
+      });
+    }
+    resetForm();
   };
 
   const handleDeleteProvider = () => {
@@ -186,6 +476,27 @@ export const useProductsPageProviders = () => {
     });
   };
 
+  const handleDeleteCategory = () => {
+    deleteCategory({
+      variables: {
+        _id: categoryData._id,
+      },
+    });
+  };
+
+  const handleSearchProvider = (values, { resetForm }) => {
+    setSearchProvider(values.search);
+    resetForm();
+  };
+
+  const handleSearchCategory = (values, { resetForm }) => {
+    setSearchCategory(values.search);
+    resetForm();
+  };
+  const handleSearchSubCategory = (values, { resetForm }) => {
+    setSearchSubCategory(values.search);
+    resetForm();
+  };
   //Arrays
   //Tabs
   const index = [
@@ -211,22 +522,49 @@ export const useProductsPageProviders = () => {
         onClick={handleOpenModalCreateCategory}
         title={<MdCreateNewFolder size={25} />}
         titleTab="Categorias"
+        initialValues={initialValSearch}
+        onSubmit={handleSearchCategory}
       />
-      {/* <ProviderList
-        handleOpenModalUpdateProvider={handleOpenModalUpdateProvider}
-        providers={providers}
-      /> */}
+      <PaginatorGeneral
+        pagesTotal={pagesTotalCategories}
+        page={pageCategories}
+        setPage={setPageCategories}
+      />
+      <CategoryList
+        handleOpenModalUpdateCategory={handleOpenModalUpdateCategory}
+        handleOpenModalDeleteCategory={handleOpenModalDeleteCategory}
+        categories={categories}
+      />
     </Grid>,
-    <Box key={1} bg="red.500" p={4}>
-      <Text color="white">Sub Categorias </Text>
-    </Box>,
+    <Grid>
+      <CreateGeneralProducts
+        onClick={handleOpenModalCreateSubCategory}
+        title={<MdCreateNewFolder size={25} />}
+        titleTab="Sub Categorias"
+        initialValues={initialValSearch}
+        onSubmit={handleSearchSubCategory}
+      />
+      <PaginatorGeneral pagesTotal={pagesTotalSubCategories} page={pageSubCategories} setPage={setPageSubCategories}/>
+      <SubCategoryList
+        //  handleOpenModalUpdateCategory={handleOpenModalUpdateCategory}
+        //  handleOpenModalDeleteCategory={handleOpenModalDeleteCategory}
+        subCategories={subCategories}
+      />
+    </Grid>,
     <Grid>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateProvider}
         title={<MdCreateNewFolder size={25} />}
         titleTab="Proveedores"
+        initialValues={initialValSearch}
+        onSubmit={handleSearchProvider}
       />
       <Grid>
+        <PaginatorGeneral
+          pagesTotal={pagesTotalProviders}
+          page={pageProviders}
+          setPage={setPageProviders}
+        />
         <ProviderList
           handleOpenModalUpdateProvider={handleOpenModalUpdateProvider}
           handleOpenModalDeleteProvider={handleOpenModalDeleteProvider}
@@ -252,6 +590,16 @@ export const useProductsPageProviders = () => {
     handleCategoryRegister,
     loadRegisterCategory,
     settingsModalDeleteProvider,
-    handleDeleteProvider
+    handleDeleteProvider,
+    settingsModalUpdateCategory,
+    settingsModalDeleteCategory,
+    handleDeleteCategory,
+    loadProviderDelete,
+    loadCategoryDelete,
+    settingsModalCreateSubCategory,
+    categories,
+    initialValSubCategoryRegister,
+    handleSubCategoryRegister,
+    loadRegisterSubCategory,
   };
 };

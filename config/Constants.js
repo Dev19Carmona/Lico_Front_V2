@@ -1,2 +1,3 @@
 export const CLIENT_ID = "7dd41eda-1b60-4ca2-88f4-e8c0284f18c4"
 export const ADMIN_ID = "ae8b3d2d-3dac-4fe1-9d3d-f2f91661de47"
+export const LIMIT = 6

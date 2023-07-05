@@ -11,6 +11,7 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.29",
     "@apollo/client": "^3.7.16",
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.3.7",
     "@codecraftkit/api-nextjs": "^1.0.23",
     "@codecraftkit/apollo": "^1.1.21",

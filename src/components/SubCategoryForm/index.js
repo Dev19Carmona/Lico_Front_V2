@@ -10,13 +10,15 @@ import {
 import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
+import { FormField } from "@codecraftkit/core";
 
-export const CategoryForm = ({
+export const SubCategoryForm = ({
   onSubmit,
   initialValues,
-  loadRegisterCategory,
-  alertSaveTrue,
-  alertSaveFalse,
+  loadRegisterSubCategory,
+   alertSaveTrue,
+   alertSaveFalse,
+  categories,
 }) => {
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
@@ -24,21 +26,27 @@ export const CategoryForm = ({
         {() => (
           <Form>
             <Grid gap={2}>
-              <Heading textAlign="center">Categorias</Heading>
+              <Heading textAlign="center">Sub Categorias</Heading>
               <FormControl id="name">
                 <FormLabel>Nombre</FormLabel>
                 <Field
                   name="name"
                   as={Input}
                   type="text"
-                  placeholder="Nombre de la Categoria"
+                  placeholder="Nombre de la Sub Categoria"
                   required={true}
                 />
               </FormControl>
-
+              <FormField
+                name="categoryId"
+                type="select"
+                labelField="name"
+                valueField="_id"
+                data={categories?.Categories}
+              />
               <ButtonGeneral
                 title={
-                  loadRegisterCategory ? (
+                  loadRegisterSubCategory ? (
                     <Spinner
                       thickness="4px"
                       speed="0.65s"
@@ -57,9 +65,9 @@ export const CategoryForm = ({
               {alertSaveTrue && (
                 <AlertGeneral
                   status={"success"}
-                  title={"Categoria creada o actualizada con exito"}
+                  title={"Sub Categoria creada o actualizada con exito"}
                   description={
-                    "Tienes una nueva categoria creada, ahora puedes añadirle Sub Categorias."
+                    "Tienes una nueva Sub Categoria creada, ahora puedes añadirlas a los productos"
                   }
                 />
               )}

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 export const Providers = gql`
-  query Providers {
-    providers {
+  query Providers($filters: Providers_Filters, $options: Options) {
+    providers(filters: $filters, options: $options) {
       _id
       name
       address
@@ -20,5 +20,11 @@ export const Provider_save = gql`
 export const Provider_delete = gql`
   mutation Mutation($_id: String!) {
     Provider_delete(_id: $_id)
+  }
+`;
+
+export const providersTotal = gql`
+  query Query {
+    providersTotal
   }
 `;
