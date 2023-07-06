@@ -4,6 +4,10 @@ export const Categories = gql`
     Categories(filters: $filters, options: $options) {
       name
       _id
+      subCategories {
+      _id
+      name
+    }
     }
   }
 `;

@@ -6,6 +6,7 @@ import {
   ApolloProvider,
   InMemoryCache,
   createHttpLink,
+  split
 } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { setContext } from "@apollo/client/link/context";
@@ -18,12 +19,14 @@ import { LoginContextProvider } from "@/context/login";
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { WebSocket } from 'ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
-const httpLink = createHttpLink({
-  uri: "http://127.0.0.1:4000/graphql",
-});
 
-const authLink = setContext((_, { headers }) => {
+// const httpLink = createHttpLink({
+//   uri: "http://127.0.0.1:4000/graphql",
+// });
+
+const authLink = (setContext((_, { headers }) => {
   const token = localStorage.getItem("session");
   return {
     headers: {
@@ -32,22 +35,32 @@ const authLink = setContext((_, { headers }) => {
       "apollo-require-preflight": true,
     },
   };
-});
+})).concat(createUploadLink({
+  uri: "http://127.0.0.1:4000/graphql",
+})) 
 
 const wsLink = new GraphQLWsLink(createClient({
   webSocketImpl: WebSocket,
-  url: 'ws://localhost:4000/graphql'
+  url: 'ws://127.0.0.1:4000/graphql'
 }))
 
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  authLink
+);
+
 const client = new ApolloClient({
-  link: authLink.concat(
-    createUploadLink({
-      uri: "http://127.0.0.1:4000/graphql",
-    })
-  ),
+  link: splitLink,
   cache: new InMemoryCache(),
 });
-client.setLink(wsLink)
+
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     const tokenSession = localStorage.getItem("session");

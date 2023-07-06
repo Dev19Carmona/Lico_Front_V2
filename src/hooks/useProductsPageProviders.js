@@ -1,5 +1,4 @@
 import { CreateGeneralProducts } from "@/components/CreateGeneralProducts";
-import { ModalGeneral } from "@/components/ModalGeneral";
 import { ProviderList } from "@/components/ProviderList";
 import {
   Categories,
@@ -14,7 +13,7 @@ import {
   providersTotal,
 } from "@/graphql/Provider";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Box, Grid, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Grid, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdCreateNewFolder } from "react-icons/md";
 import { LIMIT } from "../../config/Constants";
@@ -22,15 +21,19 @@ import { PaginatorGeneral } from "@/components/PaginatorGeneral";
 import { CategoryList } from "@/components/CategoryList";
 import {
   SubCategories,
+  SubCategory_delete,
   SubCategory_save,
   subCategoriesTotal,
 } from "@/graphql/SubCategory";
 import { SubCategoryList } from "@/components/SubCategoryList";
+import { Product_save, Products, productsTotal } from "@/graphql/Product";
+import { ProductList } from "@/components/ProductList";
 export const useProductsPageProviders = () => {
   //State
   const [pageProviders, setPageProviders] = useState(1);
   const [pageCategories, setPageCategories] = useState(1);
   const [pageSubCategories, setPageSubCategories] = useState(1);
+  const [pageProducts, setPageProducts] = useState(1);
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
   const [providerData, setProviderData] = useState({
@@ -40,7 +43,6 @@ export const useProductsPageProviders = () => {
     address: "",
     email: "",
   });
-
   const [categoryData, setCategoryData] = useState({
     _id: "",
     name: "",
@@ -50,9 +52,22 @@ export const useProductsPageProviders = () => {
     name: "",
     categoryId: "",
   });
+  const [productData, setProductData] = useState({
+    _id: "",
+    name: "",
+    price: 0,
+    amount: 0,
+    isLeave: 0,
+    isStay: 0,
+    categoryId: "",
+    subCategoryId: "",
+  });
   const [searchProvider, setSearchProvider] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
   const [searchSubCategory, setSearchSubCategory] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
+  const [selectCategory, setSelectCategory] = useState("");
+  const [imageProduct, setImageProduct] = useState();
   //InitialValues
   const initialValProviderRegister = {
     _id: providerData._id,
@@ -74,14 +89,26 @@ export const useProductsPageProviders = () => {
   const initialValSearch = {
     search: "",
   };
+  const initialValProductRegister = {
+    _id: productData._id,
+    name: productData.name,
+    price: productData.price,
+    isLeave: productData.isLeave,
+    isStay: productData.isStay,
+    amount: productData.amount,
+    categoryId: productData.categoryId,
+    subCategoryId: productData.subCategoryId,
+  };
   //Queries
   const [getProviders, { data: providers }] = useLazyQuery(Providers);
   const [getCategories, { data: categories }] = useLazyQuery(Categories);
+  const [getProducts, { data: products }] = useLazyQuery(Products);
   const [getSubCategories, { data: subCategories }] =
     useLazyQuery(SubCategories);
   const { data: totalProviders } = useQuery(providersTotal);
   const { data: totalCategories } = useQuery(categoriesTotal);
   const { data: totalSubCategories } = useQuery(subCategoriesTotal);
+  const { data: totalProducts } = useQuery(productsTotal);
 
   //CONSTANTS
   const pagesTotalProviders = Math.ceil(totalProviders?.providersTotal / LIMIT);
@@ -91,11 +118,16 @@ export const useProductsPageProviders = () => {
   const pagesTotalSubCategories = Math.ceil(
     totalSubCategories?.subCategoriesTotal / LIMIT
   );
+  const pagesTotalProducts = Math.ceil(totalProducts?.productsTotal / LIMIT);
 
   //Mutations
   const [
     providerSave,
-    { data: isProviderCreate, loading: loadRegisterProvider, error: errorRegisterProvider },
+    {
+      data: isProviderCreate,
+      loading: loadRegisterProvider,
+      error: errorRegisterProvider,
+    },
   ] = useMutation(Provider_save, {
     refetchQueries: () => {
       const refetchQueries = [];
@@ -119,7 +151,6 @@ export const useProductsPageProviders = () => {
       return refetchQueries;
     },
   });
-console.log(isProviderCreate, errorRegisterProvider);
   const [
     categorySave,
     { data: isCategorySave, loading: loadRegisterCategory },
@@ -198,7 +229,7 @@ console.log(isProviderCreate, errorRegisterProvider);
       refetchQueries.push({
         query: categoriesTotal,
       });
-      
+
       for (let page = 1; page <= pagesTotalSubCategories; page++) {
         refetchQueries.push({
           query: SubCategories,
@@ -223,9 +254,9 @@ console.log(isProviderCreate, errorRegisterProvider);
   });
 
   const [
-    subCategorySave,
-    { data: isSubCategorySave, loading: loadRegisterSubCategory },
-  ] = useMutation(SubCategory_save, {
+    deleteSubCategory,
+    { data: isSubCategoryDelete, loading: loadSubCategoryDelete },
+  ] = useMutation(SubCategory_delete, {
     refetchQueries: () => {
       const refetchQueries = [];
       for (let page = 1; page <= pagesTotalSubCategories; page++) {
@@ -234,6 +265,7 @@ console.log(isProviderCreate, errorRegisterProvider);
           variables: {
             filters: {
               search: searchSubCategory,
+              categoryId: selectCategory,
             },
             options: {
               limit: LIMIT,
@@ -248,6 +280,59 @@ console.log(isProviderCreate, errorRegisterProvider);
       return refetchQueries;
     },
   });
+
+  const [
+    subCategorySave,
+    { data: isSubCategorySave, loading: loadRegisterSubCategory },
+  ] = useMutation(SubCategory_save, {
+    refetchQueries: () => {
+      const refetchQueries = [];
+      for (let page = 1; page <= pagesTotalSubCategories; page++) {
+        refetchQueries.push({
+          query: SubCategories,
+          variables: {
+            filters: {
+              search: searchSubCategory,
+              categoryId: selectCategory,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+      refetchQueries.push({
+        query: subCategoriesTotal,
+      });
+      return refetchQueries;
+    },
+  });
+
+  const [productSave, { data: isProductSave, loading: loadRegisterProduct }] =
+    useMutation(Product_save, {
+      refetchQueries: () => {
+        const refetchQueries = [];
+        for (let page = 1; page <= pagesTotalProducts; page++) {
+          refetchQueries.push({
+            query: Products,
+            variables: {
+              filters: {
+                search: searchProduct,
+              },
+              options: {
+                limit: LIMIT,
+                page: page,
+              },
+            },
+          });
+        }
+        refetchQueries.push({
+          query: productsTotal,
+        });
+        return refetchQueries;
+      },
+    });
 
   //Effects
   useEffect(() => {
@@ -269,6 +354,7 @@ console.log(isProviderCreate, errorRegisterProvider);
       variables: {
         filters: {
           search: searchSubCategory,
+          categoryId: selectCategory,
         },
         options: {
           limit: LIMIT,
@@ -276,7 +362,32 @@ console.log(isProviderCreate, errorRegisterProvider);
         },
       },
     });
-  }, [searchSubCategory, getSubCategories, pageSubCategories, LIMIT]);
+  }, [
+    searchSubCategory,
+    getSubCategories,
+    pageSubCategories,
+    LIMIT,
+    selectCategory,
+  ]);
+  useEffect(() => {
+    getProducts({
+      variables: {
+        filters: {
+          search: searchProduct,
+        },
+        options: {
+          limit: LIMIT,
+          page: pageProducts,
+        },
+      },
+    });
+  }, [
+    searchSubCategory,
+    getSubCategories,
+    pageSubCategories,
+    LIMIT,
+    selectCategory,
+  ]);
 
   useEffect(() => {
     getProviders({
@@ -309,6 +420,14 @@ console.log(isProviderCreate, errorRegisterProvider);
       setalertSaveFalse(true);
     }
   }, [isProviderCreate]);
+  useEffect(() => {
+    if (isProductSave?.Product_save) {
+      setalertSaveTrue(true);
+    }
+    if (isProductSave?.Product_save === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isProductSave]);
 
   useEffect(() => {
     if (isProviderDelete?.Provider_delete) {
@@ -336,6 +455,15 @@ console.log(isProviderCreate, errorRegisterProvider);
       setalertSaveFalse(true);
     }
   }, [isSubCategorySave]);
+
+  useEffect(() => {
+    if (isSubCategoryDelete?.SubCategory_delete) {
+      setalertSaveTrue(true);
+    }
+    if (isSubCategoryDelete?.SubCategory_delete === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isSubCategoryDelete]);
 
   useEffect(() => {
     let timer;
@@ -366,6 +494,9 @@ console.log(isProviderCreate, errorRegisterProvider);
   const settingsModalCreateSubCategory = useDisclosure();
   const settingsModalUpdateSubCategory = useDisclosure();
   const settingsModalDeleteSubCategory = useDisclosure();
+  const settingsModalCreateProduct = useDisclosure();
+  const settingsModalUpdateProduct = useDisclosure();
+  const settingsModalDeleteProduct = useDisclosure();
 
   const OverlayTwo = () => (
     <ModalOverlay
@@ -377,12 +508,34 @@ console.log(isProviderCreate, errorRegisterProvider);
   );
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
+  const handleOpenModalCreateProduct = () => {
+    setProductData({
+      _id: "",
+      name: "",
+      price: "",
+      amount: "",
+      categoryId: "",
+      subCategoryId: "",
+      image: "",
+    });
+    setOverlay(<OverlayTwo />);
+    settingsModalCreateProduct.onOpen();
+  };
   const handleOpenModalCreateCategory = () => {
+    setCategoryData({
+      _id: "",
+      name: "",
+    });
     setOverlay(<OverlayTwo />);
     settingsModalCreateCategory.onOpen();
   };
 
   const handleOpenModalCreateSubCategory = () => {
+    setSubCategoryData({
+      _id: "",
+      name: "",
+      categoryId: "",
+    });
     setOverlay(<OverlayTwo />);
     settingsModalCreateSubCategory.onOpen();
   };
@@ -428,7 +581,16 @@ console.log(isProviderCreate, errorRegisterProvider);
     setOverlay(<OverlayTwo />);
     settingsModalDeleteSubCategory.onOpen();
   };
-
+  const handleOpenModalUpdateProduct = (data) => {
+    setProductData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalUpdateProduct.onOpen();
+  };
+  const handleOpenModalDeleteProduct = (data) => {
+    setProductData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteProduct.onOpen();
+  };
 
   const handleProviderRegister = (values, { resetForm }) => {
     if (values._id) {
@@ -478,6 +640,41 @@ console.log(isProviderCreate, errorRegisterProvider);
     }
     resetForm();
   };
+  const handleProductRegister = (values, { resetForm }) => {
+    if (values._id) {
+      productSave({
+        variables: {
+          productData: {
+            _id: values._id,
+            name: values.name,
+            amount: values.amount === "" ? 0 : values.amount,
+            price: values.price === "" ? 0 : values.price,
+            categoryId: values.categoryId,
+            subCategoryId: values.subCategoryId,
+            isLeave: values.isLeave === "" ? 0 : values.isLeave,
+            isStay: values.isStay === "" ? 0 : values.isStay,
+            image: imageProduct,
+          },
+        },
+      });
+    } else {
+      productSave({
+        variables: {
+          productData: {
+            name: values.name,
+            amount: values.amount === "" ? 0 : values.amount,
+            price: values.price === "" ? 0 : values.price,
+            categoryId: values.categoryId,
+            subCategoryId: values.subCategoryId,
+            isLeave: values.isLeave === "" ? 0 : values.isLeave,
+            isStay: values.isStay === "" ? 0 : values.isStay,
+            image: imageProduct,
+          },
+        },
+      });
+    }
+    resetForm();
+  };
 
   const handleSubCategoryRegister = (values, { resetForm }) => {
     if (values._id) {
@@ -518,6 +715,13 @@ console.log(isProviderCreate, errorRegisterProvider);
       },
     });
   };
+  const handleDeleteSubCategory = () => {
+    deleteSubCategory({
+      variables: {
+        _id: subCategoryData._id,
+      },
+    });
+  };
 
   const handleSearchProvider = (values, { resetForm }) => {
     setSearchProvider(values.search);
@@ -528,10 +732,23 @@ console.log(isProviderCreate, errorRegisterProvider);
     setSearchCategory(values.search);
     resetForm();
   };
+  const handleSelectCategory = (e) => {
+    setSelectCategory(e);
+  };
   const handleSearchSubCategory = (values, { resetForm }) => {
     setSearchSubCategory(values.search);
     resetForm();
   };
+  const handleSearchProduct = (values, { resetForm }) => {
+    setSearchProduct(values.search);
+    resetForm();
+  };
+  const handleSaveImageProduct = (event) => {
+    if (event?.target?.validity && event?.target?.files) {
+      setImageProduct(event?.target?.files[0]);
+    }
+  };
+
   //Arrays
   //Tabs
   const index = [
@@ -549,9 +766,25 @@ console.log(isProviderCreate, errorRegisterProvider);
     },
   ];
   const components = [
-    <Box key={1} bg="red.500" p={4}>
-      <Text color="white">Lista de Productos 1</Text>
-    </Box>,
+    <Grid>
+      <CreateGeneralProducts
+        onClick={handleOpenModalCreateProduct}
+        title={<MdCreateNewFolder size={25} />}
+        titleTab="Productos"
+        initialValues={initialValSearch}
+        onSubmit={handleSearchProduct}
+      />
+      <PaginatorGeneral
+        pagesTotal={pagesTotalProducts}
+        page={pageProducts}
+        setPage={setPageProducts}
+      />
+      <ProductList
+        handleOpenModalUpdate={handleOpenModalUpdateProduct}
+        handleOpenModalDelete={handleOpenModalDeleteProduct}
+        products={products}
+      />
+    </Grid>,
     <Grid>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateCategory}
@@ -579,10 +812,14 @@ console.log(isProviderCreate, errorRegisterProvider);
         initialValues={initialValSearch}
         onSubmit={handleSearchSubCategory}
       />
-      <PaginatorGeneral pagesTotal={pagesTotalSubCategories} page={pageSubCategories} setPage={setPageSubCategories}/>
+      <PaginatorGeneral
+        pagesTotal={pagesTotalSubCategories}
+        page={pageSubCategories}
+        setPage={setPageSubCategories}
+      />
       <SubCategoryList
-         handleOpenModalUpdateSubCategory={handleOpenModalUpdateCategory}
-         handleOpenModalDeleteSubCategory={handleOpenModalDeleteCategory}
+        handleOpenModalUpdateSubCategory={handleOpenModalUpdateSubCategory}
+        handleOpenModalDeleteSubCategory={handleOpenModalDeleteSubCategory}
         subCategories={subCategories}
       />
     </Grid>,
@@ -638,5 +875,16 @@ console.log(isProviderCreate, errorRegisterProvider);
     loadRegisterSubCategory,
     settingsModalUpdateSubCategory,
     settingsModalDeleteSubCategory,
+    loadSubCategoryDelete,
+    handleDeleteSubCategory,
+    settingsModalCreateProduct,
+    loadRegisterProduct,
+    subCategories,
+    initialValProductRegister,
+    handleSelectCategory,
+    selectCategory,
+    handleProductRegister,
+    handleSaveImageProduct,
+    imageProduct,
   };
 };

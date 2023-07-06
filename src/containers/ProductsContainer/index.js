@@ -1,6 +1,7 @@
 import { AlertDeleteGeneral } from "@/components/AlertDeleteGeneral";
 import { CategoryForm } from "@/components/CategoryForm";
 import { ModalGeneral } from "@/components/ModalGeneral";
+import { ProductForm } from "@/components/ProductForm";
 import { ProviderForm } from "@/components/ProviderForm";
 import { SubCategoryForm } from "@/components/SubCategoryForm";
 import { TabsGeneral } from "@/components/TabsGeneral";
@@ -19,7 +20,6 @@ export const ProductsContainer = () => {
     alertSaveTrue,
     alertSaveFalse,
     settingsModalUpdateProvider,
-    providerData,
     settingsModalCreateCategory,
     initialValCategoryRegister,
     handleCategoryRegister,
@@ -38,13 +38,42 @@ export const ProductsContainer = () => {
     loadRegisterSubCategory,
     settingsModalUpdateSubCategory,
     settingsModalDeleteSubCategory,
+    loadSubCategoryDelete,
+    handleDeleteSubCategory,
+    settingsModalCreateProduct,
+    loadRegisterProduct,
+    subCategories,
+    initialValProductRegister,
+    handleSelectCategory,
+    selectCategory,
+    handleProductRegister,
+    handleSaveImageProduct,
+    imageProduct,
+    
   } = useProductsPageProviders();
-
+  
   return (
     <Box m={5}>
       <TabsGeneral index={index} components={components} />
 
       {/* MODAL CREAR PROVEEDOR */}
+      {/* MODAL ACTUALIZAR SUB CATEGORIA */}
+      <ModalGeneral
+        title={"Actualizar Sub Categoria"}
+        body={
+          <SubCategoryForm
+            categories={categories}
+            loadRegisterSubCategory={loadRegisterSubCategory}
+            onSubmit={handleSubCategoryRegister}
+            initialValues={initialValSubCategoryRegister}
+            alertSaveFalse={alertSaveFalse}
+            alertSaveTrue={alertSaveTrue}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalUpdateSubCategory.isOpen}
+        onClose={settingsModalUpdateSubCategory.onClose}
+      />
 
       <ModalGeneral
         title={"Crear Proveedor"}
@@ -157,14 +186,14 @@ export const ProductsContainer = () => {
         isOpen={settingsModalDeleteCategory.isOpen}
         onClose={settingsModalDeleteCategory.onClose}
       />
-      
-        {/* MODAL CREAR SUB CATEGORIA */}
-        <ModalGeneral
+
+      {/* MODAL CREAR SUB CATEGORIA */}
+      <ModalGeneral
         title={"Crear Sub Categoria"}
         body={
           <SubCategoryForm
-          categories={categories}
-          loadRegisterSubCategory={loadRegisterSubCategory}
+            categories={categories}
+            loadRegisterSubCategory={loadRegisterSubCategory}
             onSubmit={handleSubCategoryRegister}
             initialValues={initialValSubCategoryRegister}
             alertSaveFalse={alertSaveFalse}
@@ -176,47 +205,47 @@ export const ProductsContainer = () => {
         onClose={settingsModalCreateSubCategory.onClose}
       />
 
-        {/* MODAL ACTUALIZAR SUB CATEGORIA */}
-        <ModalGeneral
-        title={"Actualizar Sub Categoria"}
+      {/* MODAL ELIMINAR SUB CATEGORIA */}
+      <ModalGeneral
+        title={"Eliminar Sub Categoria"}
         body={
-          <SubCategoryForm
-          categories={categories}
-          loadRegisterSubCategory={loadRegisterSubCategory}
-            onSubmit={handleSubCategoryRegister}
-            initialValues={initialValSubCategoryRegister}
+          <AlertDeleteGeneral
+            title={"¿Desea eliminar la Sub Categoria?"}
+            description={
+              "Si la Sub Categoria pertenece a un producto podría tener problemas al realizar esta accion."
+            }
+            load={loadSubCategoryDelete}
+            onSubmit={handleDeleteSubCategory}
             alertSaveFalse={alertSaveFalse}
             alertSaveTrue={alertSaveTrue}
           />
         }
         overlay={overlay}
-        isOpen={settingsModalUpdateSubCategory.isOpen}
-        onClose={settingsModalUpdateSubCategory.onClose}
-      />
-
-      {/* MODAL ELIMINAR SUB CATEGORIA */}
-      <ModalGeneral
-        title={"Eliminar Sub Categoria"}
-        // body={
-        //   <SubCategoryForm
-        //   categories={categories}
-        //   loadRegisterSubCategory={loadRegisterSubCategory}
-        //     onSubmit={handleSubCategoryRegister}
-        //     initialValues={initialValSubCategoryRegister}
-        //     alertSaveFalse={alertSaveFalse}
-        //     alertSaveTrue={alertSaveTrue}
-        //   />
-        // }
-        overlay={overlay}
         isOpen={settingsModalDeleteSubCategory.isOpen}
         onClose={settingsModalDeleteSubCategory.onClose}
       />
+
+      <ModalGeneral
+        title={"Crear Producto"}
+        body={
+          <ProductForm
+            loadRegister={loadRegisterProduct}
+            onSubmit={handleProductRegister}
+            initialValues={initialValProductRegister}
+            handleSelect={handleSelectCategory}
+            imageProduct={imageProduct}
+            alertSaveFalse={alertSaveFalse}
+             alertSaveTrue={alertSaveTrue}
+            categories={categories}
+            subCategories={subCategories}
+            selectCategory={selectCategory}
+            handleSaveImageProduct={handleSaveImageProduct}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalCreateProduct.isOpen}
+        onClose={settingsModalCreateProduct.onClose}
+      />
     </Box>
-
-    
-
-    
-
-    
   );
 };
