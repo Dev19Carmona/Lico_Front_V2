@@ -36,6 +36,8 @@ export const ProductsContainer = () => {
     initialValSubCategoryRegister,
     handleSubCategoryRegister,
     loadRegisterSubCategory,
+    settingsModalUpdateSubCategory,
+    settingsModalDeleteSubCategory,
   } = useProductsPageProviders();
 
   return (
@@ -174,7 +176,44 @@ export const ProductsContainer = () => {
         onClose={settingsModalCreateSubCategory.onClose}
       />
 
+        {/* MODAL ACTUALIZAR SUB CATEGORIA */}
+        <ModalGeneral
+        title={"Actualizar Sub Categoria"}
+        body={
+          <SubCategoryForm
+          categories={categories}
+          loadRegisterSubCategory={loadRegisterSubCategory}
+            onSubmit={handleSubCategoryRegister}
+            initialValues={initialValSubCategoryRegister}
+            alertSaveFalse={alertSaveFalse}
+            alertSaveTrue={alertSaveTrue}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalUpdateSubCategory.isOpen}
+        onClose={settingsModalUpdateSubCategory.onClose}
+      />
+
+      {/* MODAL ELIMINAR SUB CATEGORIA */}
+      <ModalGeneral
+        title={"Eliminar Sub Categoria"}
+        // body={
+        //   <SubCategoryForm
+        //   categories={categories}
+        //   loadRegisterSubCategory={loadRegisterSubCategory}
+        //     onSubmit={handleSubCategoryRegister}
+        //     initialValues={initialValSubCategoryRegister}
+        //     alertSaveFalse={alertSaveFalse}
+        //     alertSaveTrue={alertSaveTrue}
+        //   />
+        // }
+        overlay={overlay}
+        isOpen={settingsModalDeleteSubCategory.isOpen}
+        onClose={settingsModalDeleteSubCategory.onClose}
+      />
     </Box>
+
+    
 
     
 

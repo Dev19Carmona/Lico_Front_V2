@@ -1,10 +1,9 @@
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { CardGeneralBorder } from "../CardGeneralBorder"
 export const SubCategoryList = ({subCategories, 
-   handleOpenModalUpdateCategory, 
-   handleOpenModalDeleteCategory
+   handleOpenModalUpdateSubCategory, 
+   handleOpenModalDeleteSubCategory
 }) => {
-  console.log(subCategories);
     return (
         <>
         <SimpleGrid columns={3}>
@@ -17,12 +16,12 @@ export const SubCategoryList = ({subCategories,
                         // thirdPlace:provider.address,
                         // fourthPlace:provider.email,
                     }}
-                    // onClick={()=>{
-                    //      handleOpenModalUpdateCategory(category)
-                    // }}
-                    // onDelete={()=>{
-                    //     handleOpenModalDeleteCategory(category)
-                    // }}
+                    onClick={()=>{
+                         handleOpenModalUpdateSubCategory(subCategory)
+                    }}
+                    onDelete={()=>{
+                        handleOpenModalDeleteSubCategory(subCategory)
+                    }}
                     />
                 </Box>
             ))

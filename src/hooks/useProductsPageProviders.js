@@ -95,7 +95,7 @@ export const useProductsPageProviders = () => {
   //Mutations
   const [
     providerSave,
-    { data: isProviderCreate, loading: loadRegisterProvider },
+    { data: isProviderCreate, loading: loadRegisterProvider, error: errorRegisterProvider },
   ] = useMutation(Provider_save, {
     refetchQueries: () => {
       const refetchQueries = [];
@@ -119,7 +119,7 @@ export const useProductsPageProviders = () => {
       return refetchQueries;
     },
   });
-
+console.log(isProviderCreate, errorRegisterProvider);
   const [
     categorySave,
     { data: isCategorySave, loading: loadRegisterCategory },
@@ -194,9 +194,30 @@ export const useProductsPageProviders = () => {
           },
         });
       }
+
       refetchQueries.push({
         query: categoriesTotal,
       });
+      
+      for (let page = 1; page <= pagesTotalSubCategories; page++) {
+        refetchQueries.push({
+          query: SubCategories,
+          variables: {
+            filters: {
+              search: searchSubCategory,
+            },
+            options: {
+              limit: LIMIT,
+              page: page,
+            },
+          },
+        });
+      }
+
+      refetchQueries.push({
+        query: subCategoriesTotal,
+      });
+
       return refetchQueries;
     },
   });
@@ -343,6 +364,8 @@ export const useProductsPageProviders = () => {
   const settingsModalUpdateCategory = useDisclosure();
   const settingsModalDeleteCategory = useDisclosure();
   const settingsModalCreateSubCategory = useDisclosure();
+  const settingsModalUpdateSubCategory = useDisclosure();
+  const settingsModalDeleteSubCategory = useDisclosure();
 
   const OverlayTwo = () => (
     <ModalOverlay
@@ -395,6 +418,18 @@ export const useProductsPageProviders = () => {
     setOverlay(<OverlayTwo />);
     settingsModalDeleteCategory.onOpen();
   };
+  const handleOpenModalUpdateSubCategory = (data) => {
+    setSubCategoryData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalUpdateSubCategory.onOpen();
+  };
+  const handleOpenModalDeleteSubCategory = (data) => {
+    setSubCategoryData(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteSubCategory.onOpen();
+  };
+
+
   const handleProviderRegister = (values, { resetForm }) => {
     if (values._id) {
       providerSave({
@@ -546,8 +581,8 @@ export const useProductsPageProviders = () => {
       />
       <PaginatorGeneral pagesTotal={pagesTotalSubCategories} page={pageSubCategories} setPage={setPageSubCategories}/>
       <SubCategoryList
-        //  handleOpenModalUpdateCategory={handleOpenModalUpdateCategory}
-        //  handleOpenModalDeleteCategory={handleOpenModalDeleteCategory}
+         handleOpenModalUpdateSubCategory={handleOpenModalUpdateCategory}
+         handleOpenModalDeleteSubCategory={handleOpenModalDeleteCategory}
         subCategories={subCategories}
       />
     </Grid>,
@@ -601,5 +636,7 @@ export const useProductsPageProviders = () => {
     initialValSubCategoryRegister,
     handleSubCategoryRegister,
     loadRegisterSubCategory,
+    settingsModalUpdateSubCategory,
+    settingsModalDeleteSubCategory,
   };
 };

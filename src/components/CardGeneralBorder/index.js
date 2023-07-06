@@ -53,11 +53,11 @@ export const CardGeneralBorder = ({ data = {}, onClick = () => {}, onDelete = ()
             color="white"
             mb={2}
           >
-            <Text fontSize={"xs"} fontWeight="medium">
+            <Text letterSpacing={2} fontSize={"xs"} fontWeight="medium">
               {firstPlace}
             </Text>
           </Box>
-          <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
+          <Heading letterSpacing={1} color={"black"} fontSize={"2xl"} noOfLines={1}>
             {secondPlace}
           </Heading>
           <Text color={"gray.500"} noOfLines={2}>
