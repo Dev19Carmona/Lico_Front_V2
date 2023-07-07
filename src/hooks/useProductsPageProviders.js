@@ -26,7 +26,7 @@ import {
   subCategoriesTotal,
 } from "@/graphql/SubCategory";
 import { SubCategoryList } from "@/components/SubCategoryList";
-import { Product_save, Products, productsTotal } from "@/graphql/Product";
+import { Product_delete, Product_save, Products, productsTotal } from "@/graphql/Product";
 import { ProductList } from "@/components/ProductList";
 export const useProductsPageProviders = () => {
   //State
@@ -334,6 +334,30 @@ export const useProductsPageProviders = () => {
       },
     });
 
+    const[deleteProduct,{data:isProductDelete, loading:loadProductDelete}]=useMutation(Product_delete, {
+      refetchQueries: () => {
+        const refetchQueries = [];
+        for (let page = 1; page <= pagesTotalProducts; page++) {
+          refetchQueries.push({
+            query: Products,
+            variables: {
+              filters: {
+                search: searchProduct,
+              },
+              options: {
+                limit: LIMIT,
+                page: page,
+              },
+            },
+          });
+        }
+        refetchQueries.push({
+          query: productsTotal,
+        });
+        return refetchQueries;
+      },
+    })
+
   //Effects
   useEffect(() => {
     getCategories({
@@ -382,11 +406,10 @@ export const useProductsPageProviders = () => {
       },
     });
   }, [
-    searchSubCategory,
-    getSubCategories,
-    pageSubCategories,
+    searchProduct,
+    getProducts,
+    pageProducts,
     LIMIT,
-    selectCategory,
   ]);
 
   useEffect(() => {
@@ -402,6 +425,15 @@ export const useProductsPageProviders = () => {
       },
     });
   }, [searchProvider, getProviders, pageProviders, LIMIT]);
+
+  useEffect(() => {
+    if (isProductDelete?.Product_delete) {
+      setalertSaveTrue(true);
+    }
+    if (isProductDelete?.Product_delete === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isProductDelete]);
 
   useEffect(() => {
     if (isCategorySave?.Category_save) {
@@ -722,6 +754,13 @@ export const useProductsPageProviders = () => {
       },
     });
   };
+  const handleDeleteProduct = () => {
+    deleteProduct({
+      variables: {
+        _id: productData._id,
+      },
+    });
+  };
 
   const handleSearchProvider = (values, { resetForm }) => {
     setSearchProvider(values.search);
@@ -741,7 +780,7 @@ export const useProductsPageProviders = () => {
   };
   const handleSearchProduct = (values, { resetForm }) => {
     setSearchProduct(values.search);
-    resetForm();
+     resetForm();
   };
   const handleSaveImageProduct = (event) => {
     if (event?.target?.validity && event?.target?.files) {
@@ -878,6 +917,8 @@ export const useProductsPageProviders = () => {
     loadSubCategoryDelete,
     handleDeleteSubCategory,
     settingsModalCreateProduct,
+    settingsModalUpdateProduct,
+    settingsModalDeleteProduct,
     loadRegisterProduct,
     subCategories,
     initialValProductRegister,
@@ -886,5 +927,7 @@ export const useProductsPageProviders = () => {
     handleProductRegister,
     handleSaveImageProduct,
     imageProduct,
+    loadProductDelete,
+    handleDeleteProduct,
   };
 };

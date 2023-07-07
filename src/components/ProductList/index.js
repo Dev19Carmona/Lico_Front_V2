@@ -14,7 +14,8 @@ export const ProductList = ({products,
                         firstPlace:product.amount,
                         secondPlace:product.name,
                          thirdPlace:`Precio: ${Math.floor(product.price).toLocaleString()} | Llevar: ${Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString()} | Establecimiento: ${Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()}`,
-                        // fourthPlace:provider.email,
+                         fourthPlace:product.category?.name,
+                         
                     }}
                     onClick={()=>{
                          handleOpenModalUpdate(product)
@@ -22,6 +23,8 @@ export const ProductList = ({products,
                     onDelete={()=>{
                         handleOpenModalDelete(product)
                     }}
+                    src = {product.image}
+                    imageSize="100px"
                     />
                 </Box>
             ))

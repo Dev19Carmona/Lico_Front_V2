@@ -40,7 +40,7 @@ export const Product_save = gql`
 `;
 
 export const Product_delete = gql`
-  mutation Product_delete($id: String!) {
-    Product_delete(_id: $id)
+  mutation Product_delete($_id: String!) {
+    Product_delete(_id: $_id)
   }
 `;

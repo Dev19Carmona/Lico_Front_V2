@@ -49,7 +49,10 @@ export const ProductsContainer = () => {
     handleProductRegister,
     handleSaveImageProduct,
     imageProduct,
-    
+    settingsModalUpdateProduct,
+    settingsModalDeleteProduct,
+    loadProductDelete,
+    handleDeleteProduct,
   } = useProductsPageProviders();
   
   return (
@@ -245,6 +248,47 @@ export const ProductsContainer = () => {
         overlay={overlay}
         isOpen={settingsModalCreateProduct.isOpen}
         onClose={settingsModalCreateProduct.onClose}
+      />
+
+<ModalGeneral
+        title={"Actualizar Producto"}
+        body={
+          <ProductForm
+            loadRegister={loadRegisterProduct}
+            onSubmit={handleProductRegister}
+            initialValues={initialValProductRegister}
+            handleSelect={handleSelectCategory}
+            imageProduct={imageProduct}
+            alertSaveFalse={alertSaveFalse}
+             alertSaveTrue={alertSaveTrue}
+            categories={categories}
+            subCategories={subCategories}
+            selectCategory={selectCategory}
+            handleSaveImageProduct={handleSaveImageProduct}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalUpdateProduct.isOpen}
+        onClose={settingsModalUpdateProduct.onClose}
+      />
+
+<ModalGeneral
+        title={"Eliminar Producto"}
+        body={
+          <AlertDeleteGeneral
+            title={"¿Desea eliminar el Producto?"}
+            description={
+              "Si eliminas el producto puedes generar problemas en las facturas donde esta registrado."
+            }
+            load={loadProductDelete}
+            onSubmit={handleDeleteProduct}
+            alertSaveFalse={alertSaveFalse}
+            alertSaveTrue={alertSaveTrue}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalDeleteProduct.isOpen}
+        onClose={settingsModalDeleteProduct.onClose}
       />
     </Box>
   );
