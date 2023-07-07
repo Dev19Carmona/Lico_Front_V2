@@ -1,10 +1,23 @@
-
-import { Box } from '@chakra-ui/react'
-import React from 'react'
+import { LoginForm } from "@/components/LoginForm";
+import { LoginContext } from "@/context/login";
+import { Box } from "@chakra-ui/react";
+import React, { useContext } from "react";
 
 function Index() {
+  const localSession = useContext(LoginContext);
+
   return (
-    <Box ml={250} minH={'100vh'}>Home</Box>
+    <>
+      {localSession?.localSession ? (
+        <Box ml={250} minH={"100vh"}>
+          Home
+        </Box>
+      ) : (
+        <Box ml={250} minH={"100vh"}>
+          <LoginForm />
+        </Box>
+      )}
+    </>
   )
 }
 

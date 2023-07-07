@@ -5,7 +5,7 @@ import { ProductForm } from "@/components/ProductForm";
 import { ProviderForm } from "@/components/ProviderForm";
 import { SubCategoryForm } from "@/components/SubCategoryForm";
 import { TabsGeneral } from "@/components/TabsGeneral";
-import { useProductsPageProviders } from "@/hooks/useProductsPageProviders";
+import { useProductsPage } from "@/hooks/useProductsPage";
 import { Box } from "@chakra-ui/react";
 
 export const ProductsContainer = () => {
@@ -53,8 +53,8 @@ export const ProductsContainer = () => {
     settingsModalDeleteProduct,
     loadProductDelete,
     handleDeleteProduct,
-  } = useProductsPageProviders();
-  
+  } = useProductsPage();
+
   return (
     <Box m={5}>
       <TabsGeneral index={index} components={components} />
@@ -238,7 +238,7 @@ export const ProductsContainer = () => {
             handleSelect={handleSelectCategory}
             imageProduct={imageProduct}
             alertSaveFalse={alertSaveFalse}
-             alertSaveTrue={alertSaveTrue}
+            alertSaveTrue={alertSaveTrue}
             categories={categories}
             subCategories={subCategories}
             selectCategory={selectCategory}
@@ -250,7 +250,7 @@ export const ProductsContainer = () => {
         onClose={settingsModalCreateProduct.onClose}
       />
 
-<ModalGeneral
+      <ModalGeneral
         title={"Actualizar Producto"}
         body={
           <ProductForm
@@ -260,7 +260,7 @@ export const ProductsContainer = () => {
             handleSelect={handleSelectCategory}
             imageProduct={imageProduct}
             alertSaveFalse={alertSaveFalse}
-             alertSaveTrue={alertSaveTrue}
+            alertSaveTrue={alertSaveTrue}
             categories={categories}
             subCategories={subCategories}
             selectCategory={selectCategory}
@@ -272,7 +272,7 @@ export const ProductsContainer = () => {
         onClose={settingsModalUpdateProduct.onClose}
       />
 
-<ModalGeneral
+      <ModalGeneral
         title={"Eliminar Producto"}
         body={
           <AlertDeleteGeneral

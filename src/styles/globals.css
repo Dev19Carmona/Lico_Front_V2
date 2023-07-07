@@ -9,7 +9,7 @@
   justify-content: center;
   margin: auto;
   padding: 10px 20px;
-  background-color: #A569BD;
+  background-color: #1168D0;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
@@ -17,11 +17,11 @@
 }
 
 .product-label:hover {
-  background-color: #BB8FCE;
+  background-color: #1168D0;
 }
 
 .product-preview {
   border: 1px solid;
-  border-color: #bda2c7;
+  border-color: #1168D0;
   border-radius: 0.5rem;
 }

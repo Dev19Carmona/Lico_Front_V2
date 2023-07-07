@@ -35,7 +35,7 @@ export const CreateGeneralProducts = ({
           <ButtonGeneral onClick={onClick} title={title} />
         </Box>
       </Box>
-      <Box margin={2} border={"0.9px solid"} p={4} borderRadius={9}>
+      <Box boxShadow={"xl"} margin={2} border={"0.9px solid"} p={4} borderRadius={9}>
         <Formik onSubmit={onSubmit} initialValues={initialValues}>
           {() => (
             <Form>

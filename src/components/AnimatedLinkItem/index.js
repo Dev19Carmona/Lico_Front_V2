@@ -12,7 +12,12 @@ export const AnimatedLinkItem = ({ name, icon: IconComponent }) => {
   };
 
   const handleClick = () => {
-    router.push(`/${name.toLowerCase()}`); // Navega a la ruta correspondiente al hacer clic
+    if (name === "Inicio") {
+      router.push("/")
+    }else{
+      router.push(`/${name.toLowerCase()}`); // Navega a la ruta correspondiente al hacer clic
+
+    }
   };
 
   return (

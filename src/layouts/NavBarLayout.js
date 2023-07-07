@@ -54,7 +54,7 @@ export const NavBarLayout = () => {
   } = useNavBar();
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")} >
-      <Flex h={16} alignItems={"center"} justifyContent={"space-around"}>
+      <Flex  h={16} alignItems={"center"} justifyContent={"space-around"}>
         <Box>Logo</Box>
 
         <Flex alignItems={"center"} gap={20}>

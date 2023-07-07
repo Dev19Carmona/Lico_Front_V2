@@ -3,8 +3,6 @@ import { User_login, User_save } from "@/graphql/User";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 
-
-
 export const useRegisterLogin = () => {
   //Hooks
   //Mutations
@@ -74,7 +72,7 @@ export const useRegisterLogin = () => {
         localStorage.setItem("session",token?.User_login)
         setTimeout(() => {
           location.reload();
-        }, 4000);
+        }, 3000);
       }
       
     }else{
@@ -92,7 +90,7 @@ export const useRegisterLogin = () => {
     if (alertSaveTrue) {
       timer = setTimeout(() => {
         setalertSaveTrue(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveTrue]);
@@ -102,7 +100,7 @@ export const useRegisterLogin = () => {
     if (alertSaveFalse) {
       timer = setTimeout(() => {
         setalertSaveFalse(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveFalse]);
@@ -112,7 +110,7 @@ export const useRegisterLogin = () => {
     if (alertLogInTrue) {
       timer = setTimeout(() => {
         setalertLogInTrue(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertLogInTrue]);
@@ -122,7 +120,7 @@ export const useRegisterLogin = () => {
     if (alertLogInFalse) {
       timer = setTimeout(() => {
         setalertLogInFalse(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertLogInFalse]);

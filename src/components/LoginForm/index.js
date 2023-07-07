@@ -15,7 +15,7 @@ import { ButtonGeneral } from "../ButtonGeneral";
 import { useRegisterLogin } from "@/hooks/useRegisterLogin";
 import { AlertGeneral } from "../AlertGeneral";
 
-export const LoginForm = ({ buttonExtra }) => {
+export const LoginForm = () => {
   const { initialValLogin, handleUserLogin, alertLogInTrue, alertLogInFalse, } = useRegisterLogin();
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>

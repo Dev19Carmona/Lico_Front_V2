@@ -28,7 +28,7 @@ import {
 import { SubCategoryList } from "@/components/SubCategoryList";
 import { Product_delete, Product_save, Products, productsTotal } from "@/graphql/Product";
 import { ProductList } from "@/components/ProductList";
-export const useProductsPageProviders = () => {
+export const useProductsPage = () => {
   //State
   const [pageProviders, setPageProviders] = useState(1);
   const [pageCategories, setPageCategories] = useState(1);
@@ -89,16 +89,7 @@ export const useProductsPageProviders = () => {
   const initialValSearch = {
     search: "",
   };
-  const initialValProductRegister = {
-    _id: productData._id,
-    name: productData.name,
-    price: productData.price,
-    isLeave: productData.isLeave,
-    isStay: productData.isStay,
-    amount: productData.amount,
-    categoryId: productData.categoryId,
-    subCategoryId: productData.subCategoryId,
-  };
+  const initialValProductRegister = productData;
   //Queries
   const [getProviders, { data: providers }] = useLazyQuery(Providers);
   const [getCategories, { data: categories }] = useLazyQuery(Categories);
@@ -502,7 +493,7 @@ export const useProductsPageProviders = () => {
     if (alertSaveTrue) {
       timer = setTimeout(() => {
         setalertSaveTrue(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveTrue]);
@@ -512,7 +503,7 @@ export const useProductsPageProviders = () => {
     if (alertSaveFalse) {
       timer = setTimeout(() => {
         setalertSaveFalse(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveFalse]);
@@ -805,7 +796,7 @@ export const useProductsPageProviders = () => {
     },
   ];
   const components = [
-    <Grid>
+    <Grid gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateProduct}
         title={<MdCreateNewFolder size={25} />}
@@ -824,7 +815,7 @@ export const useProductsPageProviders = () => {
         products={products}
       />
     </Grid>,
-    <Grid>
+    <Grid gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateCategory}
         title={<MdCreateNewFolder size={25} />}
@@ -843,7 +834,7 @@ export const useProductsPageProviders = () => {
         categories={categories}
       />
     </Grid>,
-    <Grid>
+    <Grid gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateSubCategory}
         title={<MdCreateNewFolder size={25} />}
@@ -862,7 +853,7 @@ export const useProductsPageProviders = () => {
         subCategories={subCategories}
       />
     </Grid>,
-    <Grid>
+    <Grid gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateProvider}
         title={<MdCreateNewFolder size={25} />}

@@ -1,9 +1,20 @@
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { CardGeneralBorder } from "../CardGeneralBorder"
+import { TableGeneral } from "../TableGeneral"
 export const ProductList = ({products, 
    handleOpenModalUpdate, 
    handleOpenModalDelete
 }) => {
+    const index = ["Compra", "Llevar", "Establecimiento"]
+    const data = (product) => {
+        let precios = []
+        precios.push({
+            compra: Math.floor(product.price).toLocaleString(),
+            llevar: Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString(),
+            establecimiento: Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()
+        })
+        return precios
+    }
     return (
         <>
         <SimpleGrid columns={3}>
@@ -13,7 +24,8 @@ export const ProductList = ({products,
                     <CardGeneralBorder data={{
                         firstPlace:product.amount,
                         secondPlace:product.name,
-                         thirdPlace:`Precio: ${Math.floor(product.price).toLocaleString()} | Llevar: ${Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString()} | Establecimiento: ${Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()}`,
+                        //  thirdPlace:`Precio: ${Math.floor(product.price).toLocaleString()} | Llevar: ${Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString()} | Establecimiento: ${Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()}`,
+                         thirdPlace: <TableGeneral index={index} data={data(product)}/>,
                          fourthPlace:product.category?.name,
                          
                     }}
@@ -25,6 +37,7 @@ export const ProductList = ({products,
                     }}
                     src = {product.image}
                     imageSize="100px"
+                    imageType="contain"
                     />
                 </Box>
             ))

@@ -1,16 +1,17 @@
 import { LoginForm } from "@/components/LoginForm";
 import { ProductsContainer } from "@/containers/ProductsContainer";
+import { TablesContainer } from "@/containers/TablesContainer";
 import { LoginContext } from "@/context/login";
 import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
-function Productos() {
+function Mesas() {
   const localSession = useContext(LoginContext);
   return (
     <>
       {localSession?.localSession ? (
         <Box ml={250} minH={"100vh"}>
-          <ProductsContainer />
+          <TablesContainer/>
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>
@@ -21,4 +22,4 @@ function Productos() {
   );
 }
 
-export default Productos;
+export default Mesas;

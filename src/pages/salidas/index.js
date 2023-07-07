@@ -4,13 +4,13 @@ import { LoginContext } from "@/context/login";
 import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
-function Productos() {
+function Salidas() {
   const localSession = useContext(LoginContext);
   return (
     <>
       {localSession?.localSession ? (
         <Box ml={250} minH={"100vh"}>
-          <ProductsContainer />
+          Salidas
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>
@@ -21,4 +21,4 @@ function Productos() {
   );
 }
 
-export default Productos;
+export default Salidas;
