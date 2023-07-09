@@ -1,12 +1,12 @@
-import { Box, Heading, Spinner, Text } from "@chakra-ui/react";
+import { Box, Grid, Heading, Spinner, Text } from "@chakra-ui/react";
 import { AiFillWarning } from "react-icons/ai";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
 export const AlertDeleteGeneral = ({ title, description, onSubmit = () => {}, load, alertSaveFalse, alertSaveTrue }) => {
   return (
-    <Box gap={2} py={10} px={6}>
-      <Box textAlign="center">
-        <AiFillWarning fontSize={40} color="#F56565"/>
+    <Grid m={7} gap={5} py={10} px={6}>
+      <Box>
+        <AiFillWarning  fontSize={40} color="#F56565"/>
       </Box>
       <Heading as="h2" size="xl" mt={6} mb={2}>
         {title}
@@ -40,6 +40,6 @@ export const AlertDeleteGeneral = ({ title, description, onSubmit = () => {}, lo
                   />
                 )
               }
-    </Box>
+    </Grid>
   );
 };

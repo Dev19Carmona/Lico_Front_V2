@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-export const TabsGeneral = ({ index = [], components = [] }) => {
+export const TabsGeneral = ({ index = [], components = [], opacity=1 }) => {
   const colorsA = (index) => {
     let colors = [];
     for (let i = 0; i < index.length; i++) {
@@ -34,6 +34,7 @@ export const TabsGeneral = ({ index = [], components = [] }) => {
       bg={bg}
       variant="soft-rounded"
       colorScheme="blue"
+      opacity={opacity}
     >
       <TabList>
         {index.map((e, i) => (

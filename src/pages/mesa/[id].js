@@ -8,12 +8,11 @@ import React, {useContext} from 'react'
 function Mesa() {
   const localSession = useContext(LoginContext);
   const router = useRouter()
-  //console.log(router.query.id);
   return (
     <>
       {localSession?.localSession ? (
         <Box ml={250} minH={"100vh"}>
-          <TableContainer/>
+          <TableContainer tableId={router.query.id}/>
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>

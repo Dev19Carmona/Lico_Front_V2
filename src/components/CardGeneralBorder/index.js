@@ -18,13 +18,11 @@ export const CardGeneralBorder = ({
   data = {},
   onClick = () => {},
   onDelete = () => {},
-  onClickFullBox = () => {},
   src = "https://previews.123rf.com/images/5phonrf/5phonrf2108/5phonrf210800384/173589377-bebidas-alcoh%C3%B3licas-fuertes-licores-fuertes-licores-y-destilados-que-se-colocan-en-copas-co%C3%B1ac.jpg",
   imageSize = "50px",
   imageType = "none",
-  show = true,
   href = "",
-  typeComponent = Box,
+  firstIcon = <FaEdit fontSize={20}/>
 }) => {
   const [liked, setLiked] = useState(false);
   const { firstPlace, secondPlace, thirdPlace, fourthPlace } = data;
@@ -84,23 +82,22 @@ export const CardGeneralBorder = ({
         </Link>
 
         <HStack borderTop={"1px"} color="black">
-          {show && (
-            <Flex
-              onClick={onClick}
-              p={4}
-              alignItems="center"
-              justifyContent={"space-between"}
-              roundedBottom={"sm"}
-              cursor={"pointer"}
-              w="full"
-            >
-              <Text letterSpacing={1} fontSize={"md"} fontWeight={"semibold"}>
-                {fourthPlace}
-              </Text>
+          <Flex
+            onClick={onClick}
+            p={4}
+            alignItems="center"
+            justifyContent={"space-between"}
+            roundedBottom={"sm"}
+            cursor={"pointer"}
+            w="full"
+          >
+            <Text letterSpacing={1} fontSize={"md"} fontWeight={"semibold"}>
+              {fourthPlace}
+            </Text>
 
-              <FaEdit fontSize={20} />
-            </Flex>
-          )}
+            {firstIcon}
+          </Flex>
+
           <Flex
             p={4}
             alignItems="center"

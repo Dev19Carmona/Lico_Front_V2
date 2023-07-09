@@ -3,7 +3,7 @@ import { Field, Form, Formik } from "formik"
 import { ButtonGeneral } from "../ButtonGeneral"
 import { BiSearchAlt } from "react-icons/bi"
 
-export const InputGeneral = ({onSubmit= ()=>{}, initialValues = {}, icon, placeholder}) => {
+export const InputGeneral = ({onSubmit= ()=>{}, initialValues = {}, icon, placeholder, required=false}) => {
   return (
     <Box boxShadow={"xl"} margin={2} border={"0.9px solid"} p={4} borderRadius={9}>
         <Formik 
@@ -20,6 +20,7 @@ export const InputGeneral = ({onSubmit= ()=>{}, initialValues = {}, icon, placeh
                       as={Input}
                       type="text"
                       placeholder={placeholder}
+                      required={required}
                     />
                     <InputRightElement>
                       <ButtonGeneral

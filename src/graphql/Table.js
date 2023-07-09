@@ -1,12 +1,27 @@
 import { gql } from "@apollo/client";
 
 export const Tables = gql`
-  query Query {
-    Tables {
+  query Query($filters: Filters_table, $options: Options) {
+  Tables(filters: $filters, options: $options) {
+    _id
+    bills {
+      isPaid
       _id
-      name
+      products {
+        _id
+        amount
+        image
+        name
+        price
+        soldCount
+        isStay
+        isLeave
+        isRemove
+      }
     }
+    name
   }
+}
 `;
 export const Table_save = gql`
   mutation Mutation($tableData: Property_data) {

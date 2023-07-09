@@ -1,26 +1,33 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { CardGeneralBorder } from "../CardGeneralBorder";
+import {FcCancel} from "react-icons/fc"
 import Link from "next/link";
+import { BLUE_BG_IMAGE, RED_BG_IMAGE } from "../../../config/Constants";
 
-export const TableList = ({ data, handleOpenModalDeleteTable = () => {} }) => {
+export const TableList = ({ data, handleOpenModalDeleteTable = () => {}, handleOpenModalDeleteBill = () => {}, totalProductsByBill }) => {
+ 
   return (
     <SimpleGrid columns={3}>
       {data?.map((element, i) => (
         <CardGeneralBorder
           key={i}
           data={{
-            //firstPlace:product.amount,
+            firstPlace:element.bills.length===0?"Disponible":"Ocupada",
             secondPlace: element.name,
             //thirdPlace: "",
-            //fourthPlace:product.category?.name,
+            fourthPlace:element.bills.length>0?`${totalProductsByBill(element.bills[0].products)} Productos`:"0 Productos",
           }}
           onDelete={()=>{
             handleOpenModalDeleteTable(element)
           }}
-          show={false}
-          src="https://img.freepik.com/vector-gratis/fondo-memphis-semitono-azul-lineas-amarillas-formas-circulos_1017-31954.jpg?w=2000&t=st=1688757173~exp=1688757773~hmac=caf2ae2347c7d5e0212a002d846ba0f70eac3b49b0b0d6b814a7d439a163080e"
+          onClick={()=>{
+            handleOpenModalDeleteBill(element.bills[0])
+          }}
+
+          src={element.bills.length===0?BLUE_BG_IMAGE:RED_BG_IMAGE}
           href={`/mesa/${element._id}`}
           typeComponent={Link}
+          firstIcon={<FcCancel fontSize={40}/>}
         />
       ))}
     </SimpleGrid>

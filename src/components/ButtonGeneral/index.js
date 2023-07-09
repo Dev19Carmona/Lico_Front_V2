@@ -4,8 +4,7 @@ export const ButtonGeneral = ({ title, onClick = () => {}, colorA="blue.400", co
     <>
       <Flex justifyContent="center" alignItems="center">
         <Button
-          //{...props}
-          /* flex={1} */
+          letterSpacing={1}
           type={type}
           rounded={'full'}
           onClick={onClick}

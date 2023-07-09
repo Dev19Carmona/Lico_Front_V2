@@ -18,6 +18,11 @@ export const TablesContainer = () => {
     handleDeleteTable,
     alertSaveFalse,
     alertSaveTrue,
+    handleOpenModalDeleteBill,
+    totalProductsByBill,
+    settingsModalDeleteBill,
+    loadBillDelete,
+    handleDeleteBill,
   } = useTablesPage();
   return (
     <Grid>
@@ -26,8 +31,14 @@ export const TablesContainer = () => {
         initialValues={initialValuesTable}
         placeholder={"Agregar una nueva mesa"}
         icon={<GrAdd fontSize={25} />}
+        required={true}
       />
-      <TableList handleOpenModalDeleteTable={handleOpenModalDeleteTable} data={tables?.Tables} />
+      <TableList
+        totalProductsByBill={totalProductsByBill}
+        handleOpenModalDeleteBill={handleOpenModalDeleteBill}
+        handleOpenModalDeleteTable={handleOpenModalDeleteTable}
+        data={tables?.Tables}
+      />
       <ModalGeneral
         title={"Eliminar Mesa"}
         body={
@@ -45,6 +56,24 @@ export const TablesContainer = () => {
         overlay={overlay}
         isOpen={settingsModalDeleteTable.isOpen}
         onClose={settingsModalDeleteTable.onClose}
+      />
+      <ModalGeneral
+        title={"Factura"}
+        body={
+          <AlertDeleteGeneral
+            title={"¿Desocupar Mesa?"}
+            description={
+              "Aun no han pagado!."
+            }
+            load={loadBillDelete}
+            onSubmit={handleDeleteBill}
+            alertSaveFalse={alertSaveFalse}
+            alertSaveTrue={alertSaveTrue}
+          />
+        }
+        overlay={overlay}
+        isOpen={settingsModalDeleteBill.isOpen}
+        onClose={settingsModalDeleteBill.onClose}
       />
     </Grid>
   );
