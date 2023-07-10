@@ -13,7 +13,9 @@ export const useTablesPage = () => {
   const [billData, setBillData] = useState({});
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
-
+  const [isStay, setIsStay] = useState(false)
+  //Queries
+  const { data: tables, loading: loadTables } = useQuery(Tables);
   //Mutations
   const [tableSave, { data: isTableSave, loading: loadTableSave }] =
     useMutation(Table_save, {
@@ -40,7 +42,16 @@ export const useTablesPage = () => {
         },
         {
           query: Bills,
-        }
+          variables:{
+            filters:() =>{
+              tables?.Tables.map(table=>{
+                return {
+                  tableId:table._id
+                }
+              })
+            }
+          }
+        },
       ],
     });
 
@@ -82,9 +93,6 @@ export const useTablesPage = () => {
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveFalse]);
-
-  //Queries
-  const { data: tables, loading: loadTables } = useQuery(Tables);
 
   //Initial Values
 
@@ -129,6 +137,16 @@ export const useTablesPage = () => {
       },
     });
   };
+  const handleSwitchPriceProducts = (e, element) => {
+    tableSave({
+      variables:{
+        tableData:{
+          _id:element._id,
+          isStay:e.target.checked
+        }
+      }
+    })
+  }
 
   //Functions
   const totalProductsByBill = (products) =>
@@ -162,6 +180,8 @@ export const useTablesPage = () => {
     settingsModalDeleteBill.onOpen();
   };
 
+ 
+
   return {
     initialValuesTable,
     handleSaveTable,
@@ -178,5 +198,7 @@ export const useTablesPage = () => {
     settingsModalDeleteBill,
     loadBillDelete,
     handleDeleteBill,
+    handleSwitchPriceProducts,
+    isStay,
   };
 };

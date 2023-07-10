@@ -1,5 +1,6 @@
 import { CardHorizontal } from "@/components/CardHorizontal";
 import { InputSearchGeneral } from "@/components/InputSearchGeneral";
+import { TableSelectProduct } from "@/components/TableSelectProduct";
 import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { Tables } from "@/graphql/Table";
@@ -10,9 +11,19 @@ import { useEffect, useState } from "react";
 export const useTablePage = (tableId) => {
   //States
   const [productSearch, setProductSearch] = useState("");
+  // const [newProduct, setNewProduct] = useState({})
+
   //Queries
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
-  const { data: products } = useQuery(Products);
+  const { data: products } = useQuery(Products, {
+    variables: {
+      filters: {
+        search: productSearch,
+      },
+    },
+  });
+  const [getProduct, { data: product }] = useLazyQuery(Products);
+
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
@@ -70,29 +81,67 @@ export const useTablePage = (tableId) => {
     });
   };
 
-  const handleAddProductSelect = (values) => {
-   // console.log("okkkk", values);
+  const handleProductSearch = (e) => {
+    setProductSearch(e.target.value);
   };
 
   //Handles states
 
-  const handleProductSelectPlus = (productId) => {
-   
-    const _id = bills?.Bills[0]?._id
-    billSave({
-      variables: {
-        billData: {
-          _id,
-          productId,
-          amount:1
-        },
-      },
-    });
+  const handleProductSelect = (newProduct) => {
+    // console.log(product);
+    const _id = bills?.Bills[0]?._id;
+    if (localStorage.getItem(_id)) {
+      let productList = JSON.parse(localStorage.getItem(_id));
+      //console.log(productList);
+      const productFound = productList.find(
+        (product) => product._id === newProduct._id
+      );
+      const productFoundIndex = productList.findIndex(
+        (product) => product._id === newProduct._id
+      );
+      if (productFound) {
+        productList[productFoundIndex] = {
+          _id: productFound._id,
+          name: productFound.name,
+          price: productFound.price,
+          amount: productFound.amount + newProduct.amount,
+        };
+        console.log("-----",productList);
+      }else{
+        productList.push(newProduct)
+      }
+      // console.log(productList);
+    } else {
+      let newProductList = [];
+      newProductList.push(newProduct);
+      localStorage.setItem(_id, JSON.stringify(newProductList));
+    }
+    // getProduct({
+    //   variables:{
+    //     filters:{
+    //       _id:productId
+    //     }
+    //   }
+    // })
+    // setNewProduct(product?.Products[0])
+
+    //newProduct.amount = 1
+
+    // billSave({
+    //   variables: {
+    //     billData: {
+    //       _id,
+    //       productId,
+    //       amount:1
+    //     },
+    //   },
+    // });
   };
 
+  //TableProductsSelect Settings
+  const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
   //TabsSettings
-
-  const index = [
+  const indexTabsTable = [
     {
       name: "Productos",
     },
@@ -102,30 +151,35 @@ export const useTablePage = (tableId) => {
   ];
   const components = [
     <Grid gap={5}>
-      {
-        bills?.Bills.length > 0 &&
-      <>
-      <InputSearchGeneral
-        onSubmit={handleAddProductSelect}
-        initialValues={initialValuesProductSelect}
-        onInputChange={handleProductSelectPlus}
-        formFieldProps={productsFormFieldProps}
-      />
-      </>
-      }
-      {
-        bills?.Bills[0]?.products.map((product,i)=>(
-          <CardHorizontal data={{head:product.name,image: product.image, body: product.amount}} key={i}/>
-        ))
-
-      }
-
+      {bills?.Bills.length > 0 && (
+        <>
+          <InputSearchGeneral onChange={handleProductSearch} />
+          {productSearch !== "" && (
+            <TableSelectProduct
+              onClick={handleProductSelect}
+              isStay={bills?.Bills[0]?.table.isStay}
+              data={products?.Products}
+              index={indexProductsSelect}
+            />
+          )}
+        </>
+      )}
+      {bills?.Bills[0]?.products.map((product, i) => (
+        <CardHorizontal
+          data={{
+            head: product.name,
+            image: product.image,
+            body: product.amount,
+          }}
+          key={i}
+        />
+      ))}
     </Grid>,
     <Grid gap={5}></Grid>,
   ];
 
   return {
-    index,
+    indexTabsTable,
     components,
     handleBillSave,
     bills,

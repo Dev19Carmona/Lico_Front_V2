@@ -4,6 +4,7 @@ export const Tables = gql`
   query Query($filters: Filters_table, $options: Options) {
   Tables(filters: $filters, options: $options) {
     _id
+    isStay
     bills {
       isPaid
       _id

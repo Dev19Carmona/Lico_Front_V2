@@ -33,7 +33,7 @@ export const CardGeneralBorder = ({
         w="100%" // Ajusta el ancho del contenedor principal según tus necesidades
         h="100%" // Ajusta la altura del contenedor principal según tus necesidades
         rounded={"sm"}
-        cursor={"pointer"}
+        
         my={5}
         mx={[0, 5]}
         overflow={"hidden"}
@@ -42,7 +42,9 @@ export const CardGeneralBorder = ({
         borderColor="black"
         boxShadow={useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan")}
       >
-        <Box h={imageSize} borderBottom={"1px"} borderColor="black">
+        
+        <Link href={href}>
+        <Box cursor={"pointer"} h={imageSize} borderBottom={"1px"} borderColor="black">
           <Img
             src={src}
             fill={true}
@@ -53,8 +55,8 @@ export const CardGeneralBorder = ({
             alt={"Blog Image"}
           />
         </Box>
-        <Link href={href}>
-          <Box p={4}>
+        </Link>
+        <Box p={4}>
             <Box
               bg="black"
               display={"inline-block"}
@@ -79,7 +81,6 @@ export const CardGeneralBorder = ({
               {thirdPlace}
             </Text>
           </Box>
-        </Link>
 
         <HStack borderTop={"1px"} color="black">
           <Flex

@@ -7,6 +7,11 @@ export const Bills = gql`
       isPaid
       isRemove
       tableId
+      table {
+        _id
+        isStay
+        name
+      }
       products {
         _id
         amount

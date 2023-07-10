@@ -23,6 +23,9 @@ export const TablesContainer = () => {
     settingsModalDeleteBill,
     loadBillDelete,
     handleDeleteBill,
+    handleSwitchPriceProducts,
+    isStay,
+    handleChangeSwitch,
   } = useTablesPage();
   return (
     <Grid>
@@ -38,6 +41,9 @@ export const TablesContainer = () => {
         handleOpenModalDeleteBill={handleOpenModalDeleteBill}
         handleOpenModalDeleteTable={handleOpenModalDeleteTable}
         data={tables?.Tables}
+        switchChange={handleSwitchPriceProducts}
+        check={isStay}
+        handleChangeSwitch={handleChangeSwitch}
       />
       <ModalGeneral
         title={"Eliminar Mesa"}
@@ -62,9 +68,7 @@ export const TablesContainer = () => {
         body={
           <AlertDeleteGeneral
             title={"¿Desocupar Mesa?"}
-            description={
-              "Aun no han pagado!."
-            }
+            description={"Aun no han pagado!."}
             load={loadBillDelete}
             onSubmit={handleDeleteBill}
             alertSaveFalse={alertSaveFalse}

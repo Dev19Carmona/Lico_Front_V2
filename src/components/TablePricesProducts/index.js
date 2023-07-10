@@ -10,7 +10,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 
-export const TableGeneral = ({ index, data }) => {
+export const TablePricesProducts = ({ index, data }) => {
   return (
     <TableContainer >
       <Table size="sm">

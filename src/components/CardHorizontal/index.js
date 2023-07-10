@@ -46,9 +46,7 @@ export const CardHorizontal = ({
         </CardBody>
 
         <CardFooter>
-          <Button variant="solid" colorScheme="blue">
-            {button}
-          </Button>
+          
         </CardFooter>
       </Stack>
     </Card>
