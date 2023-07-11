@@ -11,12 +11,15 @@ import {
 } from "@chakra-ui/react";
 
 export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
-  const priceProductByState = (price, percent) =>{
-    const priceProduct = price * (percent/100)+price
-    return Math.floor(priceProduct).toLocaleString()
-  }
+  const convertPrice = (percent, price) => (price * percent)/100+price
   return (
-    <TableContainer borderRadius={9} p={2} border={'1px solid'}>
+    <TableContainer
+    
+      borderRadius={9}
+      p={2}
+      border={"1px solid"}
+      
+    >
       <Table size="md">
         <Thead>
           <Tr>
@@ -27,11 +30,27 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
         </Thead>
         <Tbody>
           {data?.map((element, i) => (
-            <Tr cursor={'pointer'} key={i} onClick={()=>{onClick({_id:element._id,name:element.name, price:priceProductByState(element.price,isStay?element.isStay:element.isLeave), amount:1})}}>
+            <Tr
+              cursor={"pointer"}
+              key={i}
+              onClick={() => {
+                onClick({
+                  _id: element._id,
+                  name: element.name,
+                  price: isStay ? convertPrice(element.isStay, element.price) : convertPrice(element.isLeave, element.price),
+                  amount: 1,
+                  image: element.image,
+                });
+              }}
+            >
               <Td>{element.amount}</Td>
               <Td>{element.name}</Td>
               {/* <Td>{element.isLeave}</Td> */}
-               <Td>{priceProductByState(element.price,isStay?element.isStay:element.isLeave)}</Td>
+              <Td>
+                {isStay
+                  ? Math.floor(convertPrice(element.isStay, element.price)).toLocaleString()
+                  : Math.floor(convertPrice(element.isLeave, element.price)).toLocaleString()}
+              </Td>
             </Tr>
           ))}
         </Tbody>

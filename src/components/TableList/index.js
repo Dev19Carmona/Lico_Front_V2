@@ -8,9 +8,13 @@ export const TableList = ({
   data,
   handleOpenModalDeleteTable = () => {},
   handleOpenModalDeleteBill = () => {},
-  totalProductsByBill,
   switchChange,
+  totalAmounts,
 }) => {
+  const handleTotalAmounts = (_id) => {
+    const totalAmount = totalAmounts.find(amount=>amount.tableId === _id)
+    return totalAmount?.totalAmount
+  }
   return (
     <SimpleGrid columns={3}>
       {data?.map((element, i) => (
@@ -19,22 +23,23 @@ export const TableList = ({
           data={{
             firstPlace: element.isStay ? "Establecimiento" : "Llevar",
             secondPlace: element.name,
-            thirdPlace: <Switch id="prices" isChecked={element.isStay} onChange={(e) => {switchChange(e, element)}} />,
+            thirdPlace: handleTotalAmounts(element._id) > 0?undefined:<Switch id="prices" isChecked={element.isStay} onChange={(e) => {switchChange(e, element)}} />,
             fourthPlace:
-              element.bills.length > 0
-                ? `${totalProductsByBill(element.bills[0].products)} Productos`
+            handleTotalAmounts(element._id) > 0
+                ? `${handleTotalAmounts(element._id)} Productos`
                 : "0 Productos",
           }}
           onDelete={() => {
             handleOpenModalDeleteTable(element);
           }}
           onClick={() => {
-            handleOpenModalDeleteBill(element.bills[0]);
+            handleOpenModalDeleteBill(element._id);
           }}
-          src={element.bills.length === 0 ? BLUE_BG_IMAGE : RED_BG_IMAGE}
+          src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
+          
           href={`/mesa/${element._id}`}
           typeComponent={Link}
-          firstIcon={<FcCancel fontSize={40} />}
+          firstIcon={parseInt(handleTotalAmounts(element._id)) > 0?<FcCancel fontSize={40} />:""}
         />
       ))}
     </SimpleGrid>

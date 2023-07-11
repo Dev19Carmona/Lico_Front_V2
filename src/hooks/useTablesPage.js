@@ -10,10 +10,11 @@ export const useTablesPage = () => {
     _id: "",
     name: "",
   });
-  const [billData, setBillData] = useState({});
+  const [idTable, setIdTable] = useState("");
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
   const [isStay, setIsStay] = useState(false)
+  const [totalAmounts, setTotalAmounts] = useState([])
   //Queries
   const { data: tables, loading: loadTables } = useQuery(Tables);
   //Mutations
@@ -56,6 +57,22 @@ export const useTablesPage = () => {
     });
 
   //Effects
+  useEffect(() => {
+    let totalAmounts = []
+    tables?.Tables.map(table => {
+      if (localStorage.getItem(table._id)) {
+        const productListByTable = JSON.parse(localStorage.getItem(table._id))
+        const totalAmount = productListByTable.reduce((acumulador,product)=>{
+          return acumulador + product.amount
+        },0)
+         totalAmounts.push({
+          tableId: table._id,
+          totalAmount
+         })
+         setTotalAmounts(totalAmounts)
+      }
+    })
+  }, [tables]);
   useEffect(() => {
     if (isBillDelete?.Bill_delete) {
       setalertSaveTrue(true);
@@ -131,11 +148,11 @@ export const useTablesPage = () => {
     });
   };
   const handleDeleteBill = () => {
-    billDelete({
-      variables: {
-        _id: billData._id,
-      },
-    });
+    if (localStorage.getItem(idTable)) {
+      localStorage.removeItem(idTable)
+      location.reload();
+    }
+    
   };
   const handleSwitchPriceProducts = (e, element) => {
     tableSave({
@@ -174,8 +191,8 @@ export const useTablesPage = () => {
     setOverlay(<OverlayTwo />);
     settingsModalDeleteTable.onOpen();
   };
-  const handleOpenModalDeleteBill = (bill) => {
-    setBillData(bill);
+  const handleOpenModalDeleteBill = (tableId) => {
+    setIdTable(tableId);
     setOverlay(<OverlayTwo />);
     settingsModalDeleteBill.onOpen();
   };
@@ -200,5 +217,6 @@ export const useTablesPage = () => {
     handleDeleteBill,
     handleSwitchPriceProducts,
     isStay,
+    totalAmounts,
   };
 };

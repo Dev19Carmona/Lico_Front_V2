@@ -26,6 +26,7 @@ export const TablesContainer = () => {
     handleSwitchPriceProducts,
     isStay,
     handleChangeSwitch,
+    totalAmounts,
   } = useTablesPage();
   return (
     <Grid>
@@ -44,6 +45,7 @@ export const TablesContainer = () => {
         switchChange={handleSwitchPriceProducts}
         check={isStay}
         handleChangeSwitch={handleChangeSwitch}
+        totalAmounts={totalAmounts}
       />
       <ModalGeneral
         title={"Eliminar Mesa"}

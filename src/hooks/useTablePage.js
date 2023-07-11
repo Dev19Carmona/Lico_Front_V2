@@ -5,13 +5,14 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Grid } from "@chakra-ui/react";
+import { Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 export const useTablePage = (tableId) => {
   //States
   const [productSearch, setProductSearch] = useState("");
-  // const [newProduct, setNewProduct] = useState({})
+  const [productList, setProductList] = useState([]);
+  const [productListSwitch, setProductListSwitch] = useState(false);
 
   //Queries
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
@@ -44,14 +45,14 @@ export const useTablePage = (tableId) => {
     }
   );
   //Constants
-  const productsFormFieldProps = {
-    data: products?.Products,
-    name: "name",
-    labelField: "name",
-    valueField: "_id",
-  };
 
   //Effects
+  useEffect(() => {
+    if (localStorage.getItem(tableId)) {
+      setProductList(JSON.parse(localStorage.getItem(tableId)));
+    }
+  }, [tableId, productListSwitch]);
+
   useEffect(() => {
     if (tableId) {
       getBills({
@@ -70,6 +71,14 @@ export const useTablePage = (tableId) => {
   };
 
   //Handles
+  //Functions
+  const handleTotal = () => {
+    const totalArray = productList.map(
+      (product) => product.amount * product.price
+    );
+    const total = totalArray.reduce((ac, total) => (ac += total));
+    return Math.floor(total).toLocaleString();
+  };
   //Handles Mutations
   const handleBillSave = () => {
     billSave({
@@ -88,11 +97,9 @@ export const useTablePage = (tableId) => {
   //Handles states
 
   const handleProductSelect = (newProduct) => {
-    // console.log(product);
-    const _id = bills?.Bills[0]?._id;
-    if (localStorage.getItem(_id)) {
-      let productList = JSON.parse(localStorage.getItem(_id));
-      //console.log(productList);
+    let productList = [];
+    if (localStorage.getItem(tableId)) {
+      productList = JSON.parse(localStorage.getItem(tableId));
       const productFound = productList.find(
         (product) => product._id === newProduct._id
       );
@@ -105,37 +112,21 @@ export const useTablePage = (tableId) => {
           name: productFound.name,
           price: productFound.price,
           amount: productFound.amount + newProduct.amount,
+          image: productFound.image,
         };
-        console.log("-----",productList);
-      }else{
-        productList.push(newProduct)
+      } else {
+        productList.push(newProduct);
       }
-      // console.log(productList);
+      
+      localStorage.setItem(tableId, JSON.stringify(productList));
+      
+     
     } else {
       let newProductList = [];
       newProductList.push(newProduct);
-      localStorage.setItem(_id, JSON.stringify(newProductList));
+      localStorage.setItem(tableId, JSON.stringify(newProductList));
     }
-    // getProduct({
-    //   variables:{
-    //     filters:{
-    //       _id:productId
-    //     }
-    //   }
-    // })
-    // setNewProduct(product?.Products[0])
-
-    //newProduct.amount = 1
-
-    // billSave({
-    //   variables: {
-    //     billData: {
-    //       _id,
-    //       productId,
-    //       amount:1
-    //     },
-    //   },
-    // });
+    setProductListSwitch(!productListSwitch);
   };
 
   //TableProductsSelect Settings
@@ -150,30 +141,52 @@ export const useTablePage = (tableId) => {
     },
   ];
   const components = [
-    <Grid gap={5}>
-      {bills?.Bills.length > 0 && (
-        <>
-          <InputSearchGeneral onChange={handleProductSearch} />
-          {productSearch !== "" && (
-            <TableSelectProduct
-              onClick={handleProductSelect}
-              isStay={bills?.Bills[0]?.table.isStay}
-              data={products?.Products}
-              index={indexProductsSelect}
-            />
-          )}
-        </>
-      )}
-      {bills?.Bills[0]?.products.map((product, i) => (
+    <Grid gap={1} position={"relative"}>
+      <>
+        <InputSearchGeneral onChange={handleProductSearch} />
+        {productSearch !== "" && (
+          <TableSelectProduct
+            onClick={handleProductSelect}
+            isStay={bills?.Bills[0]?.table.isStay}
+            data={products?.Products}
+            index={indexProductsSelect}
+          />
+        )}
+      </>
+      {productList.map((product, i) => (
         <CardHorizontal
+          onClick={handleProductSelect}
+          parameter={{
+            _id: product._id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            amount: 1,
+          }}
           data={{
             head: product.name,
             image: product.image,
             body: product.amount,
+            title: Math.floor(product.price).toLocaleString(),
+            secondTitle: Math.floor(
+              product.amount * product.price
+            ).toLocaleString(),
           }}
           key={i}
         />
       ))}
+      {productList.length > 0 && (
+        <Flex
+          bg={useColorModeValue("gray.100", "gray.800")}
+          borderRadius={5}
+          p={5}
+          mb={3}
+          justifyContent="space-between"
+        >
+          <Text>Total:</Text>
+          <Text textAlign="center">{`$ ${handleTotal()}`}</Text>
+        </Flex>
+      )}
     </Grid>,
     <Grid gap={5}></Grid>,
   ];

@@ -7,7 +7,7 @@ export const InputSearchGeneral = ({
 }) => {
   
   return (
-    <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
+    <Box  margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Input onChange={(e)=>{
         onChange(e)
       }} name='search' variant='filled' placeholder='Buscar Producto.' />

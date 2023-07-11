@@ -13,6 +13,7 @@ export const ProductList = ({products,
             llevar: Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString(),
             establecimiento: Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()
         })
+       
         return precios
     }
     return (

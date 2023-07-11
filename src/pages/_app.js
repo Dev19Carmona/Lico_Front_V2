@@ -5,7 +5,6 @@ import {
   ApolloClient,
   ApolloProvider,
   InMemoryCache,
-  createHttpLink,
   split
 } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";

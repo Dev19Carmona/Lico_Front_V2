@@ -605,6 +605,7 @@ export const useProductsPage = () => {
     settingsModalDeleteSubCategory.onOpen();
   };
   const handleOpenModalUpdateProduct = (data) => {
+    setImageProduct()
     setProductData(data);
     setOverlay(<OverlayTwo />);
     settingsModalUpdateProduct.onOpen();
@@ -697,6 +698,7 @@ export const useProductsPage = () => {
       });
     }
     resetForm();
+    
   };
 
   const handleSubCategoryRegister = (values, { resetForm }) => {

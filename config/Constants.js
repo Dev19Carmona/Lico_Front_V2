@@ -5,3 +5,5 @@ export const BLUE_BG_IMAGE =
   "https://w0.peakpx.com/wallpaper/544/472/HD-wallpaper-color-background-blue.jpg";
 export const RED_BG_IMAGE =
   "https://w0.peakpx.com/wallpaper/630/366/HD-wallpaper-red-plain.jpg";
+
+  
