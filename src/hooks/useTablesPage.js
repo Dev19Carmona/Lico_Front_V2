@@ -1,10 +1,15 @@
 import { Bill_delete, Bills } from "@/graphql/Bill";
 import { Table_delete, Table_save, Tables } from "@/graphql/Table";
 import { useMutation, useQuery } from "@apollo/client";
-import { Grid, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import {  ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 
 export const useTablesPage = () => {
+  //router
+  const router = useRouter()
+ 
   //States
   const [tableData, setTableData] = useState({
     _id: "",
@@ -57,6 +62,8 @@ export const useTablesPage = () => {
     });
 
   //Effects
+  
+  
   useEffect(() => {
     let totalAmounts = []
     tables?.Tables.map(table => {
@@ -148,9 +155,10 @@ export const useTablesPage = () => {
     });
   };
   const handleDeleteBill = () => {
+
     if (localStorage.getItem(idTable)) {
       localStorage.removeItem(idTable)
-      location.reload();
+      router.reload()
     }
     
   };
@@ -163,6 +171,11 @@ export const useTablesPage = () => {
         }
       }
     })
+  }
+  const handleTotalAmounts = (_id) => {
+    const totalAmount = totalAmounts.find(amount=>amount.tableId === _id)
+   
+    return totalAmount?.totalAmount
   }
 
   //Functions
@@ -218,5 +231,7 @@ export const useTablesPage = () => {
     handleSwitchPriceProducts,
     isStay,
     totalAmounts,
+    handleTotalAmounts,
+    
   };
 };

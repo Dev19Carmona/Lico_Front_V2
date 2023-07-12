@@ -1,3 +1,4 @@
+import { BillTable } from "@/components/BillTable";
 import { CardHorizontal } from "@/components/CardHorizontal";
 import { InputSearchGeneral } from "@/components/InputSearchGeneral";
 import { TableSelectProduct } from "@/components/TableSelectProduct";
@@ -9,11 +10,15 @@ import { Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 export const useTablePage = (tableId) => {
+  
   //States
+  
   const [productSearch, setProductSearch] = useState("");
   const [productList, setProductList] = useState([]);
   const [productListSwitch, setProductListSwitch] = useState(false);
-
+  
+  
+  //console.log(productList);
   //Queries
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
   const { data: products } = useQuery(Products, {
@@ -73,11 +78,26 @@ export const useTablePage = (tableId) => {
   //Handles
   //Functions
   const handleTotal = () => {
-    const totalArray = productList.map(
-      (product) => product.amount * product.price
-    );
-    const total = totalArray.reduce((ac, total) => (ac += total));
-    return Math.floor(total).toLocaleString();
+    if (productList.length > 0) {
+      const totalArray = productList.map(
+        (product) => product.amount * product.price
+      );
+      const total = totalArray.reduce((ac, total) => (ac += total));
+      return Math.floor(total).toLocaleString();
+    }
+  };
+  const handleDateBill = () => {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth()+1;
+    let year = date.getFullYear();
+    if (day < 10) {
+      day = "0" + dia;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+    return day + "/" + month + "/" + year;
   };
   //Handles Mutations
   const handleBillSave = () => {
@@ -97,9 +117,11 @@ export const useTablePage = (tableId) => {
   //Handles states
 
   const handleProductSelect = (newProduct) => {
+    setProductSearch("");
     let productList = [];
     if (localStorage.getItem(tableId)) {
       productList = JSON.parse(localStorage.getItem(tableId));
+
       const productFound = productList.find(
         (product) => product._id === newProduct._id
       );
@@ -113,17 +135,27 @@ export const useTablePage = (tableId) => {
           price: productFound.price,
           amount: productFound.amount + newProduct.amount,
           image: productFound.image,
+          remaining: productFound.remaining,
         };
       } else {
         productList.push(newProduct);
       }
-      
-      localStorage.setItem(tableId, JSON.stringify(productList));
-      
-     
+      if (productFound) {
+        if (
+          productFound.remaining > productFound.amount &&
+          newProduct.amount === 1
+        ) {
+          localStorage.setItem(tableId, JSON.stringify(productList));
+        } else if (newProduct.amount === -1) {
+          localStorage.setItem(tableId, JSON.stringify(productList));
+        }
+      } else {
+        localStorage.setItem(tableId, JSON.stringify(productList));
+      }
     } else {
       let newProductList = [];
       newProductList.push(newProduct);
+
       localStorage.setItem(tableId, JSON.stringify(newProductList));
     }
     setProductListSwitch(!productListSwitch);
@@ -141,9 +173,12 @@ export const useTablePage = (tableId) => {
     },
   ];
   const components = [
-    <Grid gap={1} position={"relative"}>
+    <Grid gap={1}>
       <>
-        <InputSearchGeneral onChange={handleProductSearch} />
+        <InputSearchGeneral
+          value={productSearch}
+          onChange={handleProductSearch}
+        />
         {productSearch !== "" && (
           <TableSelectProduct
             onClick={handleProductSelect}
@@ -178,17 +213,19 @@ export const useTablePage = (tableId) => {
       {productList.length > 0 && (
         <Flex
           bg={useColorModeValue("gray.100", "gray.800")}
-          borderRadius={5}
+          borderRadius={9}
           p={5}
-          mb={3}
-          justifyContent="space-between"
+          mb={1}
+          justifyContent="space-around"
         >
           <Text>Total:</Text>
           <Text textAlign="center">{`$ ${handleTotal()}`}</Text>
         </Flex>
       )}
     </Grid>,
-    <Grid gap={5}></Grid>,
+    <Grid gap={5}>
+      <BillTable total={handleTotal()} productList={productList} date={handleDateBill}/>
+    </Grid>,
   ];
 
   return {

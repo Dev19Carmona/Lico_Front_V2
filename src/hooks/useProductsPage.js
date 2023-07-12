@@ -362,7 +362,7 @@ export const useProductsPage = () => {
         },
       },
     });
-  }, [searchCategory, getCategories, pageCategories, LIMIT]);
+  }, [searchCategory, getCategories, pageCategories]);
 
   useEffect(() => {
     getSubCategories({
@@ -381,7 +381,6 @@ export const useProductsPage = () => {
     searchSubCategory,
     getSubCategories,
     pageSubCategories,
-    LIMIT,
     selectCategory,
   ]);
   useEffect(() => {
@@ -400,7 +399,6 @@ export const useProductsPage = () => {
     searchProduct,
     getProducts,
     pageProducts,
-    LIMIT,
   ]);
 
   useEffect(() => {
@@ -415,7 +413,7 @@ export const useProductsPage = () => {
         },
       },
     });
-  }, [searchProvider, getProviders, pageProviders, LIMIT]);
+  }, [searchProvider, getProviders, pageProviders]);
 
   useEffect(() => {
     if (isProductDelete?.Product_delete) {
@@ -532,6 +530,7 @@ export const useProductsPage = () => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
   const handleOpenModalCreateProduct = () => {
+    setImageProduct()
     setProductData({
       _id: "",
       name: "",

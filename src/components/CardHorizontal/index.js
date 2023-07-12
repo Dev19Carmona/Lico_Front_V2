@@ -27,7 +27,7 @@ export const CardHorizontal = ({
 }) => {
   const { image, head, body, title, secondTitle } = data;
   return (
-    <Container mt={5}>
+    <Container mb={3}>
       <motion.div whileHover={{ translateY: -5 }}>
         <Flex
           rounded="md"
@@ -37,14 +37,9 @@ export const CardHorizontal = ({
           )}
           textAlign="left"
           align="start"
-          spacing={0}
           role="group"
           overflow="hidden"
-          mt={3}
-          mb={3}
-          w={600}
           ml={-9}
-          
         >
           <HStack
             py={6}

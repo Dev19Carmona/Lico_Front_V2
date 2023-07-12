@@ -25,8 +25,8 @@ export const TablePricesProducts = ({ index, data }) => {
           {data.map((element, i) => (
             <Tr key={i}>
               <Td>{element.compra}</Td>
-              <Td>{element.llevar}</Td>
-              <Td>{element.establecimiento}</Td>
+              <Td>{Math.round(parseInt(element.llevar) )+".000"}</Td>
+              <Td>{Math.round(parseInt(element.establecimiento))+".000"}</Td>
             </Tr>
           ))}
         </Tbody>

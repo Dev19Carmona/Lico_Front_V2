@@ -9,12 +9,10 @@ export const TableList = ({
   handleOpenModalDeleteTable = () => {},
   handleOpenModalDeleteBill = () => {},
   switchChange,
-  totalAmounts,
+  handleTotalAmounts,
+  amountProducts,
 }) => {
-  const handleTotalAmounts = (_id) => {
-    const totalAmount = totalAmounts.find(amount=>amount.tableId === _id)
-    return totalAmount?.totalAmount
-  }
+  
   return (
     <SimpleGrid columns={3}>
       {data?.map((element, i) => (
@@ -35,6 +33,7 @@ export const TableList = ({
           onClick={() => {
             handleOpenModalDeleteBill(element._id);
           }}
+          //src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
           src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
           
           href={`/mesa/${element._id}`}
