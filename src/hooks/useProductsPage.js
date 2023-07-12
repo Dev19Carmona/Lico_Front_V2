@@ -797,7 +797,7 @@ export const useProductsPage = () => {
     },
   ];
   const components = [
-    <Grid gap={5}>
+    <Grid key="products" gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateProduct}
         title={<MdCreateNewFolder size={25} />}
@@ -816,7 +816,7 @@ export const useProductsPage = () => {
         products={products}
       />
     </Grid>,
-    <Grid gap={5}>
+    <Grid key="categories" gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateCategory}
         title={<MdCreateNewFolder size={25} />}
@@ -835,7 +835,7 @@ export const useProductsPage = () => {
         categories={categories}
       />
     </Grid>,
-    <Grid gap={5}>
+    <Grid key="subcategories" gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateSubCategory}
         title={<MdCreateNewFolder size={25} />}
@@ -854,7 +854,7 @@ export const useProductsPage = () => {
         subCategories={subCategories}
       />
     </Grid>,
-    <Grid gap={5}>
+    <Grid key="providers" gap={5}>
       <CreateGeneralProducts
         onClick={handleOpenModalCreateProvider}
         title={<MdCreateNewFolder size={25} />}

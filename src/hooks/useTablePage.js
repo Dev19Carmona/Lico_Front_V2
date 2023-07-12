@@ -6,7 +6,7 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Grid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 export const useTablePage = (tableId) => {
@@ -173,7 +173,7 @@ export const useTablePage = (tableId) => {
     },
   ];
   const components = [
-    <Grid gap={1}>
+    <Grid key="products" gap={1}>
       <>
         <InputSearchGeneral
           value={productSearch}
@@ -212,7 +212,7 @@ export const useTablePage = (tableId) => {
       ))}
       {productList.length > 0 && (
         <Flex
-          bg={useColorModeValue("gray.100", "gray.800")}
+          bg={"gray.100"}
           borderRadius={9}
           p={5}
           mb={1}
@@ -223,7 +223,7 @@ export const useTablePage = (tableId) => {
         </Flex>
       )}
     </Grid>,
-    <Grid gap={5}>
+    <Grid key="bill" gap={5}>
       <BillTable total={handleTotal()} productList={productList} date={handleDateBill}/>
     </Grid>,
   ];
