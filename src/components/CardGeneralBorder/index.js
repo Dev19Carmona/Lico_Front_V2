@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
 import { FiDelete } from "react-icons/fi";
-import { RiDeleteBack2Fill } from "react-icons/ri";
 import Link from "next/link";
 
 export const CardGeneralBorder = ({
