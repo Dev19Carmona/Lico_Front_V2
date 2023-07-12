@@ -14,7 +14,6 @@ import {
 import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { useRegisterLogin } from "@/hooks/useRegisterLogin";
-import { FormField } from "@codecraftkit/core";
 import { AlertGeneral } from "../AlertGeneral";
 
 export const RegisterForm = () => {

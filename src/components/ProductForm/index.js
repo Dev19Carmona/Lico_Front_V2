@@ -16,7 +16,6 @@ import {
 import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
-import { FormField } from "@codecraftkit/core";
 import Image from "next/image";
 import { BiImageAdd } from "react-icons/bi";
 

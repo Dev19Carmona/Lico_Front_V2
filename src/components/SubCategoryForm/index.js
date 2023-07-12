@@ -11,7 +11,6 @@ import {
 import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
-import { FormField } from "@codecraftkit/core";
 
 export const SubCategoryForm = ({
   onSubmit,

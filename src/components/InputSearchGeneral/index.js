@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Heading, Input } from "@chakra-ui/react";
-import { FormField } from "@codecraftkit/core";
+
 import { Form, Formik } from "formik";
 
 export const InputSearchGeneral = ({ onChange, value }) => {
