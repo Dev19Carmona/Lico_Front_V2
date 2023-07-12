@@ -7,6 +7,7 @@ import {
   Grid,
   Heading,
   Input,
+  Select,
   Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -44,7 +45,22 @@ export const RegisterForm = () => {
                   placeholder="Your Name"
                 />
               </FormControl>
-              <FormField
+              <FormControl id="genderId">
+                <FormLabel>Name</FormLabel>
+                <Field
+                  name="genderId"
+                  as={Select}
+                  type="text"
+                  placeholder="----"
+                >
+                  {
+                    genders?.Genders.map((gender,i)=>(
+                      <option key={i} value={gender._id}>{gender.name}</option>
+                    ))
+                  }
+                </Field>
+              </FormControl>
+              {/* <FormField
                 label="Gender"
                 type="select"
                 name="genderId"
@@ -53,7 +69,7 @@ export const RegisterForm = () => {
                 labelField="name"
                 valueField="_id"
                 data={genders?.Genders}
-              />
+              /> */}
               <FormControl id="address">
                 <FormLabel>Address</FormLabel>
                 <Field

@@ -5,6 +5,7 @@ import {
   Grid,
   Heading,
   Input,
+  Select,
   Spinner,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
@@ -37,13 +38,28 @@ export const SubCategoryForm = ({
                   required={true}
                 />
               </FormControl>
-              <FormField
+              {/* <FormField
                 name="categoryId"
                 type="select"
                 labelField="name"
                 valueField="_id"
                 data={categories?.Categories}
-              />
+              /> */}
+              <FormControl id="categoryId">
+                <FormLabel>Categorias</FormLabel>
+                <Field
+                  name="categoryId"
+                  as={Select}
+                  type="text"
+                  placeholder="----"
+                >
+                  {
+                    categories?.Categories.map((category,i)=>(
+                      <option key={i} value={category._id}>{category.name}</option>
+                    ))
+                  }
+                </Field>
+              </FormControl>
               <ButtonGeneral
                 title={
                   loadRegisterSubCategory ? (

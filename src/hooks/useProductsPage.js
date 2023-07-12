@@ -672,7 +672,7 @@ export const useProductsPage = () => {
             name: values.name,
             amount: values.amount === "" ? 0 : values.amount,
             price: values.price === "" ? 0 : values.price,
-            categoryId: values.categoryId,
+            categoryId: selectCategory,
             subCategoryId: values.subCategoryId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
@@ -687,7 +687,7 @@ export const useProductsPage = () => {
             name: values.name,
             amount: values.amount === "" ? 0 : values.amount,
             price: values.price === "" ? 0 : values.price,
-            categoryId: values.categoryId,
+            categoryId: selectCategory,
             subCategoryId: values.subCategoryId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
@@ -764,7 +764,7 @@ export const useProductsPage = () => {
     resetForm();
   };
   const handleSelectCategory = (e) => {
-    setSelectCategory(e);
+    setSelectCategory(e.target.value);
   };
   const handleSearchSubCategory = (values, { resetForm }) => {
     setSearchSubCategory(values.search);

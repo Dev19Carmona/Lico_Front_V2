@@ -3,14 +3,17 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Grid,
   Heading,
   Input,
+  Select,
+  SelectField,
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { Field, Form, Formik, useFormikContext } from "formik";
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
 import { FormField } from "@codecraftkit/core";
@@ -30,9 +33,6 @@ export const ProductForm = ({
   alertSaveTrue,
   onSubmit = () => {},
 }) => {
-  
-
-  
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Formik onSubmit={onSubmit} initialValues={initialValues}>
@@ -94,7 +94,26 @@ export const ProductForm = ({
                   />
                 </FormControl>
               </Grid>
-              <FormLabel>Categorias</FormLabel>
+              <FormControl id="categoryId">
+                <FormLabel>Categorias</FormLabel>
+                <SelectField
+                  as={Select}
+                  name="categoryId"
+                  type="text"
+                  placeholder="----"
+                  onChange={(e) => {
+                    handleSelect(e);
+                  }}
+                >
+                  {categories?.Categories.map((category, i) => (
+                    <option key={i} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </SelectField>
+                <ErrorMessage name="categoryId" component={FormErrorMessage} />
+              </FormControl>
+              {/* <FormLabel>Categorias</FormLabel>
               <FormField
                 name="categoryId"
                 type="select"
@@ -104,17 +123,32 @@ export const ProductForm = ({
                 onInputChange={(e) => {
                   handleSelect(e);
                 }}
-              />
+              /> */}
               {selectCategory !== "" && (
                 <>
-                  <FormLabel>Sub Categorias</FormLabel>
+                  <FormControl id="subCategoryId">
+                <FormLabel>Sub Categorias</FormLabel>
+                <Field
+                  name="subCategoryId"
+                  as={Select}
+                  type="text"
+                  placeholder="----"
+                >
+                  {subCategories?.SubCategories.map((subCategory, i) => (
+                    <option key={i} value={subCategory._id}>
+                      {subCategory.name}
+                    </option>
+                  ))}
+                </Field>
+              </FormControl>
+                  {/* <FormLabel>Sub Categorias</FormLabel>
                   <FormField
                     name="subCategoryId"
                     type="select"
                     labelField="name"
                     valueField="_id"
                     data={subCategories?.SubCategories}
-                  />
+                  /> */}
                 </>
               )}
               <Flex className="product-container" mt={5}>
