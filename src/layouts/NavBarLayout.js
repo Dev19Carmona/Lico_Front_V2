@@ -25,18 +25,18 @@ import { LoginForm } from "@/components/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm";
 import {
   FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
 } from 'react-icons/fi';
 import{ TbBrandAirtable } from "react-icons/tb"
 import{ FaFileInvoiceDollar } from "react-icons/fa"
 import{ GiExitDoor } from "react-icons/gi"
 import{ MdLiquor } from "react-icons/md"
 import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
+import { useQuery } from "@apollo/client";
+import { Companies } from "@/graphql/Company";
+
+
 export const NavBarLayout = () => {
+  const{data:company}=useQuery(Companies)
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
     { name: 'Inicio', icon: FiHome },
@@ -54,10 +54,10 @@ export const NavBarLayout = () => {
   } = useNavBar();
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")} >
-      <Flex  h={16} alignItems={"center"} justifyContent={"space-around"}>
-        <Box>Logo</Box>
+      <Flex  h={16} alignItems={"center"} justifyContent={"right"} mr={2}>
+        
 
-        <Flex alignItems={"center"} gap={20}>
+        <Flex alignItems={"center"} gap={5}>
           <Button onClick={toggleColorMode}>
             {colorMode === "light" ? <BsFillMoonFill /> : <BsSun />}
           </Button>
@@ -125,9 +125,9 @@ export const NavBarLayout = () => {
       pos="fixed"
       h="full">
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+        <Grid fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        {company?.Companies[0].name}
+        </Grid>
         
       </Flex>
       {LinkItems.map((link, i) => (

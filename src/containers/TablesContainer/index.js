@@ -28,11 +28,13 @@ export const TablesContainer = () => {
     handleChangeSwitch,
     totalAmounts,
     handleTotalAmounts,
-    handleChecked
+    handleChecked,
+    productList,
   } = useTablesPage();
   return (
     <Grid>
       <InputGeneral
+        autoFocus={true}
         onSubmit={handleSaveTable}
         initialValues={initialValuesTable}
         placeholder={"Agregar una nueva mesa"}
@@ -40,7 +42,7 @@ export const TablesContainer = () => {
         required={true}
       />
       <TableList
-      handleChecked={handleChecked}
+        handleChecked={handleChecked}
         totalProductsByBill={totalProductsByBill}
         handleOpenModalDeleteBill={handleOpenModalDeleteBill}
         handleOpenModalDeleteTable={handleOpenModalDeleteTable}
@@ -50,6 +52,7 @@ export const TablesContainer = () => {
         handleChangeSwitch={handleChangeSwitch}
         totalAmounts={totalAmounts}
         handleTotalAmounts={handleTotalAmounts}
+        productList={productList}
       />
       <ModalGeneral
         title={"Eliminar Mesa"}

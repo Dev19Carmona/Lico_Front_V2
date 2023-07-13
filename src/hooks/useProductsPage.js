@@ -26,7 +26,12 @@ import {
   subCategoriesTotal,
 } from "@/graphql/SubCategory";
 import { SubCategoryList } from "@/components/SubCategoryList";
-import { Product_delete, Product_save, Products, productsTotal } from "@/graphql/Product";
+import {
+  Product_delete,
+  Product_save,
+  Products,
+  productsTotal,
+} from "@/graphql/Product";
 import { ProductList } from "@/components/ProductList";
 export const useProductsPage = () => {
   //State
@@ -325,7 +330,8 @@ export const useProductsPage = () => {
       },
     });
 
-    const[deleteProduct,{data:isProductDelete, loading:loadProductDelete}]=useMutation(Product_delete, {
+  const [deleteProduct, { data: isProductDelete, loading: loadProductDelete }] =
+    useMutation(Product_delete, {
       refetchQueries: () => {
         const refetchQueries = [];
         for (let page = 1; page <= pagesTotalProducts; page++) {
@@ -347,7 +353,7 @@ export const useProductsPage = () => {
         });
         return refetchQueries;
       },
-    })
+    });
 
   //Effects
   useEffect(() => {
@@ -377,12 +383,7 @@ export const useProductsPage = () => {
         },
       },
     });
-  }, [
-    searchSubCategory,
-    getSubCategories,
-    pageSubCategories,
-    selectCategory,
-  ]);
+  }, [searchSubCategory, getSubCategories, pageSubCategories, selectCategory]);
   useEffect(() => {
     getProducts({
       variables: {
@@ -395,11 +396,7 @@ export const useProductsPage = () => {
         },
       },
     });
-  }, [
-    searchProduct,
-    getProducts,
-    pageProducts,
-  ]);
+  }, [searchProduct, getProducts, pageProducts]);
 
   useEffect(() => {
     getProviders({
@@ -530,7 +527,7 @@ export const useProductsPage = () => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
   const handleOpenModalCreateProduct = () => {
-    setImageProduct()
+    setImageProduct();
     setProductData({
       _id: "",
       name: "",
@@ -604,7 +601,7 @@ export const useProductsPage = () => {
     settingsModalDeleteSubCategory.onOpen();
   };
   const handleOpenModalUpdateProduct = (data) => {
-    setImageProduct()
+    setImageProduct();
     setProductData(data);
     setOverlay(<OverlayTwo />);
     settingsModalUpdateProduct.onOpen();
@@ -697,7 +694,6 @@ export const useProductsPage = () => {
       });
     }
     resetForm();
-    
   };
 
   const handleSubCategoryRegister = (values, { resetForm }) => {
@@ -772,7 +768,7 @@ export const useProductsPage = () => {
   };
   const handleSearchProduct = (values, { resetForm }) => {
     setSearchProduct(values.search);
-     resetForm();
+    resetForm();
   };
   const handleSaveImageProduct = (event) => {
     if (event?.target?.validity && event?.target?.files) {

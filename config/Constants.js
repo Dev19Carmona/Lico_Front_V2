@@ -6,4 +6,10 @@ export const BLUE_BG_IMAGE =
 export const RED_BG_IMAGE =
   "https://w0.peakpx.com/wallpaper/630/366/HD-wallpaper-red-plain.jpg";
 
-  
+export const paymentMethods = [
+  { id: "1", name: "Efectivo" },
+  { id: "2", name: "Transferencia" },
+  { id: "3", name: "Debito" },
+  { id: "4", name: "Credito" },
+];
+

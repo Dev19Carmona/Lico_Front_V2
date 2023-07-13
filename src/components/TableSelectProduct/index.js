@@ -1,3 +1,4 @@
+import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 import {
   Table,
   Thead,
@@ -12,17 +13,23 @@ import {
 } from "@chakra-ui/react";
 
 export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
-  const convertPrice = (percent, price) => (price * percent) / 100 + price;
+  const {redondeo} = useFunctionsGeneral()
+  const convertPrice = (percent, price) => {
+    const number = (price * percent) / 100 + price;
+    return redondeo(number)
+  }
   
   return (
     <TableContainer
+    mt={100}
+    w={"70%"}
       justifySelf={"center"}
-      w={"70%"}
-      zIndex={999}
+      position={"absolute"}
+      zIndex={1}
       borderRadius={9}
       p={2}
       border={"1px solid"}
-      bg={useColorModeValue("gray.300", "gray.800")}
+      bg={"white"}
     >
       <Table size="md">
         <Thead>
@@ -55,12 +62,8 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
               {/* <Td>{element.isLeave}</Td> */}
               <Td>
                 {isStay()
-                  ? Math.floor(
-                      convertPrice(element.isStay, element.price)
-                    ).toLocaleString()
-                  : Math.floor(
-                      convertPrice(element.isLeave, element.price)
-                    ).toLocaleString()}
+                  ? convertPrice(element.isStay, element.price).toLocaleString()
+                  : convertPrice(element.isLeave, element.price).toLocaleString()}
               </Td>
             </Tr>
           ))}

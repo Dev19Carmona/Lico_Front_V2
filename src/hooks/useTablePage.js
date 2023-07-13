@@ -8,17 +8,15 @@ import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Flex, Grid, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useTableSwitch } from "./functions/useTableSwitch";
+import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
+import { useProductList } from "./functions/useProductList";
 
 export const useTablePage = (tableId) => {
+  const {productList, handleProductSelect, productSearch, setProductSearch, setProductListSwitch} = useProductList(tableId)
+  console.log(productList);
   //States
-
-  const [productSearch, setProductSearch] = useState("");
-  const [productList, setProductList] = useState([]);
-  const [productListSwitch, setProductListSwitch] = useState(false);
   const [productData, setProductData] = useState({})
-  
-  //console.log("------",productList);
+  const [radioPayment, setRadioPayment] = useState("")
   //Modal Settings
   
   const OverlayTwo = () => (
@@ -47,8 +45,6 @@ export const useTablePage = (tableId) => {
       },
     },
   });
-  const [getProduct, { data: product }] = useLazyQuery(Products);
-
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
@@ -71,11 +67,11 @@ export const useTablePage = (tableId) => {
   //Constants
 
   //Effects
-  useEffect(() => {
-    if (localStorage.getItem(tableId)) {
-      setProductList(JSON.parse(localStorage.getItem(tableId)));
-    }
-  }, [tableId, productListSwitch]);
+  // useEffect(() => {
+  //   if (localStorage.getItem(tableId)) {
+  //     setProductList(JSON.parse(localStorage.getItem(tableId)));
+  //   }
+  // }, [tableId, productListSwitch]);
 
   useEffect(() => {
     if (tableId) {
@@ -96,7 +92,7 @@ export const useTablePage = (tableId) => {
 
   //Handles
   //HookFunctions
-  const { chekSwitch } = useTableSwitch();
+  const { chekSwitch } = useFunctionsGeneral();
   //Functions
   const handleIsStay = () => {
     const switchFound = chekSwitch.find((checked) => checked._id === tableId);
@@ -111,19 +107,7 @@ export const useTablePage = (tableId) => {
       return Math.floor(total).toLocaleString();
     }
   };
-  const handleDateBill = () => {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    if (day < 10) {
-      day = "0" + dia;
-    }
-    if (month < 10) {
-      month = "0" + month;
-    }
-    return day + "/" + month + "/" + year;
-  };
+  const {handleDateToday} = useFunctionsGeneral()
   //Handles Mutations
   const handleBillSave = () => {
     billSave({
@@ -138,63 +122,17 @@ export const useTablePage = (tableId) => {
   const handleProductSearch = (e) => {
     setProductSearch(e.target.value);
   };
-
-  //Handles states
-
-  const handleProductSelect = (newProduct) => {
-    setProductSearch("");
-    let productList = [];
-    if (localStorage.getItem(tableId)) {
-      productList = JSON.parse(localStorage.getItem(tableId));
-
-      const productFound = productList.find(
-        (product) => product._id === newProduct._id
-      );
-      const productFoundIndex = productList.findIndex(
-        (product) => product._id === newProduct._id
-      );
-      if (productFound) {
-        productList[productFoundIndex] = {
-          _id: productFound._id,
-          name: productFound.name,
-          price: productFound.price,
-          amount: productFound.amount + newProduct.amount,
-          image: productFound.image,
-          remaining: productFound.remaining,
-        };
-      } else {
-        productList.push(newProduct);
-      }
-      if (productFound) {
-        if (
-          productFound.remaining > productFound.amount &&
-          newProduct.amount === 1
-        ) {
-          localStorage.setItem(tableId, JSON.stringify(productList));
-        } else if (newProduct.amount === -1) {
-          localStorage.setItem(tableId, JSON.stringify(productList));
-        }
-      } else {
-        localStorage.setItem(tableId, JSON.stringify(productList));
-      }
-    } else {
-      let newProductList = [];
-      newProductList.push(newProduct);
-
-      localStorage.setItem(tableId, JSON.stringify(newProductList));
-    }
-    setProductListSwitch(!productListSwitch);
-  };
   const handleDeleteProduct = () => {
     const productFoundIndex = productList.findIndex(product=>product._id===productData._id)
     productList.splice(productFoundIndex,1)
     localStorage.setItem(tableId, JSON.stringify(productList));
-    setProductListSwitch(!productListSwitch)
     settingsModalDeleteProduct.onClose()
   }
-  //TableProductsSelect Settings
+  //TableProductsSettings
   const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
+  
   //TabsSettings
+
   const indexTabsTable = [
     {
       name: "Productos",
@@ -259,7 +197,8 @@ export const useTablePage = (tableId) => {
       <BillTable
         total={handleTotal()}
         productList={productList}
-        date={handleDateBill}
+        date={handleDateToday}
+        setRadioPayment={setRadioPayment}
       />
     </Grid>,
   ];

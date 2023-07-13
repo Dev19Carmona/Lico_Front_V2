@@ -43,6 +43,7 @@ export const CreateGeneralProducts = ({
                 <FormControl id="search">
                   <InputGroup>
                     <Field
+                    autoFocus
                       name="search"
                       as={Input}
                       type="text"

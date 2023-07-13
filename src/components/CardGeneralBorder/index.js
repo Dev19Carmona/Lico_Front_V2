@@ -65,7 +65,7 @@ export const CardGeneralBorder = ({
               color="white"
               mb={2}
             >
-              <Text letterSpacing={2} fontSize={"xs"} fontWeight="medium">
+              <Text letterSpacing={2} fontSize={"xl"} fontWeight="medium">
                 {firstPlace}
               </Text>
             </Box>

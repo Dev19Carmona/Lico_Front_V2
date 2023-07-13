@@ -4,9 +4,37 @@ import { useMutation, useQuery } from "@apollo/client";
 import { ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useTableSwitch } from "./functions/useTableSwitch";
+import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
+import { useProductList } from "./functions/useProductList";
 
 export const useTablesPage = () => {
+  //ProductList hook
+  const { productListSwitch, setProductListSwitch, productList} = useProductList()
+
+  //Modal Settings
+  const OverlayTwo = () => (
+    <ModalOverlay
+      bg="none"
+      backdropFilter="auto"
+      backdropInvert="80%"
+      backdropBlur="2px"
+    />
+  );
+  const [overlay, setOverlay] = useState(<OverlayTwo />);
+
+  const settingsModalDeleteTable = useDisclosure();
+  const settingsModalDeleteBill = useDisclosure();
+
+  const handleOpenModalDeleteTable = (table) => {
+    setTableData(table);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteTable.onOpen();
+  };
+  const handleOpenModalDeleteBill = (tableId) => {
+    setIdTable(tableId);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteBill.onOpen();
+  };
   //router
   const router = useRouter();
 
@@ -83,7 +111,7 @@ export const useTablesPage = () => {
     });
   }, [tables]);
   //FUNCTIONS
-  const { chekSwitch } = useTableSwitch(alertSwitch);
+  const { chekSwitch } = useFunctionsGeneral(alertSwitch);
 
   useEffect(() => {
     if (isBillDelete?.Bill_delete) {
@@ -161,8 +189,11 @@ export const useTablesPage = () => {
   };
   const handleDeleteBill = () => {
     if (localStorage.getItem(idTable)) {
+      const totalAmountFoundIndex = totalAmounts.findIndex(total=>total.tableId===idTable)
+      totalAmounts.splice(totalAmountFoundIndex,1)
+      setTotalAmounts(totalAmounts)
       localStorage.removeItem(idTable);
-      router.reload();
+      settingsModalDeleteBill.onClose()
     }
   };
   const handleSwitchPriceProducts = (e, element) => {
@@ -223,31 +254,7 @@ export const useTablesPage = () => {
       return acumulador + product.amount;
     }, 0);
 
-  //Modal Settings
-
-  const OverlayTwo = () => (
-    <ModalOverlay
-      bg="none"
-      backdropFilter="auto"
-      backdropInvert="80%"
-      backdropBlur="2px"
-    />
-  );
-  const [overlay, setOverlay] = useState(<OverlayTwo />);
-
-  const settingsModalDeleteTable = useDisclosure();
-  const settingsModalDeleteBill = useDisclosure();
-
-  const handleOpenModalDeleteTable = (table) => {
-    setTableData(table);
-    setOverlay(<OverlayTwo />);
-    settingsModalDeleteTable.onOpen();
-  };
-  const handleOpenModalDeleteBill = (tableId) => {
-    setIdTable(tableId);
-    setOverlay(<OverlayTwo />);
-    settingsModalDeleteBill.onOpen();
-  };
+ 
 
   return {
     initialValuesTable,
@@ -271,5 +278,6 @@ export const useTablesPage = () => {
     handleTotalAmounts,
     chekSwitch,
     handleChecked,
+    productList,
   };
 };

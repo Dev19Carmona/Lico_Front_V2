@@ -11,6 +11,7 @@ export const TableList = ({
   switchChange,
   handleTotalAmounts,
   handleChecked,
+  productList
 }) => {
   
   return (
