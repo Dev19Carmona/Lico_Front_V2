@@ -1,7 +1,7 @@
 import { LoginForm } from '@/components/LoginForm';
 import { TableContainer } from '@/containers/TableContainer'
 import { LoginContext } from '@/context/login';
-import { Box } from '@chakra-ui/react';
+import { Box, Img } from '@chakra-ui/react';
 import { useRouter } from 'next/router'
 import React, {useContext} from 'react'
 
@@ -16,7 +16,16 @@ function Mesa() {
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>
-          <LoginForm />
+          <Box borderBottom={"1px"} borderColor="black">
+          <Img
+            src={"https://i.ytimg.com/vi/m7ZZNsa0pOA/maxresdefault.jpg"}
+            
+            roundedTop={"sm"}
+            h="full"
+            w="full"
+            alt={"Not Found"}
+          />
+        </Box>
         </Box>
       )}
     </>

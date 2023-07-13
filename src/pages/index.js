@@ -14,7 +14,7 @@ function Index() {
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>
-          <LoginForm />
+          ir a login
         </Box>
       )}
     </>

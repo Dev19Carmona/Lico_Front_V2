@@ -23,40 +23,35 @@ import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { DrawerGeneral } from "@/components/DrawerGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm";
-import {
-  FiHome,
-} from 'react-icons/fi';
-import{ TbBrandAirtable } from "react-icons/tb"
-import{ FaFileInvoiceDollar } from "react-icons/fa"
-import{ GiExitDoor } from "react-icons/gi"
-import{ MdLiquor } from "react-icons/md"
+import { FiHome } from "react-icons/fi";
+import { TbBrandAirtable } from "react-icons/tb";
+import { FaFileInvoiceDollar } from "react-icons/fa";
+import { GiExitDoor } from "react-icons/gi";
+import { MdLiquor } from "react-icons/md";
 import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
 import { useQuery } from "@apollo/client";
 import { Companies } from "@/graphql/Company";
 
-
 export const NavBarLayout = () => {
-  const{data:company}=useQuery(Companies)
+  const { data: company } = useQuery(Companies);
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
-    { name: 'Inicio', icon: FiHome },
-    { name: 'Mesas', icon: TbBrandAirtable },
-    { name: 'Salidas', icon: GiExitDoor },
-    { name: 'Facturas', icon: FaFileInvoiceDollar },
-    { name: 'Productos', icon: MdLiquor },
+    { name: "Inicio", icon: FiHome },
+    { name: "Mesas", icon: TbBrandAirtable },
+    { name: "Salidas", icon: GiExitDoor },
+    { name: "Facturas", icon: FaFileInvoiceDollar },
+    { name: "Productos", icon: MdLiquor },
   ];
   const {
     showUser,
     localSession,
     LoginOpenAndClose,
     loginOrRegister,
-    handleClickToChangeLoginOrRegister
+    handleClickToChangeLoginOrRegister,
   } = useNavBar();
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} >
-      <Flex  h={16} alignItems={"center"} justifyContent={"right"} mr={2}>
-        
-
+    <Box bg={useColorModeValue("gray.100", "gray.900")}>
+      <Flex h={16} alignItems={"center"} justifyContent={"right"} mr={2}>
         <Flex alignItems={"center"} gap={5}>
           <Button onClick={toggleColorMode}>
             {colorMode === "light" ? <BsFillMoonFill /> : <BsSun />}
@@ -70,15 +65,12 @@ export const NavBarLayout = () => {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar
-                  size={"sm"}
-                  src={localSession?.avatar}
-                />
+                <Avatar size={"sm"} src={localSession?.avatar} />
               </MenuButton>
               <MenuList alignItems={"center"}>
                 <br />
                 <Center>
-                  <AvatarEmotion avatar={localSession?.avatar}/>
+                  <AvatarEmotion avatar={localSession?.avatar} />
                 </Center>
                 <br />
                 <Center>
@@ -88,12 +80,16 @@ export const NavBarLayout = () => {
                 <MenuDivider />
                 <MenuItem>Your Servers</MenuItem>
                 <MenuItem>Account Settings</MenuItem>
-                <MenuItem onClick={()=>{
-                  localStorage.removeItem("session")
-                  setTimeout(() => {
-                    location.reload();
-                  }, 1000);
-                  }}>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    localStorage.removeItem("session");
+                    setTimeout(() => {
+                      location.reload();
+                    }, 1000);
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : (
@@ -101,7 +97,7 @@ export const NavBarLayout = () => {
               onClick={LoginOpenAndClose.onOpen}
               title={"Log In"}
               colorA={"blue.400"}
-              colorB = {"blue.500"}
+              colorB={"blue.500"}
             />
           )}
         </Flex>
@@ -109,31 +105,46 @@ export const NavBarLayout = () => {
       <DrawerGeneral
         isOpen={LoginOpenAndClose.isOpen}
         onClose={LoginOpenAndClose.onClose}
-        body={!loginOrRegister ? <LoginForm /> : <RegisterForm/>}
-        buttonExtra={<ButtonGeneral
-          onClick={handleClickToChangeLoginOrRegister}
-          title={!loginOrRegister?"Register":"Log In"}
-          colorA={!loginOrRegister?"blue.400":"green.400"}
-          colorB = {!loginOrRegister?"blue.500":"green.500"}
-        />}
+        body={!loginOrRegister ? <LoginForm /> : <RegisterForm />}
+        buttonExtra={
+          <ButtonGeneral
+            onClick={handleClickToChangeLoginOrRegister}
+            title={!loginOrRegister ? "Register" : "Log In"}
+            colorA={!loginOrRegister ? "blue.400" : "green.400"}
+            colorB={!loginOrRegister ? "blue.500" : "green.500"}
+          />
+        }
       />
-      <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
-      pos="fixed"
-      h="full">
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Grid fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-        {company?.Companies[0].name}
-        </Grid>
-        
-      </Flex>
-      {LinkItems.map((link, i) => (
-        <AnimatedLinkItem key={i} name={link.name} icon={link.icon} textAlign="rigth" mr={4}/>
-      ))}
-    </Box>
+      {localSession && (
+        <Box
+          bg={"white"}
+          borderRight="1px"
+          borderRightColor={"white"}
+          w={{ base: "full", md: 60 }}
+          pos="fixed"
+          h="full"
+        >
+          <Flex
+            h="20"
+            alignItems="center"
+            mx="8"
+            justifyContent="space-between"
+          >
+            <Grid fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+              {company?.Companies[0].name}
+            </Grid>
+          </Flex>
+          {LinkItems.map((link, i) => (
+            <AnimatedLinkItem
+              key={i}
+              name={link.name}
+              icon={link.icon}
+              textAlign="rigth"
+              mr={4}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };
