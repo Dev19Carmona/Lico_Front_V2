@@ -9,11 +9,10 @@ export const ProductList = ({products,
     const data = (product) => {
         let precios = []
         precios.push({
-            compra: Math.floor(product.price).toLocaleString(),
-            llevar: Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString(),
-            establecimiento: Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()
+            compra: Math.round(product.price).toLocaleString(),
+            llevar: Math.round(product.price*(product.isLeave/100)+product.price).toLocaleString(),
+            establecimiento: Math.round(product.price*(product.isStay/100)+product.price).toLocaleString()
         })
-       
         return precios
     }
     return (

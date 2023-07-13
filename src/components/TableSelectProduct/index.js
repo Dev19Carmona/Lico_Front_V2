@@ -13,6 +13,7 @@ import {
 
 export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
   const convertPrice = (percent, price) => (price * percent) / 100 + price;
+  
   return (
     <TableContainer
       justifySelf={"center"}
@@ -40,7 +41,7 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
                 onClick({
                   _id: element._id,
                   name: element.name,
-                  price: isStay
+                  price: isStay()
                     ? convertPrice(element.isStay, element.price)
                     : convertPrice(element.isLeave, element.price),
                   amount: 1,
@@ -53,7 +54,7 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
               <Td>{element.name}</Td>
               {/* <Td>{element.isLeave}</Td> */}
               <Td>
-                {isStay
+                {isStay()
                   ? Math.floor(
                       convertPrice(element.isStay, element.price)
                     ).toLocaleString()

@@ -8,6 +8,7 @@ import {
   Center,
   useColorModeValue,
   HStack,
+  Grid,
 } from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
 import { FiDelete } from "react-icons/fi";
@@ -23,7 +24,7 @@ export const CardGeneralBorder = ({
   href = "",
   firstIcon = <FaEdit fontSize={20}/>
 }) => {
-  const [liked, setLiked] = useState(false);
+  
   const { firstPlace, secondPlace, thirdPlace, fourthPlace } = data;
 
   return (
@@ -91,9 +92,9 @@ export const CardGeneralBorder = ({
             cursor={"pointer"}
             w="full"
           >
-            <Text letterSpacing={1} fontSize={"md"} fontWeight={"semibold"}>
+            <Grid fontSize={"md"} fontWeight={"semibold"}>
               {fourthPlace}
-            </Text>
+            </Grid>
 
             {firstIcon}
           </Flex>

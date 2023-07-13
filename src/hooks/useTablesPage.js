@@ -1,15 +1,15 @@
 import { Bill_delete, Bills } from "@/graphql/Bill";
 import { Table_delete, Table_save, Tables } from "@/graphql/Table";
 import { useMutation, useQuery } from "@apollo/client";
-import {  ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import { ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { useTableSwitch } from "./functions/useTableSwitch";
 
 export const useTablesPage = () => {
   //router
-  const router = useRouter()
- 
+  const router = useRouter();
+
   //States
   const [tableData, setTableData] = useState({
     _id: "",
@@ -18,8 +18,11 @@ export const useTablesPage = () => {
   const [idTable, setIdTable] = useState("");
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
-  const [isStay, setIsStay] = useState(false)
-  const [totalAmounts, setTotalAmounts] = useState([])
+  const [isStay, setIsStay] = useState(false);
+  const [totalAmounts, setTotalAmounts] = useState([]);
+  // const [chekSwitch, setChekSwitch] = useState([]);
+
+  const [alertSwitch, setAlertSwitch] = useState(false);
   //Queries
   const { data: tables, loading: loadTables } = useQuery(Tables);
   //Mutations
@@ -48,38 +51,40 @@ export const useTablesPage = () => {
         },
         {
           query: Bills,
-          variables:{
-            filters:() =>{
-              tables?.Tables.map(table=>{
+          variables: {
+            filters: () => {
+              tables?.Tables.map((table) => {
                 return {
-                  tableId:table._id
-                }
-              })
-            }
-          }
+                  tableId: table._id,
+                };
+              });
+            },
+          },
         },
       ],
     });
 
   //Effects
-  
-  
+
   useEffect(() => {
-    let totalAmounts = []
-    tables?.Tables.map(table => {
+    let totalAmounts = [];
+    tables?.Tables.map((table) => {
       if (localStorage.getItem(table._id)) {
-        const productListByTable = JSON.parse(localStorage.getItem(table._id))
-        const totalAmount = productListByTable.reduce((acumulador,product)=>{
-          return acumulador + product.amount
-        },0)
-         totalAmounts.push({
+        const productListByTable = JSON.parse(localStorage.getItem(table._id));
+        const totalAmount = productListByTable.reduce((acumulador, product) => {
+          return acumulador + product.amount;
+        }, 0);
+        totalAmounts.push({
           tableId: table._id,
-          totalAmount
-         })
-         setTotalAmounts(totalAmounts)
+          totalAmount,
+        });
+        setTotalAmounts(totalAmounts);
       }
-    })
+    });
   }, [tables]);
+  //FUNCTIONS
+  const { chekSwitch } = useTableSwitch(alertSwitch);
+
   useEffect(() => {
     if (isBillDelete?.Bill_delete) {
       setalertSaveTrue(true);
@@ -155,28 +160,62 @@ export const useTablesPage = () => {
     });
   };
   const handleDeleteBill = () => {
-
     if (localStorage.getItem(idTable)) {
-      localStorage.removeItem(idTable)
-      router.reload()
+      localStorage.removeItem(idTable);
+      router.reload();
     }
-    
   };
   const handleSwitchPriceProducts = (e, element) => {
-    tableSave({
-      variables:{
-        tableData:{
-          _id:element._id,
-          isStay:e.target.checked
-        }
+    if (localStorage.getItem("tableSwitch")) {
+      const tableSwitchs = JSON.parse(localStorage.getItem("tableSwitch"));
+      const switchFound = tableSwitchs.find(
+        (tableSwitch) => tableSwitch._id === element._id
+      );
+      const switchFoundIndex = tableSwitchs.findIndex(
+        (tableSwitch) => tableSwitch._id === element._id
+      );
+      if (switchFound) {
+        tableSwitchs[switchFoundIndex] = {
+          _id: switchFound._id,
+          checked: e.target.checked,
+        };
+      } else {
+        tableSwitchs.push({
+          _id: element._id,
+          checked: e.target.checked,
+        });
       }
-    })
-  }
+
+      setAlertSwitch(!alertSwitch);
+      localStorage.setItem("tableSwitch", JSON.stringify(tableSwitchs));
+    } else {
+      let newTableSwitchs = [];
+      newTableSwitchs.push({
+        _id: element._id,
+        checked: e.target.checked,
+      });
+      setAlertSwitch(!alertSwitch);
+      localStorage.setItem("tableSwitch", JSON.stringify(newTableSwitchs));
+    }
+    // tableSave({
+    //   variables:{
+    //     tableData:{
+    //       _id:element._id,
+    //       isStay:e.target.checked
+    //     }
+    //   }
+    // })
+  };
   const handleTotalAmounts = (_id) => {
-    const totalAmount = totalAmounts.find(amount=>amount.tableId === _id)
-   
-    return totalAmount?.totalAmount
-  }
+    const totalAmount = totalAmounts.find((amount) => amount.tableId === _id);
+
+    return totalAmount?.totalAmount;
+  };
+
+  const handleChecked = (_id) => {
+    const checkFound = chekSwitch.find((check) => check._id === _id);
+    return checkFound?.checked;
+  };
 
   //Functions
   const totalProductsByBill = (products) =>
@@ -210,8 +249,6 @@ export const useTablesPage = () => {
     settingsModalDeleteBill.onOpen();
   };
 
- 
-
   return {
     initialValuesTable,
     handleSaveTable,
@@ -232,6 +269,7 @@ export const useTablesPage = () => {
     isStay,
     totalAmounts,
     handleTotalAmounts,
-    
+    chekSwitch,
+    handleChecked,
   };
 };

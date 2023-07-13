@@ -10,7 +10,7 @@ export const TableList = ({
   handleOpenModalDeleteBill = () => {},
   switchChange,
   handleTotalAmounts,
-  amountProducts,
+  handleChecked,
 }) => {
   
   return (
@@ -19,11 +19,20 @@ export const TableList = ({
         <CardGeneralBorder
           key={i}
           data={{
-            firstPlace: element.isStay ? "Establecimiento" : "Llevar",
+            firstPlace: handleChecked(element._id) ? "Establecimiento" : "Llevar",
             secondPlace: element.name,
-            thirdPlace: handleTotalAmounts(element._id) > 0?undefined:<Switch id="prices" isChecked={element.isStay} onChange={(e) => {switchChange(e, element)}} />,
+            thirdPlace:
+              handleTotalAmounts(element._id) > 0 ? undefined : (
+                <Switch
+                  id="prices"
+                  isChecked={handleChecked(element._id)}
+                  onChange={(e) => {
+                    switchChange(e, element);
+                  }}
+                />
+              ),
             fourthPlace:
-            handleTotalAmounts(element._id) > 0
+              handleTotalAmounts(element._id) > 0
                 ? `${handleTotalAmounts(element._id)} Productos`
                 : "0 Productos",
           }}
@@ -34,11 +43,20 @@ export const TableList = ({
             handleOpenModalDeleteBill(element._id);
           }}
           //src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
-          src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
-          
+          src={
+            parseInt(handleTotalAmounts(element._id)) > 0
+              ? RED_BG_IMAGE
+              : BLUE_BG_IMAGE
+          }
           href={`/mesa/${element._id}`}
           typeComponent={Link}
-          firstIcon={parseInt(handleTotalAmounts(element._id)) > 0?<FcCancel fontSize={40} />:""}
+          firstIcon={
+            parseInt(handleTotalAmounts(element._id)) > 0 ? (
+              <FcCancel fontSize={40} />
+            ) : (
+              ""
+            )
+          }
         />
       ))}
     </SimpleGrid>

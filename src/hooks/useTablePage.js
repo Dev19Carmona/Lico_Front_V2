@@ -6,18 +6,37 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Flex, Grid, Text } from "@chakra-ui/react";
+import { Flex, Grid, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useTableSwitch } from "./functions/useTableSwitch";
 
 export const useTablePage = (tableId) => {
-  
   //States
-  
+
   const [productSearch, setProductSearch] = useState("");
   const [productList, setProductList] = useState([]);
   const [productListSwitch, setProductListSwitch] = useState(false);
+  const [productData, setProductData] = useState({})
   
+  //console.log("------",productList);
+  //Modal Settings
   
+  const OverlayTwo = () => (
+    <ModalOverlay
+      bg="none"
+      backdropFilter="auto"
+      backdropInvert="70%"
+      backdropBlur="2px"
+    />
+  );
+  const [overlay, setOverlay] = useState(<OverlayTwo />);
+
+  const settingsModalDeleteProduct = useDisclosure();
+  const handleOpenModalDeleteProduct = (product) => {
+    setProductData(product);
+    setOverlay(<OverlayTwo />);
+    settingsModalDeleteProduct.onOpen();
+  };
   //console.log(productList);
   //Queries
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
@@ -76,7 +95,13 @@ export const useTablePage = (tableId) => {
   };
 
   //Handles
+  //HookFunctions
+  const { chekSwitch } = useTableSwitch();
   //Functions
+  const handleIsStay = () => {
+    const switchFound = chekSwitch.find((checked) => checked._id === tableId);
+    return switchFound.checked;
+  };
   const handleTotal = () => {
     if (productList.length > 0) {
       const totalArray = productList.map(
@@ -89,7 +114,7 @@ export const useTablePage = (tableId) => {
   const handleDateBill = () => {
     let date = new Date();
     let day = date.getDate();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let year = date.getFullYear();
     if (day < 10) {
       day = "0" + dia;
@@ -160,7 +185,13 @@ export const useTablePage = (tableId) => {
     }
     setProductListSwitch(!productListSwitch);
   };
-
+  const handleDeleteProduct = () => {
+    const productFoundIndex = productList.findIndex(product=>product._id===productData._id)
+    productList.splice(productFoundIndex,1)
+    localStorage.setItem(tableId, JSON.stringify(productList));
+    setProductListSwitch(!productListSwitch)
+    settingsModalDeleteProduct.onClose()
+  }
   //TableProductsSelect Settings
   const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
   //TabsSettings
@@ -182,7 +213,7 @@ export const useTablePage = (tableId) => {
         {productSearch !== "" && (
           <TableSelectProduct
             onClick={handleProductSelect}
-            isStay={bills?.Bills[0]?.table.isStay}
+            isStay={handleIsStay}
             data={products?.Products}
             index={indexProductsSelect}
           />
@@ -190,6 +221,7 @@ export const useTablePage = (tableId) => {
       </>
       {productList.map((product, i) => (
         <CardHorizontal
+          onDelete={()=>{handleOpenModalDeleteProduct(product)}}
           onClick={handleProductSelect}
           parameter={{
             _id: product._id,
@@ -224,7 +256,11 @@ export const useTablePage = (tableId) => {
       )}
     </Grid>,
     <Grid key="bill" gap={5}>
-      <BillTable total={handleTotal()} productList={productList} date={handleDateBill}/>
+      <BillTable
+        total={handleTotal()}
+        productList={productList}
+        date={handleDateBill}
+      />
     </Grid>,
   ];
 
@@ -233,5 +269,8 @@ export const useTablePage = (tableId) => {
     components,
     handleBillSave,
     bills,
+    settingsModalDeleteProduct,
+    overlay,
+    handleDeleteProduct,
   };
 };

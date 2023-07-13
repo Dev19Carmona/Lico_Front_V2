@@ -13,7 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { CiSquareMinus, CiSquarePlus } from "react-icons/ci";
+import { BsTrash } from "react-icons/bs";
 export const CardHorizontal = ({
+  onDelete = () => {},
   onClick = () => {},
   parameter,
   data = {
@@ -46,7 +48,7 @@ export const CardHorizontal = ({
             px={5}
             spacing={4}
             as={Flex}
-            justifyContent={'space-between'}
+            justifyContent={"space-between"}
             bg={useColorModeValue("gray.100", "gray.800")}
             w="100%"
           >
@@ -73,63 +75,76 @@ export const CardHorizontal = ({
                 alt="ProductImage"
               />
             </Flex>
-              <VStack spacing={0} align="start" maxW="lg" h="100%">
-                <Text
-                  as="h2"
-                  fontSize="lg"
-                  fontWeight="extrabold"
-                  letterSpacing={1}
-                >
-                  {head}
+            <VStack spacing={0} align="start" maxW="lg" h="100%">
+              <Text
+                as="h2"
+                fontSize="lg"
+                fontWeight="extrabold"
+                letterSpacing={1}
+              >
+                {head}
+              </Text>
+              <Flex justifyContent="space-between" gap={100} mt={3}>
+                <Text as="h3" fontSize="md" noOfLines={2} color="gray.500">
+                  {title}
                 </Text>
-                <Flex justifyContent="space-between" gap={100} mt={3}>
-                  <Text as="h3" fontSize="md" noOfLines={2} color="gray.500">
-                    {title}
-                  </Text>
 
-                  <Text color="#b32821">{secondTitle}</Text>
-                </Flex>
-              </VStack>
-              <Flex direction={'column'} justifyContent={"end"} gap={3} >
-                <Flex
+                <Text color="#b32821">{secondTitle}</Text>
+              </Flex>
+            </VStack>
+            <Flex direction={"column"} justifyContent={"end"} gap={3}>
+              <Flex
+                alignItems={"center"}
+                justifyContent={"center"}
+                borderRadius={9}
+                w={"100%"}
+                bg="blue.700"
+                _hover={{ background: "blue.800" }}
+              >
+                <Text color={"white"}>{body}</Text>
+              </Flex>
+              <Flex gap={2}>
+                <Button
+                  onClick={() => {
+                    if (body > 1) {
+                      parameter.amount = -1;
+                      onClick(parameter);
+                    }
+                  }}
+                  bg="blue.400"
+                  _hover={{ background: "blue.500" }}
+                >
+                  <CiSquareMinus color="white" fontSize={24} />
+                </Button>
+                <Button
+                  onClick={() => {
+                    onClick(parameter);
+                  }}
+                  bg="blue.400"
+                  _hover={{ background: "blue.500" }}
+                >
+                  <CiSquarePlus color="white" fontSize={24} />
+                </Button>
+              </Flex>
+              <Flex>
+                <Button
+                  onClick={() => {
+                    onDelete()
+                  }}
                   alignItems={"center"}
                   justifyContent={"center"}
                   borderRadius={9}
                   w={"100%"}
-                  bg="blue.700"
-                  _hover={{ background: "blue.800" }}
+                  bg="red.400"
+                  _hover={{ background: "red.500" }}
                 >
-                  <Text color={"white"}>{body}</Text>
-                </Flex>
-                <Flex gap={2}>
-                  <Button
-                    onClick={() => {
-                      if (body > 1) {
-                        parameter.amount = -1;
-                        onClick(parameter);
-                      }
-                    }}
-                    bg="blue.400"
-                    _hover={{ background: "blue.500" }}
-                  >
-                    <CiSquareMinus color="white" fontSize={24} />
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      onClick(parameter);
-                    }}
-                    bg="blue.400"
-                    _hover={{ background: "blue.500" }}
-                  >
-                    <CiSquarePlus color="white" fontSize={24} />
-                  </Button>
-                </Flex>
+                  <BsTrash color="white" fontSize={25} />
+                </Button>
               </Flex>
+            </Flex>
           </HStack>
         </Flex>
       </motion.div>
-
-      
     </Container>
   );
 };

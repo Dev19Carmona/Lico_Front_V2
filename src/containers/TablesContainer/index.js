@@ -28,6 +28,7 @@ export const TablesContainer = () => {
     handleChangeSwitch,
     totalAmounts,
     handleTotalAmounts,
+    handleChecked
   } = useTablesPage();
   return (
     <Grid>
@@ -39,6 +40,7 @@ export const TablesContainer = () => {
         required={true}
       />
       <TableList
+      handleChecked={handleChecked}
         totalProductsByBill={totalProductsByBill}
         handleOpenModalDeleteBill={handleOpenModalDeleteBill}
         handleOpenModalDeleteTable={handleOpenModalDeleteTable}
