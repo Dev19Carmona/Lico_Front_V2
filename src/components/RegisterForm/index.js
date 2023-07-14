@@ -17,7 +17,7 @@ import { useRegisterLogin } from "@/hooks/useRegisterLogin";
 import { AlertGeneral } from "../AlertGeneral";
 
 export const RegisterForm = () => {
-  const { genders, handleUserRegister, initialValRegister, alertSaveTrue, alertSaveFalse, loadRegister } =
+  const { genders, handleUserRegister, initialValRegister, alertSaveTrue, alertSaveFalse, loadRegister, loadLogin } =
     useRegisterLogin();
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>

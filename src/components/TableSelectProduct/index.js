@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
+ 
   const {redondeo} = useFunctionsGeneral()
   const convertPrice = (percent, price) => {
     const number = (price * percent) / 100 + price;
@@ -48,7 +49,7 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
                 onClick({
                   _id: element._id,
                   name: element.name,
-                  price: isStay()
+                  price: isStay
                     ? convertPrice(element.isStay, element.price)
                     : convertPrice(element.isLeave, element.price),
                   amount: 1,
@@ -61,7 +62,7 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
               <Td>{element.name}</Td>
               {/* <Td>{element.isLeave}</Td> */}
               <Td>
-                {isStay()
+                {isStay
                   ? convertPrice(element.isStay, element.price).toLocaleString()
                   : convertPrice(element.isLeave, element.price).toLocaleString()}
               </Td>

@@ -6,19 +6,37 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Flex, Grid, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Flex,
+  Grid,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { useProductList } from "./functions/useProductList";
+import { paymentMethods } from "../../config/Constants";
 
 export const useTablePage = (tableId) => {
-  const {productList, handleProductSelect, productSearch, setProductSearch, setProductListSwitch} = useProductList(tableId)
-  console.log(productList);
+  const {
+    productList,
+    handleProductSelect,
+    productSearch,
+    setProductSearch,
+    setProductListSwitch,
+    setProductList,
+  } = useProductList(tableId);
   //States
-  const [productData, setProductData] = useState({})
-  const [radioPayment, setRadioPayment] = useState("")
-  //Modal Settings
+  const [productData, setProductData] = useState({});
+  const [radioPayment, setRadioPayment] = useState("Efectivo");
+  const [alertSaveTrue, setalertSaveTrue] = useState(false);
+  const [alertSaveFalse, setalertSaveFalse] = useState(false);
+
+  //Functions General
   
+  //Modal Settings
+
   const OverlayTwo = () => (
     <ModalOverlay
       bg="none"
@@ -46,45 +64,36 @@ export const useTablePage = (tableId) => {
     },
   });
   //Mutations
-  const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
-    Bill_save,
-    {
-      refetchQueries: [
-        {
-          query: Bills,
-          variables: {
-            filters: {
-              tableId,
-            },
-          },
-        },
-        {
-          query: Tables,
-        },
-      ],
-    }
-  );
-  //Constants
-
+  const [billSave, { data: isBillSave, loading: loadSaveBill }] =
+    useMutation(Bill_save);
   //Effects
-  // useEffect(() => {
-  //   if (localStorage.getItem(tableId)) {
-  //     setProductList(JSON.parse(localStorage.getItem(tableId)));
-  //   }
-  // }, [tableId, productListSwitch]);
+  useEffect(() => {
+    if (isBillSave?.Bill_save) {
+      setalertSaveTrue(true);
+    }
+    if (isBillSave?.Bill_save === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isBillSave]);
+  useEffect(() => {
+    let timer;
+    if (alertSaveTrue) {
+      timer = setTimeout(() => {
+        setalertSaveTrue(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveTrue]);
 
   useEffect(() => {
-    if (tableId) {
-      getBills({
-        variables: {
-          filters: {
-            tableId,
-          },
-        },
-      });
+    let timer;
+    if (alertSaveFalse) {
+      timer = setTimeout(() => {
+        setalertSaveFalse(false);
+      }, 3000);
     }
-  }, [getBills, tableId]);
-
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveFalse]);
   //Initial Values
   const initialValuesProductSelect = {
     name: "",
@@ -92,45 +101,63 @@ export const useTablePage = (tableId) => {
 
   //Handles
   //HookFunctions
-  const { chekSwitch } = useFunctionsGeneral();
+  const { chekSwitch, handleSwitchPriceProducts,changeSell } = useFunctionsGeneral();
   //Functions
-  const handleIsStay = () => {
-    const switchFound = chekSwitch.find((checked) => checked._id === tableId);
-    return switchFound.checked;
-  };
+ 
   const handleTotal = () => {
     if (productList.length > 0) {
       const totalArray = productList.map(
         (product) => product.amount * product.price
       );
       const total = totalArray.reduce((ac, total) => (ac += total));
-      return Math.floor(total).toLocaleString();
+      return total;
     }
   };
-  const {handleDateToday} = useFunctionsGeneral()
+  const { handleDateToday } = useFunctionsGeneral();
+  const handleDeleteProductList = () => {
+    if (localStorage.getItem(tableId)) {
+      localStorage.removeItem(tableId);
+    }
+  };
   //Handles Mutations
-  const handleBillSave = () => {
+  const handleBillSave = (total) => {
+    const sellProductList = productList.map((product) => {
+      delete product.image;
+      delete product.remaining;
+      return product;
+    });
+    
+
     billSave({
       variables: {
         billData: {
-          tableId,
+          tableId:tableId?tableId:"Fast Sell",
+          products: sellProductList,
+          paymentMethod: radioPayment,
+          total,
         },
       },
     });
+    handleDeleteProductList();
+    setTimeout(() => {
+      setProductList([])
+    }, 3000);
   };
 
   const handleProductSearch = (e) => {
     setProductSearch(e.target.value);
   };
   const handleDeleteProduct = () => {
-    const productFoundIndex = productList.findIndex(product=>product._id===productData._id)
-    productList.splice(productFoundIndex,1)
+    const productFoundIndex = productList.findIndex(
+      (product) => product._id === productData._id
+    );
+    productList.splice(productFoundIndex, 1);
     localStorage.setItem(tableId, JSON.stringify(productList));
-    settingsModalDeleteProduct.onClose()
-  }
+    settingsModalDeleteProduct.onClose();
+  };
   //TableProductsSettings
   const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
-  
+
   //TabsSettings
 
   const indexTabsTable = [
@@ -151,7 +178,7 @@ export const useTablePage = (tableId) => {
         {productSearch !== "" && (
           <TableSelectProduct
             onClick={handleProductSelect}
-            isStay={handleIsStay}
+            isStay={chekSwitch}
             data={products?.Products}
             index={indexProductsSelect}
           />
@@ -159,7 +186,9 @@ export const useTablePage = (tableId) => {
       </>
       {productList.map((product, i) => (
         <CardHorizontal
-          onDelete={()=>{handleOpenModalDeleteProduct(product)}}
+          onDelete={() => {
+            handleOpenModalDeleteProduct(product);
+          }}
           onClick={handleProductSelect}
           parameter={{
             _id: product._id,
@@ -189,24 +218,30 @@ export const useTablePage = (tableId) => {
           justifyContent="space-around"
         >
           <Text>Total:</Text>
-          <Text textAlign="center">{`$ ${handleTotal()}`}</Text>
+          <Text textAlign="center">{`$ ${Math.floor(handleTotal()).toLocaleString()}`}</Text>
         </Flex>
       )}
     </Grid>,
     <Grid key="bill" gap={5}>
+      {
+        productList.length > 0 &&
       <BillTable
         total={handleTotal()}
         productList={productList}
         date={handleDateToday}
         setRadioPayment={setRadioPayment}
+        handleBillSave={handleBillSave}
+        loadSaveBill={loadSaveBill}
+        alertSaveTrue={alertSaveTrue}
+        alertSaveFalse={alertSaveFalse}
       />
+      }
     </Grid>,
   ];
 
   return {
     indexTabsTable,
     components,
-    handleBillSave,
     bills,
     settingsModalDeleteProduct,
     overlay,

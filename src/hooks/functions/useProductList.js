@@ -6,15 +6,15 @@ export const useProductList = (tableId) => {
   const [productSearch, setProductSearch] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem(tableId)) {
-      setProductList(JSON.parse(localStorage.getItem(tableId)));
+    if (localStorage.getItem(tableId?tableId:"fastSell")) {
+      setProductList(JSON.parse(localStorage.getItem(tableId?tableId:"fastSell")));
     }
   }, [tableId, productListSwitch]);
   const handleProductSelect = (newProduct) => {
     setProductSearch("");
     let productList = [];
     if (localStorage.getItem(tableId)) {
-      productList = JSON.parse(localStorage.getItem(tableId));
+      productList = JSON.parse(localStorage.getItem(tableId?tableId:"fastSell"));
 
       const productFound = productList.find(
         (product) => product._id === newProduct._id
@@ -39,18 +39,18 @@ export const useProductList = (tableId) => {
           productFound.remaining > productFound.amount &&
           newProduct.amount === 1
         ) {
-          localStorage.setItem(tableId, JSON.stringify(productList));
+          localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
         } else if (newProduct.amount === -1) {
-          localStorage.setItem(tableId, JSON.stringify(productList));
+          localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
         }
       } else {
-        localStorage.setItem(tableId, JSON.stringify(productList));
+        localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
       }
     } else {
       let newProductList = [];
       newProductList.push(newProduct);
 
-      localStorage.setItem(tableId, JSON.stringify(newProductList));
+      localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(newProductList));
     }
     setProductListSwitch(!productListSwitch);
   };
@@ -61,5 +61,6 @@ export const useProductList = (tableId) => {
     setProductSearch,
     setProductListSwitch,
     productListSwitch,
+    setProductList,
   };
 };

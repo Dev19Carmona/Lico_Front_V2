@@ -1,10 +1,17 @@
 import { AlertDeleteGeneral } from "@/components/AlertDeleteGeneral";
+import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { InputGeneral } from "@/components/InputGeneral";
 import { ModalGeneral } from "@/components/ModalGeneral";
 import { TableList } from "@/components/TableList";
 import { useTablesPage } from "@/hooks/useTablesPage";
-import { Grid } from "@chakra-ui/react";
-import { GrAdd } from "react-icons/gr";
+import { Grid, Heading, Text } from "@chakra-ui/react";
+import { RiBillLine } from "react-icons/ri";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { GrAdd, GrMultiple } from "react-icons/gr";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { TableContainer } from "../TableContainer";
+import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 
 export const TablesContainer = () => {
   const {
@@ -23,37 +30,76 @@ export const TablesContainer = () => {
     settingsModalDeleteBill,
     loadBillDelete,
     handleDeleteBill,
-    handleSwitchPriceProducts,
     isStay,
     handleChangeSwitch,
     totalAmounts,
     handleTotalAmounts,
-    handleChecked,
     productList,
   } = useTablesPage();
+  const { handleSwitchPriceProducts, changeSell } = useFunctionsGeneral();
   return (
-    <Grid>
-      <InputGeneral
-        autoFocus={true}
-        onSubmit={handleSaveTable}
-        initialValues={initialValuesTable}
-        placeholder={"Agregar una nueva mesa"}
-        icon={<GrAdd fontSize={25} />}
-        required={true}
+    <Grid gap={5} mt={5}>
+      <ButtonGeneral
+        onClick={handleSwitchPriceProducts}
+        title={
+          !changeSell ? (
+            <GrMultiple fontSize={20} />
+          ) : (
+            <RiBillLine fontSize={20} />
+          )
+        }
       />
-      <TableList
-        handleChecked={handleChecked}
-        totalProductsByBill={totalProductsByBill}
-        handleOpenModalDeleteBill={handleOpenModalDeleteBill}
-        handleOpenModalDeleteTable={handleOpenModalDeleteTable}
-        data={tables?.Tables}
-        switchChange={handleSwitchPriceProducts}
-        check={isStay}
-        handleChangeSwitch={handleChangeSwitch}
-        totalAmounts={totalAmounts}
-        handleTotalAmounts={handleTotalAmounts}
-        productList={productList}
-      />
+      {changeSell && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <InputGeneral
+            autoFocus={true}
+            onSubmit={handleSaveTable}
+            initialValues={initialValuesTable}
+            placeholder={"Agregar una nueva mesa"}
+            icon={<GrAdd fontSize={25} />}
+            required={true}
+          />
+        </motion.div>
+      )}
+
+      {changeSell ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <TableList
+            totalProductsByBill={totalProductsByBill}
+            handleOpenModalDeleteBill={handleOpenModalDeleteBill}
+            handleOpenModalDeleteTable={handleOpenModalDeleteTable}
+            data={tables?.Tables}
+            check={isStay}
+            handleChangeSwitch={handleChangeSwitch}
+            totalAmounts={totalAmounts}
+            handleTotalAmounts={handleTotalAmounts}
+            productList={productList}
+          />
+        </motion.div>
+      ) : (
+        <Grid style={{ textAlign: 'center' }}>
+          <Heading>Ventas Rapidas</Heading>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <TableContainer />
+          </motion.div>
+        </Grid>
+      )}
+
       <ModalGeneral
         title={"Eliminar Mesa"}
         body={

@@ -3,10 +3,14 @@ import { ProductsContainer } from "@/containers/ProductsContainer";
 import { TablesContainer } from "@/containers/TablesContainer";
 import { LoginContext } from "@/context/login";
 import { Box, Img } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 function Mesas() {
   const localSession = useContext(LoginContext);
+  
+  useEffect(() => {
+    localStorage.setItem("changeSell",false)
+  }, []);
   return (
     <>
       {localSession?.localSession ? (

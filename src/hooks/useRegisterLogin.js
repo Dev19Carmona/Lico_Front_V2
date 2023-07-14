@@ -145,5 +145,6 @@ export const useRegisterLogin = () => {
     loadRegister,
     alertLogInTrue,
     alertLogInFalse,
+    loadLogin,
   };
 };

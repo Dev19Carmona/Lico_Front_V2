@@ -10,6 +10,7 @@ import { useProductList } from "./functions/useProductList";
 export const useTablesPage = () => {
   //ProductList hook
   const { productListSwitch, setProductListSwitch, productList} = useProductList()
+  
 
   //Modal Settings
   const OverlayTwo = () => (
@@ -21,6 +22,7 @@ export const useTablesPage = () => {
     />
   );
   const [overlay, setOverlay] = useState(<OverlayTwo />);
+  const [changeSell, setChangeSell] = useState(false)
 
   const settingsModalDeleteTable = useDisclosure();
   const settingsModalDeleteBill = useDisclosure();
@@ -48,7 +50,7 @@ export const useTablesPage = () => {
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
   const [isStay, setIsStay] = useState(false);
   const [totalAmounts, setTotalAmounts] = useState([]);
-  // const [chekSwitch, setChekSwitch] = useState([]);
+ 
 
   const [alertSwitch, setAlertSwitch] = useState(false);
   //Queries
@@ -111,7 +113,7 @@ export const useTablesPage = () => {
     });
   }, [tables]);
   //FUNCTIONS
-  const { chekSwitch } = useFunctionsGeneral(alertSwitch);
+
 
   useEffect(() => {
     if (isBillDelete?.Bill_delete) {
@@ -196,46 +198,8 @@ export const useTablesPage = () => {
       settingsModalDeleteBill.onClose()
     }
   };
-  const handleSwitchPriceProducts = (e, element) => {
-    if (localStorage.getItem("tableSwitch")) {
-      const tableSwitchs = JSON.parse(localStorage.getItem("tableSwitch"));
-      const switchFound = tableSwitchs.find(
-        (tableSwitch) => tableSwitch._id === element._id
-      );
-      const switchFoundIndex = tableSwitchs.findIndex(
-        (tableSwitch) => tableSwitch._id === element._id
-      );
-      if (switchFound) {
-        tableSwitchs[switchFoundIndex] = {
-          _id: switchFound._id,
-          checked: e.target.checked,
-        };
-      } else {
-        tableSwitchs.push({
-          _id: element._id,
-          checked: e.target.checked,
-        });
-      }
-
-      setAlertSwitch(!alertSwitch);
-      localStorage.setItem("tableSwitch", JSON.stringify(tableSwitchs));
-    } else {
-      let newTableSwitchs = [];
-      newTableSwitchs.push({
-        _id: element._id,
-        checked: e.target.checked,
-      });
-      setAlertSwitch(!alertSwitch);
-      localStorage.setItem("tableSwitch", JSON.stringify(newTableSwitchs));
-    }
-    // tableSave({
-    //   variables:{
-    //     tableData:{
-    //       _id:element._id,
-    //       isStay:e.target.checked
-    //     }
-    //   }
-    // })
+  const handleSwitchPriceProducts = () => {
+   setChangeSell(!changeSell)
   };
   const handleTotalAmounts = (_id) => {
     const totalAmount = totalAmounts.find((amount) => amount.tableId === _id);
@@ -243,10 +207,6 @@ export const useTablesPage = () => {
     return totalAmount?.totalAmount;
   };
 
-  const handleChecked = (_id) => {
-    const checkFound = chekSwitch.find((check) => check._id === _id);
-    return checkFound?.checked;
-  };
 
   //Functions
   const totalProductsByBill = (products) =>
@@ -276,8 +236,7 @@ export const useTablesPage = () => {
     isStay,
     totalAmounts,
     handleTotalAmounts,
-    chekSwitch,
-    handleChecked,
     productList,
+    changeSell
   };
 };

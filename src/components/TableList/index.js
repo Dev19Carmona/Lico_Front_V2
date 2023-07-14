@@ -8,10 +8,7 @@ export const TableList = ({
   data,
   handleOpenModalDeleteTable = () => {},
   handleOpenModalDeleteBill = () => {},
-  switchChange,
   handleTotalAmounts,
-  handleChecked,
-  productList
 }) => {
   
   return (
@@ -20,18 +17,9 @@ export const TableList = ({
         <CardGeneralBorder
           key={i}
           data={{
-            firstPlace: handleChecked(element._id) ? "Establecimiento" : "Llevar",
+            firstPlace: parseInt(handleTotalAmounts(element._id)) > 0 ? "Ocupado": "Libre",
             secondPlace: element.name,
-            thirdPlace:
-              handleTotalAmounts(element._id) > 0 ? undefined : (
-                <Switch
-                  id="prices"
-                  isChecked={handleChecked(element._id)}
-                  onChange={(e) => {
-                    switchChange(e, element);
-                  }}
-                />
-              ),
+            thirdPlace:"",
             fourthPlace:
               handleTotalAmounts(element._id) > 0
                 ? `${handleTotalAmounts(element._id)} Productos`

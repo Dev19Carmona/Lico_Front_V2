@@ -3,11 +3,14 @@ import { TableContainer } from '@/containers/TableContainer'
 import { LoginContext } from '@/context/login';
 import { Box, Img } from '@chakra-ui/react';
 import { useRouter } from 'next/router'
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 
 function Mesa() {
   const localSession = useContext(LoginContext);
   const router = useRouter()
+  useEffect(() => {
+    localStorage.setItem("changeSell",true)
+  }, []);
   return (
     <>
       {localSession?.localSession ? (

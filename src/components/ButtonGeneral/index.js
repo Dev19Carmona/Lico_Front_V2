@@ -1,12 +1,18 @@
 import { Button, ButtonProps, Flex } from "@chakra-ui/react";
-export const ButtonGeneral = ({ title, onClick = () => {}, colorA="blue.400", colorB="blue.500", type='button' }) => {
+export const ButtonGeneral = ({
+  title,
+  onClick = () => {},
+  colorA = "blue.400",
+  colorB = "blue.500",
+  type = "button",
+}) => {
   return (
     <>
       <Flex justifyContent="center" alignItems="center">
         <Button
           letterSpacing={1}
           type={type}
-          rounded={'full'}
+          rounded={"full"}
           onClick={onClick}
           px={4}
           fontSize={"sm"}
@@ -21,6 +27,7 @@ export const ButtonGeneral = ({ title, onClick = () => {}, colorA="blue.400", co
           _focus={{
             bg: colorB,
           }}
+          className="botton-general"
         >
           {title}
         </Button>

@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 
-export const useFunctionsGeneral = (alertSwitch) => {
-  const [chekSwitch, setChekSwitch] = useState([]);
+export const useFunctionsGeneral = () => {
+  const [changeSell, setChangeSell] = useState(false)
+  const [chekSwitch, setChekSwitch] = useState(false);
+ 
+  const handleSwitchPriceProducts = () => {
+    setChangeSell(!changeSell)
+   };
+  
+  
   useEffect(() => {
-    if (localStorage.getItem("tableSwitch")) {
-      const tableSwitchs = JSON.parse(localStorage.getItem("tableSwitch"));
-      setChekSwitch(tableSwitchs);
+    if (localStorage.getItem("changeSell")) {
+      const changeSellStorage = JSON.parse(localStorage.getItem("changeSell"));
+      setChekSwitch(changeSellStorage);
+    }else{
+      undefined
     }
-  }, [alertSwitch]);
+  }, [changeSell]);
 
   const handleDateToday = () => {
     let date = new Date();
@@ -33,9 +42,17 @@ export const useFunctionsGeneral = (alertSwitch) => {
       return parseFloat((multiplo + 100).toFixed(2));
     }
   };
+  const convertPriceWithPercent = (percent,price) => {
+    const total = (price * percent)/100 + price
+    return total
+  }
+
   return {
     chekSwitch,
     handleDateToday,
-    redondeo
+    redondeo,
+    convertPriceWithPercent,
+    handleSwitchPriceProducts,
+    changeSell
   };
 };

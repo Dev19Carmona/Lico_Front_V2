@@ -7,6 +7,7 @@ import {
   Grid,
   Heading,
   Input,
+  Spinner,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -16,7 +17,13 @@ import { useRegisterLogin } from "@/hooks/useRegisterLogin";
 import { AlertGeneral } from "../AlertGeneral";
 
 export const LoginForm = () => {
-  const { initialValLogin, handleUserLogin, alertLogInTrue, alertLogInFalse, } = useRegisterLogin();
+  const {
+    initialValLogin,
+    handleUserLogin,
+    alertLogInTrue,
+    alertLogInFalse,
+    loadLogin,
+  } = useRegisterLogin();
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Formik onSubmit={handleUserLogin} initialValues={initialValLogin}>
@@ -43,7 +50,19 @@ export const LoginForm = () => {
                 />
               </FormControl>
               <ButtonGeneral
-                title={"Enter"}
+                title={
+                  loadLogin ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="black"
+                      size="md"
+                    />
+                  ) : (
+                    "Enter"
+                  )
+                }
                 colorA={"green.400"}
                 colorB={"green.500"}
                 type={"submit"}
@@ -52,23 +71,22 @@ export const LoginForm = () => {
           </Form>
         )}
       </Formik>
-      {
-                alertLogInTrue && (
-                  <AlertGeneral 
-                  status={'success'}
-                  title={'Inicio de session correcto'}
-                  description={'Ya puedes darle click al boton LogIn para iniciar session. Nos vemos!'}
-                  />
-                )
-              }
-              {
-                alertLogInFalse && (
-                  <AlertGeneral status={'error'}
-                  title={'Ocurrio un error'}
-                  description={'Vuelve a ingresar los datos correctamente.'}
-                  />
-                )
-              }
+      {alertLogInTrue && (
+        <AlertGeneral
+          status={"success"}
+          title={"Inicio de session correcto"}
+          description={
+            "Ya puedes darle click al boton LogIn para iniciar session. Nos vemos!"
+          }
+        />
+      )}
+      {alertLogInFalse && (
+        <AlertGeneral
+          status={"error"}
+          title={"Ocurrio un error"}
+          description={"Vuelve a ingresar los datos correctamente."}
+        />
+      )}
     </Box>
   );
 };

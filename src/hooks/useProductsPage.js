@@ -13,7 +13,7 @@ import {
   providersTotal,
 } from "@/graphql/Provider";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Grid, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import { Flex, Grid, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdCreateNewFolder } from "react-icons/md";
 import { LIMIT } from "../../config/Constants";
@@ -33,6 +33,9 @@ import {
   productsTotal,
 } from "@/graphql/Product";
 import { ProductList } from "@/components/ProductList";
+import { ButtonGeneral } from "@/components/ButtonGeneral";
+import { AiOutlineUnorderedList } from "react-icons/ai";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 export const useProductsPage = () => {
   //State
   const [pageProviders, setPageProviders] = useState(1);
@@ -73,6 +76,7 @@ export const useProductsPage = () => {
   const [searchProduct, setSearchProduct] = useState("");
   const [selectCategory, setSelectCategory] = useState("");
   const [imageProduct, setImageProduct] = useState();
+  const [changeView, setChangeView] = useState(false)
   //InitialValues
   const initialValProviderRegister = {
     _id: providerData._id,
@@ -801,12 +805,24 @@ export const useProductsPage = () => {
         initialValues={initialValSearch}
         onSubmit={handleSearchProduct}
       />
-      <PaginatorGeneral
+      <Grid
+      templateColumns="1fr auto"  // Divide el espacio en dos columnas, la primera ocupa el ancho restante y la segunda se ajusta al contenido.
+      justifyItems="center" 
+      >
+        <PaginatorGeneral
         pagesTotal={pagesTotalProducts}
         page={pageProducts}
         setPage={setPageProducts}
       />
+        <Flex justifySelf="end"> 
+        <ButtonGeneral onClick={()=>{setChangeView(!changeView)}} title={changeView?<AiOutlineUnorderedList fontSize={25}/>:<BsFillGrid3X3GapFill fontSize={25}/>}/>
+      </Flex>
+      
+
+      </Grid>
+      
       <ProductList
+      changeView={changeView}
         handleOpenModalUpdate={handleOpenModalUpdateProduct}
         handleOpenModalDelete={handleOpenModalDeleteProduct}
         products={products}
