@@ -65,7 +65,13 @@ export const useTablePage = (tableId) => {
   });
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] =
-    useMutation(Bill_save);
+    useMutation(Bill_save,{
+      refetchQueries:[
+        {
+          query: Products
+        }
+      ]
+    });
   //Effects
   useEffect(() => {
     if (isBillSave?.Bill_save) {
@@ -115,8 +121,8 @@ export const useTablePage = (tableId) => {
   };
   const { handleDateToday } = useFunctionsGeneral();
   const handleDeleteProductList = () => {
-    if (localStorage.getItem(tableId)) {
-      localStorage.removeItem(tableId);
+    if (localStorage.getItem(tableId?tableId:"fastSell")) {
+      localStorage.removeItem(tableId?tableId:"fastSell");
     }
   };
   //Handles Mutations
@@ -126,8 +132,6 @@ export const useTablePage = (tableId) => {
       delete product.remaining;
       return product;
     });
-    
-
     billSave({
       variables: {
         billData: {
@@ -152,7 +156,7 @@ export const useTablePage = (tableId) => {
       (product) => product._id === productData._id
     );
     productList.splice(productFoundIndex, 1);
-    localStorage.setItem(tableId, JSON.stringify(productList));
+    localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
     settingsModalDeleteProduct.onClose();
   };
   //TableProductsSettings
@@ -195,6 +199,7 @@ export const useTablePage = (tableId) => {
             name: product.name,
             price: product.price,
             image: product.image,
+            remaining: product.remaining,
             amount: 1,
           }}
           data={{

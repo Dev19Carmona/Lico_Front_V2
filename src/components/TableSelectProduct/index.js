@@ -43,6 +43,9 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
         <Tbody>
           {data?.map((element, i) => (
             <Tr
+            borderRadius={9}
+            bg={element.amount > 0 ?"white":"red"}
+            color={element.amount > 0 ?"black":"white"}
               cursor={"pointer"}
               key={i}
               onClick={() => {

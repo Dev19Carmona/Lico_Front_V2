@@ -17,6 +17,7 @@ import { FiDelete } from "react-icons/fi";
 
 export const ProductTable = ({ index, data, onDelete, onUpdate }) => {
   const { convertPriceWithPercent } = useFunctionsGeneral();
+  
   return (
     <TableContainer border={"1px solid black"} borderRadius={9}>
       <Table variant="simple">
@@ -36,18 +37,18 @@ export const ProductTable = ({ index, data, onDelete, onUpdate }) => {
                 {Math.floor(element.amount).toLocaleString()}
               </Td>
               <Td style={{ textAlign: "center" }}>{element.name}</Td>
-              <Td style={{ textAlign: "center" }}>{element.category.name}</Td>
+              <Td style={{ textAlign: "center" }}>{element.category?.name}</Td>
               <Td style={{ textAlign: "center" }}>
                 {Math.floor(element.price).toLocaleString()}
               </Td>
               <Td style={{ textAlign: "center" }}>
                 {Math.floor(
-                  convertPriceWithPercent(element.price, element.isLeave)
+                  convertPriceWithPercent(element.isLeave, element.price)
                 ).toLocaleString()}
               </Td>
               <Td style={{ textAlign: "center" }}>
                 {Math.floor(
-                  convertPriceWithPercent(element.price, element.isStay)
+                  convertPriceWithPercent(element.isStay, element.price)
                 ).toLocaleString()}
               </Td>
               <Td>

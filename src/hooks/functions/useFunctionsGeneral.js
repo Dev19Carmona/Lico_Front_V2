@@ -44,7 +44,7 @@ export const useFunctionsGeneral = () => {
   };
   const convertPriceWithPercent = (percent,price) => {
     const total = (price * percent)/100 + price
-    return total
+    return redondeo(total)
   }
 
   return {

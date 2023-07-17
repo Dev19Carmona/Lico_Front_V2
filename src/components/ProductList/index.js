@@ -15,10 +15,10 @@ export const ProductList = ({
     let precios = [];
     precios.push({
       compra: Math.round(product.price).toLocaleString(),
-      llevar: redondeo(product.price * (product.isLeave / 100) + product.price),
+      llevar: redondeo(product.price * (product.isLeave / 100) + product.price).toLocaleString(),
       establecimiento: redondeo(
         product.price * (product.isStay / 100) + product.price
-      ),
+      ).toLocaleString(),
     });
     return precios;
   };
