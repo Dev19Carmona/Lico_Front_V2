@@ -53,6 +53,7 @@ export const ProductsContainer = () => {
     settingsModalDeleteProduct,
     loadProductDelete,
     handleDeleteProduct,
+    providers,
   } = useProductsPage();
 
   return (
@@ -242,6 +243,7 @@ export const ProductsContainer = () => {
             categories={categories}
             subCategories={subCategories}
             selectCategory={selectCategory}
+            providers={providers}
             handleSaveImageProduct={handleSaveImageProduct}
           />
         }
@@ -263,6 +265,7 @@ export const ProductsContainer = () => {
             alertSaveTrue={alertSaveTrue}
             categories={categories}
             subCategories={subCategories}
+            providers={providers}
             selectCategory={selectCategory}
             handleSaveImageProduct={handleSaveImageProduct}
           />

@@ -23,6 +23,7 @@ export const ProductForm = ({
   loadRegister,
   categories,
   subCategories,
+  providers,
   initialValues,
   handleSelect,
   selectCategory,
@@ -32,6 +33,7 @@ export const ProductForm = ({
   alertSaveTrue,
   onSubmit = () => {},
 }) => {
+  //console.log(initialValues.category.name);
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Formik onSubmit={onSubmit} initialValues={initialValues}>
@@ -93,13 +95,37 @@ export const ProductForm = ({
                   />
                 </FormControl>
               </Grid>
+              {/* <SelectFormik 
+              label={"Selecciona el proveedor"}
+              data={providers?.providers}
+              name={"providerId"}
+              labelField={"name"}
+              valueField={"_id"}
+
+              /> */}
+              <FormControl id="providerId">
+                <FormLabel>Proveedores</FormLabel>
+                <Field
+                  name="providerId"
+                  as={Select}
+                  type="text"
+                  placeholder="----"
+                >
+                  {providers?.providers.map((provider, i) => (
+                    <option key={i} value={provider._id}>
+                      {provider.name}
+                    </option>
+                  ))}
+                </Field>
+              </FormControl>
               <FormControl id="categoryId">
                 <FormLabel>Categorias</FormLabel>
-                <SelectField
+                <Field
+                  value={initialValues?.category?.name}
                   as={Select}
                   name="categoryId"
                   type="text"
-                  placeholder="----"
+                  placeholder="-----"
                   onChange={(e) => {
                     handleSelect(e);
                   }}
@@ -109,45 +135,27 @@ export const ProductForm = ({
                       {category.name}
                     </option>
                   ))}
-                </SelectField>
+                </Field>
                 <ErrorMessage name="categoryId" component={FormErrorMessage} />
               </FormControl>
-              {/* <FormLabel>Categorias</FormLabel>
-              <FormField
-                name="categoryId"
-                type="select"
-                labelField="name"
-                valueField="_id"
-                data={categories?.Categories}
-                onInputChange={(e) => {
-                  handleSelect(e);
-                }}
-              /> */}
               {selectCategory !== "" && (
                 <>
                   <FormControl id="subCategoryId">
-                <FormLabel>Sub Categorias</FormLabel>
-                <Field
-                  name="subCategoryId"
-                  as={Select}
-                  type="text"
-                  placeholder="----"
-                >
-                  {subCategories?.SubCategories.map((subCategory, i) => (
-                    <option key={i} value={subCategory._id}>
-                      {subCategory.name}
-                    </option>
-                  ))}
-                </Field>
-              </FormControl>
-                  {/* <FormLabel>Sub Categorias</FormLabel>
-                  <FormField
-                    name="subCategoryId"
-                    type="select"
-                    labelField="name"
-                    valueField="_id"
-                    data={subCategories?.SubCategories}
-                  /> */}
+                    <FormLabel>Sub Categorias</FormLabel>
+                    <Field
+                      value={initialValues?.subCategory?.name}
+                      name="subCategoryId"
+                      as={Select}
+                      type="text"
+                      placeholder="-----"
+                    >
+                      {subCategories?.SubCategories.map((subCategory, i) => (
+                        <option key={i} value={subCategory._id}>
+                          {subCategory.name}
+                        </option>
+                      ))}
+                    </Field>
+                  </FormControl>
                 </>
               )}
               <Flex className="product-container" mt={5}>

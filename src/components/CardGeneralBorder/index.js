@@ -22,9 +22,9 @@ export const CardGeneralBorder = ({
   imageSize = "50px",
   imageType = "none",
   href = "",
-  firstIcon = <FaEdit fontSize={20}/>
+  firstIcon = <FaEdit fontSize={20} />,
+  disguiseBack = false,
 }) => {
-  
   const { firstPlace, secondPlace, thirdPlace, fourthPlace } = data;
 
   return (
@@ -33,7 +33,6 @@ export const CardGeneralBorder = ({
         w="100%" // Ajusta el ancho del contenedor principal según tus necesidades
         h="100%" // Ajusta la altura del contenedor principal según tus necesidades
         rounded={"sm"}
-        
         my={5}
         mx={[0, 5]}
         overflow={"hidden"}
@@ -42,80 +41,85 @@ export const CardGeneralBorder = ({
         borderColor="black"
         boxShadow={useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan")}
       >
-        
         <Link href={href}>
-        <Box cursor={"pointer"} h={imageSize} borderBottom={"1px"} borderColor="black">
-          <Img
-            src={src}
-            fill={true}
-            style={{ objectFit: imageType }}
-            roundedTop={"sm"}
-            h="full"
-            w="full"
-            alt={"Blog Image"}
-          />
-        </Box>
+          <Box
+            cursor={"pointer"}
+            h={imageSize}
+            borderBottom={"1px"}
+            borderColor="black"
+          >
+            <Img
+              src={src}
+              fill={true}
+              style={{ objectFit: imageType }}
+              roundedTop={"sm"}
+              h="full"
+              w="full"
+              alt={"Blog Image"}
+            />
+          </Box>
         </Link>
         <Box p={4}>
-            <Box
-              bg="black"
-              display={"inline-block"}
-              px={2}
-              py={1}
-              color="white"
-              mb={2}
-            >
-              <Text letterSpacing={2} fontSize={"xl"} fontWeight="medium">
-                {firstPlace}
-              </Text>
-            </Box>
-            <Heading
-              letterSpacing={1}
-              color={"black"}
-              fontSize={"2xl"}
-              noOfLines={1}
-            >
-              {secondPlace}
-            </Heading>
-            <Text mt={3} color={"black.500"} noOfLines={2}>
-              {thirdPlace}
+          <Box
+            bg="black"
+            display={"inline-block"}
+            px={2}
+            py={1}
+            color="white"
+            mb={2}
+          >
+            <Text letterSpacing={2} fontSize={"xl"} fontWeight="medium">
+              {firstPlace}
             </Text>
           </Box>
-
-        <HStack borderTop={"1px"} color="black">
-          <Flex
-            onClick={onClick}
-            p={4}
-            alignItems="center"
-            justifyContent={"space-between"}
-            roundedBottom={"sm"}
-            cursor={"pointer"}
-            w="full"
+          <Heading
+            letterSpacing={1}
+            color={"black"}
+            fontSize={"2xl"}
+            noOfLines={1}
           >
-            <Grid fontSize={"md"} fontWeight={"semibold"}>
-              {fourthPlace}
-            </Grid>
-
-            {firstIcon}
-          </Flex>
-
-          <Flex
-            p={4}
-            alignItems="center"
-            justifyContent={"space-between"}
-            roundedBottom={"sm"}
-            borderLeft={"1px"}
-            cursor="pointer"
-          >
-            <Box
-              onClick={() => {
-                onDelete();
-              }}
+            {secondPlace}
+          </Heading>
+          <Text mt={3} color={"black.500"} noOfLines={2}>
+            {thirdPlace}
+          </Text>
+        </Box>
+        {!disguiseBack && (
+          <HStack borderTop={"1px"} color="black">
+            <Flex
+              onClick={onClick}
+              p={4}
+              alignItems="center"
+              justifyContent={"space-between"}
+              roundedBottom={"sm"}
+              cursor={"pointer"}
+              w="full"
             >
-              <FiDelete fontSize={"24px"} />
-            </Box>
-          </Flex>
-        </HStack>
+              <Grid fontSize={"md"} fontWeight={"semibold"}>
+                {fourthPlace}
+              </Grid>
+
+              {firstIcon}
+            </Flex>
+
+            <Flex
+              p={4}
+              alignItems="center"
+              justifyContent={"space-between"}
+              roundedBottom={"sm"}
+              borderLeft={"1px"}
+              cursor="pointer"
+            >
+              <Box
+                onClick={() => {
+                  onDelete();
+                }}
+              >
+                <FiDelete fontSize={"24px"} />
+              </Box>
+            </Flex>
+          </HStack>
+        )}
       </Box>
     </Center>
   );

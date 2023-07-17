@@ -5,7 +5,7 @@ import { ModalGeneral } from "@/components/ModalGeneral";
 import { TableList } from "@/components/TableList";
 import { useTablesPage } from "@/hooks/useTablesPage";
 import { Grid, Heading, Text } from "@chakra-ui/react";
-import { RiBillLine } from "react-icons/ri";
+import { RiBillLine, RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { GrAdd, GrMultiple } from "react-icons/gr";
 import { useState } from "react";
@@ -43,7 +43,7 @@ export const TablesContainer = () => {
         onClick={handleSwitchPriceProducts}
         title={
           !changeSell ? (
-            <GrMultiple fontSize={20} />
+            <RiCheckboxMultipleBlankLine fontSize={20} />
           ) : (
             <RiBillLine fontSize={20} />
           )

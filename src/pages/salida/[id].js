@@ -1,17 +1,18 @@
-import { LoginForm } from "@/components/LoginForm";
-import { ExpensesContainer } from "@/containers/ExpensesContainer";
-import { ProductsContainer } from "@/containers/ProductsContainer";
-import { LoginContext } from "@/context/login";
-import { Box, Img } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { ExpenseContainer } from '@/containers/ExpenseContainer'
+import { LoginContext } from '@/context/login';
+import { Box, Img } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import React,{useContext} from 'react'
 
-function Salidas() {
+function Salida() {
   const localSession = useContext(LoginContext);
+  const router = useRouter()
   return (
+    
     <>
       {localSession?.localSession ? (
         <Box ml={250} minH={"100vh"}>
-          <ExpensesContainer/>
+          <ExpenseContainer providerId={router.query.id}/>
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>
@@ -28,7 +29,7 @@ function Salidas() {
         </Box>
       )}
     </>
-  );
+  )
 }
 
-export default Salidas;
+export default Salida

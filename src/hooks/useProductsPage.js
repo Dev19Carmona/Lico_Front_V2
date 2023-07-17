@@ -69,6 +69,7 @@ export const useProductsPage = () => {
     isStay: 0,
     categoryId: "",
     subCategoryId: "",
+    providerId: "",
   });
   const [searchProvider, setSearchProvider] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
@@ -675,6 +676,7 @@ export const useProductsPage = () => {
             price: values.price === "" ? 0 : values.price,
             categoryId: selectCategory,
             subCategoryId: values.subCategoryId,
+            providerId: values.providerId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
             image: imageProduct,
@@ -690,6 +692,7 @@ export const useProductsPage = () => {
             price: values.price === "" ? 0 : values.price,
             categoryId: selectCategory,
             subCategoryId: values.subCategoryId,
+            providerId: values.providerId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
             image: imageProduct,
@@ -933,5 +936,6 @@ export const useProductsPage = () => {
     imageProduct,
     loadProductDelete,
     handleDeleteProduct,
+    providers,
   };
 };

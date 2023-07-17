@@ -16,7 +16,7 @@ import {
   useColorMode,
   Center,
 } from "@chakra-ui/react";
-import { BsSun, BsFillMoonFill } from "react-icons/bs";
+import { BsSun, BsFillMoonFill, BsCart4 } from "react-icons/bs";
 import { AvatarEmotion } from "@/components/AvatarEmotion";
 import { useNavBar } from "@/hooks/useNavBar";
 import { ButtonGeneral } from "@/components/ButtonGeneral";
@@ -24,7 +24,6 @@ import { DrawerGeneral } from "@/components/DrawerGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm";
 import { FiHome } from "react-icons/fi";
-import { TbBrandAirtable } from "react-icons/tb";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { GiExitDoor } from "react-icons/gi";
 import { MdLiquor } from "react-icons/md";
@@ -37,7 +36,7 @@ export const NavBarLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
     { name: "Inicio", icon: FiHome },
-    { name: "Mesas", icon: TbBrandAirtable },
+    { name: "Ventas", icon: BsCart4 },
     { name: "Salidas", icon: GiExitDoor },
     { name: "Facturas", icon: FaFileInvoiceDollar },
     { name: "Productos", icon: MdLiquor },

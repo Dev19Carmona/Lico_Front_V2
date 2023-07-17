@@ -5,7 +5,7 @@ import { LoginContext } from "@/context/login";
 import { Box, Img } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 
-function Mesas() {
+function Ventas() {
   const localSession = useContext(LoginContext);
   
   useEffect(() => {
@@ -35,4 +35,4 @@ function Mesas() {
   );
 }
 
-export default Mesas;
+export default Ventas;

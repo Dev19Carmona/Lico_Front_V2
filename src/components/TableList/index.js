@@ -31,7 +31,6 @@ export const TableList = ({
           onClick={() => {
             handleOpenModalDeleteBill(element._id);
           }}
-          //src={parseInt(handleTotalAmounts(element._id)) > 0 ? RED_BG_IMAGE : BLUE_BG_IMAGE}
           src={
             parseInt(handleTotalAmounts(element._id)) > 0
               ? RED_BG_IMAGE

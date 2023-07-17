@@ -5,9 +5,9 @@ import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 import { ProductTable } from "../ProductTable";
 export const ProductList = ({
   products,
-  handleOpenModalUpdate,
-  handleOpenModalDelete,
-  changeView,
+  handleOpenModalUpdate = () => {},
+  handleOpenModalDelete = () => {},
+  changeView = true,
 }) => {
   const { redondeo } = useFunctionsGeneral();
   const index = ["Compra", "Llevar", "Establecimiento"];
