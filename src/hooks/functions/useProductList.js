@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 
-export const useProductList = (tableId) => {
+export const useProductList = (id) => {
   const [productListSwitch, setProductListSwitch] = useState(false);
   const [productList, setProductList] = useState([]);
   const [productSearch, setProductSearch] = useState("");
+  const [productData, setProductData] = useState({});
+  
 
   useEffect(() => {
-    if (localStorage.getItem(tableId?tableId:"fastSell")) {
-      setProductList(JSON.parse(localStorage.getItem(tableId?tableId:"fastSell")));
+    if (localStorage.getItem(id?id:"fastSell")) {
+      setProductList(JSON.parse(localStorage.getItem(id?id:"fastSell")));
     }
-  }, [tableId, productListSwitch]);
+  }, [id, productListSwitch]);
 
   const handleProductSelect = (newProduct) => {
     
@@ -17,8 +19,8 @@ export const useProductList = (tableId) => {
       setProductSearch("");
       let productList = [];
 
-      if (localStorage.getItem(tableId||"fastSell")) {
-        productList = JSON.parse(localStorage.getItem(tableId?tableId:"fastSell"));
+      if (localStorage.getItem(id||"fastSell")) {
+        productList = JSON.parse(localStorage.getItem(id?id:"fastSell"));
         //console.log(productList);
         const productFound = productList.find(
           (product) => product._id === newProduct._id
@@ -45,19 +47,87 @@ export const useProductList = (tableId) => {
             productFound.remaining > productFound.amount &&
             newProduct.amount === 1
           ) {
-            localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
+            localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
           } else if (newProduct.amount === -1) {
-            localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
+            localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
           }
         } else {
-          localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
+          localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
         }
       } else {
         let newProductList = [];
         newProductList.push(newProduct);
-        localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(newProductList));
+        localStorage.setItem(id?id:"fastSell", JSON.stringify(newProductList));
       }
       setProductListSwitch(!productListSwitch);
+    }
+  };
+  const handleProductSelectExpenses = (newProduct) => {
+    setProductSearch("");
+      let productList = [];
+
+      if (localStorage.getItem(id||"fastSell")) {
+        productList = JSON.parse(localStorage.getItem(id?id:"fastSell"));
+        //console.log(productList);
+        const productFound = productList.find(
+          (product) => product._id === newProduct._id
+          );
+        //console.log(productFound);
+        
+        const productFoundIndex = productList.findIndex(
+          (product) => product._id === newProduct._id
+        );
+        if (productFound) {
+          productList[productFoundIndex] = {
+            _id: productFound._id,
+            name: productFound.name,
+            price: productFound.price,
+            amount: productFound.amount + newProduct.amount,
+            image: productFound.image,
+            remaining: productFound.remaining,
+          };
+        } else {
+          productList.push(newProduct);
+        }
+        if (productFound) {
+          if (
+            newProduct.amount === 1
+          ) {
+            localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
+          } else if (newProduct.amount === -1) {
+            localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
+          }
+        } else {
+          localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
+        }
+      } else {
+        let newProductList = [];
+        newProductList.push(newProduct);
+        localStorage.setItem(id?id:"fastSell", JSON.stringify(newProductList));
+      }
+      setProductListSwitch(!productListSwitch);
+    
+  };
+  const handleDeleteProductList = () => {
+    if (localStorage.getItem(id?id:"fastSell")) {
+      localStorage.removeItem(id?id:"fastSell");
+    }
+  };
+  const handleDeleteProduct = () => {
+    const productFoundIndex = productList.findIndex(
+      (product) => product._id === productData._id
+    );
+    productList.splice(productFoundIndex, 1);
+    localStorage.setItem(id?id:"fastSell", JSON.stringify(productList));
+    
+  };
+  const handleTotal = () => {
+    if (productList.length > 0) {
+      const totalArray = productList.map(
+        (product) => product.amount * product.price
+      );
+      const total = totalArray.reduce((ac, total) => (ac += total));
+      return total;
     }
   };
   return {
@@ -68,5 +138,11 @@ export const useProductList = (tableId) => {
     setProductListSwitch,
     productListSwitch,
     setProductList,
+    handleDeleteProductList,
+    productData, 
+    setProductData,
+    handleDeleteProduct,
+    handleTotal,
+    handleProductSelectExpenses
   };
 };

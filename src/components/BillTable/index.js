@@ -31,14 +31,19 @@ export const BillTable = ({
   date,
   productList,
   total,
-  setRadioPayment,
   handleBillSave,
   loadSaveBill,
   alertSaveTrue,
   alertSaveFalse,
+  companyData = {
+    name:"Company Name",
+    address: "Company Address",
+    email:"Company Email"
+  },
+  handlePaymentMethod,
 }) => {
   const localSession = useContext(LoginContext);
-  const { data: company } = useQuery(Companies);
+  
 
   return (
     <Box
@@ -54,10 +59,10 @@ export const BillTable = ({
       <Flex justify="space-between" align="center">
         <Box>
           <Heading as="h1" size="lg" mb={2}>
-            {company?.Companies[0]?.name}
+            {companyData.name}
           </Heading>
-          <Text color="gray.600">{`${company?.Companies[0]?.address}`}</Text>
-          <Text color="gray.600">{`${company?.Companies[0]?.email} `}</Text>
+          <Text color="gray.600">{`${companyData.address}`}</Text>
+          <Text color="gray.600">{`${companyData.email} `}</Text>
         </Box>
         <Box textAlign="right">
           <Heading as="h2" size="lg" mb={2}>
@@ -71,7 +76,7 @@ export const BillTable = ({
       <Divider my={6} bg="white" />
       <Box>
         <Flex justify="space-between" mb={4}>
-          <Text fontWeight="bold">Vendedor:</Text>
+          <Text fontWeight="bold">Usuario:</Text>
           <Text>{localSession?.localSession.fullName}</Text>
         </Flex>
 
@@ -130,7 +135,7 @@ export const BillTable = ({
                   key={i}
                   value={payment.name}
                   onChange={(e) => {
-                    setRadioPayment(e.target.value);
+                    handlePaymentMethod(e.target.value);
                   }}
                   id={payment.id}
                   colorScheme="red"

@@ -284,7 +284,10 @@ export const ProductsContainer = () => {
               "Si eliminas el producto puedes generar problemas en las facturas donde esta registrado."
             }
             load={loadProductDelete}
-            onSubmit={handleDeleteProduct}
+            onSubmit={()=>{
+              handleDeleteProduct()
+              
+            }}
             alertSaveFalse={alertSaveFalse}
             alertSaveTrue={alertSaveTrue}
           />

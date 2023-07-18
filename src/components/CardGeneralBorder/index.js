@@ -40,6 +40,7 @@ export const CardGeneralBorder = ({
         border={"1px"}
         borderColor="black"
         boxShadow={useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan")}
+        
       >
         <Link href={href}>
           <Box

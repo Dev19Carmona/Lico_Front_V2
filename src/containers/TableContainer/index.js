@@ -25,7 +25,10 @@ export const TableContainer = ({ tableId }) => {
               "Solo se eliminara de la factura que estas creando"
             }
             //load={loadProviderDelete}
-            onSubmit={handleDeleteProduct}
+            onSubmit={()=>{
+              handleDeleteProduct()
+              settingsModalDeleteProduct.onClose()
+            }}
             // alertSaveFalse={alertSaveFalse}
             // alertSaveTrue={alertSaveTrue}
           />

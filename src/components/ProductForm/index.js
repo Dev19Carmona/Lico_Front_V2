@@ -104,7 +104,7 @@ export const ProductForm = ({
 
               /> */}
               <FormControl id="providerId">
-                <FormLabel>Proveedores</FormLabel>
+                <FormLabel>Proveedor</FormLabel>
                 <Field
                   name="providerId"
                   as={Select}
@@ -119,11 +119,10 @@ export const ProductForm = ({
                 </Field>
               </FormControl>
               <FormControl id="categoryId">
-                <FormLabel>Categorias</FormLabel>
+                <FormLabel>Categoria</FormLabel>
                 <Field
-                  value={initialValues?.category?.name}
-                  as={Select}
                   name="categoryId"
+                  as={Select}
                   type="text"
                   placeholder="-----"
                   onChange={(e) => {
@@ -136,14 +135,13 @@ export const ProductForm = ({
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage name="categoryId" component={FormErrorMessage} />
+                {/* <ErrorMessage name="categoryId" component={FormErrorMessage} /> */}
               </FormControl>
               {selectCategory !== "" && (
                 <>
                   <FormControl id="subCategoryId">
                     <FormLabel>Sub Categorias</FormLabel>
                     <Field
-                      value={initialValues?.subCategory?.name}
                       name="subCategoryId"
                       as={Select}
                       type="text"

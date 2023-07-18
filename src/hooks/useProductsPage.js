@@ -532,6 +532,7 @@ export const useProductsPage = () => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
   const handleOpenModalCreateProduct = () => {
+    setSelectCategory("")
     setImageProduct();
     setProductData({
       _id: "",
@@ -606,8 +607,19 @@ export const useProductsPage = () => {
     settingsModalDeleteSubCategory.onOpen();
   };
   const handleOpenModalUpdateProduct = (data) => {
+    setSelectCategory(data.categoryId)
     setImageProduct();
-    setProductData(data);
+    setProductData({
+      _id: data._id,
+      name: data.name,
+      price: data.price,
+      amount: data.amount,
+      isLeave: data.isLeave,
+      isStay: data.isStay,
+      categoryId: data.categoryId,
+      subCategoryId: data.subCategoryId,
+      providerId: data.providerId,
+    });
     setOverlay(<OverlayTwo />);
     settingsModalUpdateProduct.onOpen();
   };
@@ -690,9 +702,9 @@ export const useProductsPage = () => {
             name: values.name,
             amount: values.amount === "" ? 0 : values.amount,
             price: values.price === "" ? 0 : values.price,
-            categoryId: selectCategory,
-            subCategoryId: values.subCategoryId,
-            providerId: values.providerId,
+            categoryId: values.category._id,
+            subCategoryId: values.subCategory._id,
+            providerId: values.providerId !==""&&values.providerId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
             image: imageProduct,

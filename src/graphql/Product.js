@@ -4,6 +4,14 @@ export const Products = gql`
     Products(filters: $filters, options: $options) {
       _id
       amount
+      provider {
+      _id
+      address
+      email
+      name
+      phone
+      salesManager
+    }
       category {
         _id
         name
@@ -15,6 +23,9 @@ export const Products = gql`
       iva
       name
       price
+      categoryId
+      providerId
+      subCategoryId
       soldCount
       isLeave
       isStay

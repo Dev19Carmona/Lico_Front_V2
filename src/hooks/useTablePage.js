@@ -4,7 +4,6 @@ import { InputSearchGeneral } from "@/components/InputSearchGeneral";
 import { TableSelectProduct } from "@/components/TableSelectProduct";
 import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
-import { Tables } from "@/graphql/Table";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   Flex,
@@ -16,20 +15,27 @@ import {
 import { useEffect, useState } from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { useProductList } from "./functions/useProductList";
-import { paymentMethods } from "../../config/Constants";
+import { Companies } from "@/graphql/Company";
+
 
 export const useTablePage = (tableId) => {
+  //context
+ //HookFunctions
+ const { chekSwitch, radioPayment, handlePaymentMethod } = useFunctionsGeneral();
   const {
     productList,
     handleProductSelect,
     productSearch,
     setProductSearch,
-    setProductListSwitch,
     setProductList,
+    handleDeleteProductList,
+    productData, 
+    setProductData,
+    handleDeleteProduct,
+    handleTotal,
   } = useProductList(tableId);
   //States
-  const [productData, setProductData] = useState({});
-  const [radioPayment, setRadioPayment] = useState("Efectivo");
+  
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
 
@@ -63,6 +69,7 @@ export const useTablePage = (tableId) => {
       },
     },
   });
+  const { data: company } = useQuery(Companies);
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] =
     useMutation(Bill_save,{
@@ -106,25 +113,12 @@ export const useTablePage = (tableId) => {
   };
 
   //Handles
-  //HookFunctions
-  const { chekSwitch, handleSwitchPriceProducts,changeSell } = useFunctionsGeneral();
+  
   //Functions
  
-  const handleTotal = () => {
-    if (productList.length > 0) {
-      const totalArray = productList.map(
-        (product) => product.amount * product.price
-      );
-      const total = totalArray.reduce((ac, total) => (ac += total));
-      return total;
-    }
-  };
+  
   const { handleDateToday } = useFunctionsGeneral();
-  const handleDeleteProductList = () => {
-    if (localStorage.getItem(tableId?tableId:"fastSell")) {
-      localStorage.removeItem(tableId?tableId:"fastSell");
-    }
-  };
+
   //Handles Mutations
   const handleBillSave = (total) => {
     const sellProductList = productList.map((product) => {
@@ -151,14 +145,14 @@ export const useTablePage = (tableId) => {
   const handleProductSearch = (e) => {
     setProductSearch(e.target.value);
   };
-  const handleDeleteProduct = () => {
-    const productFoundIndex = productList.findIndex(
-      (product) => product._id === productData._id
-    );
-    productList.splice(productFoundIndex, 1);
-    localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
-    settingsModalDeleteProduct.onClose();
-  };
+  // const handleDeleteProduct = () => {
+  //   const productFoundIndex = productList.findIndex(
+  //     (product) => product._id === productData._id
+  //   );
+  //   productList.splice(productFoundIndex, 1);
+  //   localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
+    
+  // };
   //TableProductsSettings
   const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
 
@@ -192,6 +186,7 @@ export const useTablePage = (tableId) => {
         <CardHorizontal
           onDelete={() => {
             handleOpenModalDeleteProduct(product);
+            
           }}
           onClick={handleProductSelect}
           parameter={{
@@ -231,10 +226,15 @@ export const useTablePage = (tableId) => {
       {
         productList.length > 0 &&
       <BillTable
+      companyData={{
+        name:company?.Companies[0].name,
+        address: company?.Companies[0].address,
+        email:company?.Companies[0].email
+      }}
+      handlePaymentMethod={handlePaymentMethod}
         total={handleTotal()}
         productList={productList}
         date={handleDateToday}
-        setRadioPayment={setRadioPayment}
         handleBillSave={handleBillSave}
         loadSaveBill={loadSaveBill}
         alertSaveTrue={alertSaveTrue}

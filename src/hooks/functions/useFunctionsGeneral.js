@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 export const useFunctionsGeneral = () => {
   const [changeSell, setChangeSell] = useState(false)
   const [chekSwitch, setChekSwitch] = useState(false);
+  const [radioPayment, setRadioPayment] = useState("Efectivo");
  
   const handleSwitchPriceProducts = () => {
     setChangeSell(!changeSell)
@@ -45,6 +46,9 @@ export const useFunctionsGeneral = () => {
   const convertPriceWithPercent = (percent,price) => {
     const total = (price * percent)/100 + price
     return redondeo(total)
+  };
+  const handlePaymentMethod = (method) => {
+    setRadioPayment(method)
   }
 
   return {
@@ -53,6 +57,8 @@ export const useFunctionsGeneral = () => {
     redondeo,
     convertPriceWithPercent,
     handleSwitchPriceProducts,
-    changeSell
+    changeSell,
+    radioPayment,
+    handlePaymentMethod
   };
 };
