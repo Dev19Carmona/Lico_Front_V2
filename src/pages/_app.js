@@ -22,7 +22,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 // const httpLink = createHttpLink({
 //   uri: "http://127.0.0.1:4000/graphql",
 // });
-
+//"https://mas-copas-lounge-backend.onrender.com/graphql"
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("session");
   return {

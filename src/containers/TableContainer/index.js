@@ -3,7 +3,6 @@ import { ModalGeneral } from "@/components/ModalGeneral";
 import { TabsGeneral } from "@/components/TabsGeneral";
 import { useTablePage } from "@/hooks/useTablePage";
 import { Grid } from "@chakra-ui/react";
-
 export const TableContainer = ({ tableId }) => {
   const {
     indexTabsTable,
@@ -12,9 +11,11 @@ export const TableContainer = ({ tableId }) => {
     overlay,
     handleDeleteProduct,
   } = useTablePage(tableId);
-
+  
+  
   return (
     <Grid gap={5} m={5}>
+      
       <TabsGeneral index={indexTabsTable} components={components} />
       <ModalGeneral
         title={""}

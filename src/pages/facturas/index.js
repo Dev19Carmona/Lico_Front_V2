@@ -1,4 +1,5 @@
 import { LoginForm } from "@/components/LoginForm";
+import { BillsContainer } from "@/containers/BillsContainer";
 import { ProductsContainer } from "@/containers/ProductsContainer";
 import { LoginContext } from "@/context/login";
 import { Box, Img } from "@chakra-ui/react";
@@ -10,7 +11,7 @@ function Facturas() {
     <>
       {localSession?.localSession ? (
         <Box ml={250} minH={"100vh"}>
-          Facturas
+          <BillsContainer/>
         </Box>
       ) : (
         <Box ml={250} minH={"100vh"}>

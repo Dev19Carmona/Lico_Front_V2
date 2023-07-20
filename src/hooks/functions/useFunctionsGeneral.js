@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 
 export const useFunctionsGeneral = () => {
-  const [changeSell, setChangeSell] = useState(false)
+  const [changeSell, setChangeSell] = useState(true)
   const [chekSwitch, setChekSwitch] = useState(false);
   const [radioPayment, setRadioPayment] = useState("Efectivo");
- 
+ console.log(changeSell);
   const handleSwitchPriceProducts = () => {
     setChangeSell(!changeSell)
    };
-  
+  const handleSwitchPriceProductsTables = () =>{
+    setChangeSell(true)
+
+  }
   
   useEffect(() => {
     if (localStorage.getItem("changeSell")) {
@@ -59,6 +62,7 @@ export const useFunctionsGeneral = () => {
     handleSwitchPriceProducts,
     changeSell,
     radioPayment,
-    handlePaymentMethod
+    handlePaymentMethod,
+    handleSwitchPriceProductsTables
   };
 };

@@ -18,7 +18,7 @@ export const CardGeneralBorder = ({
   data = {},
   onClick = () => {},
   onDelete = () => {},
-  src = "https://previews.123rf.com/images/5phonrf/5phonrf2108/5phonrf210800384/173589377-bebidas-alcoh%C3%B3licas-fuertes-licores-fuertes-licores-y-destilados-que-se-colocan-en-copas-co%C3%B1ac.jpg",
+  src = "https://media.istockphoto.com/id/1294603953/es/vector/parte-diagonal-de-las-rayas-negras-abstractas.jpg?s=612x612&w=0&k=20&c=X03bsGgJqAhik-P5OOreFc4eNIrDHUF2sswozJQ97qE=",
   imageSize = "50px",
   imageType = "none",
   href = "",

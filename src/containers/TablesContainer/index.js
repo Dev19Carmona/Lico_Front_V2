@@ -4,7 +4,7 @@ import { InputGeneral } from "@/components/InputGeneral";
 import { ModalGeneral } from "@/components/ModalGeneral";
 import { TableList } from "@/components/TableList";
 import { useTablesPage } from "@/hooks/useTablesPage";
-import { Grid, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { RiBillLine, RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { GrAdd, GrMultiple } from "react-icons/gr";
@@ -39,7 +39,19 @@ export const TablesContainer = () => {
   const { handleSwitchPriceProducts, changeSell } = useFunctionsGeneral();
   return (
     <Grid gap={5} mt={5}>
+      <Box 
+      borderRadius={10}
+      boxShadow={"xl"}
+      justifyContent={"space-around"}
+      key={1}
+      p={4}
+      display="flex"
+      gridTemplateColumns="1fr"
+      >
+        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>{changeSell?"Crea varias ventas":"Realiza una venta"} </Box>
+      <GridItem justifySelf={"end"}>
       <ButtonGeneral
+        
         onClick={handleSwitchPriceProducts}
         title={
           !changeSell ? (
@@ -49,6 +61,9 @@ export const TablesContainer = () => {
           )
         }
       />
+      </GridItem>
+
+      </Box>
       {changeSell && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -88,7 +103,7 @@ export const TablesContainer = () => {
         </motion.div>
       ) : (
         <Grid style={{ textAlign: 'center' }}>
-          <Heading>Ventas Rapidas</Heading>
+          
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

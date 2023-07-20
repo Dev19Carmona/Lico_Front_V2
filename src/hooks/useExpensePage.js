@@ -19,10 +19,12 @@ import {
 import { useProductList } from "./functions/useProductList";
 import React,{useEffect, useState} from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
+import { useExpensesFunctions } from "./functions/useExpensesFunctions";
 import { BillTable } from "@/components/BillTable";
 import { Bill_save } from "@/graphql/Bill";
 
 export const useExpensePage = (providerId) => {
+  
   //STATES
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
@@ -39,6 +41,7 @@ export const useExpensePage = (providerId) => {
   } = useProductList(providerId);
   const { handleDateToday, radioPayment, handlePaymentMethod } =
     useFunctionsGeneral();
+    const {} = useExpensesFunctions()
   //Queries
   const { data: productsByProvider } = useQuery(Products, {
     variables: {
@@ -47,6 +50,7 @@ export const useExpensePage = (providerId) => {
       },
     },
   });
+  
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] =
     useMutation(Bill_save,{
@@ -138,10 +142,24 @@ export const useExpensePage = (providerId) => {
     settingsModalDeleteProduct.onOpen();
   };
   const components = [
-    <Grid key="products" gap={1}>
-      <Grid border={"0.1px solid"} borderRadius={9}>
-        <Heading m={"auto"}>Seleccion de productos</Heading>
+    <Grid key="products" gap={10}>
+      <Grid p={5} border={"0.1px solid"} borderRadius={9}>
+      <Box
+        borderRadius={10}
+        boxShadow={"xl"}
+        justifyContent={"center"}
+        key={1}
+        p={4}
+        display="flex"
+        gridTemplateColumns="1fr"
+      >
+        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+        Seleccionar productos
+        </Box>
+        
+      </Box>
         <SimpleGrid
+          
           columns={5}
           templateColumns={"1fr 1fr 1fr 1fr"}
           templateRows={"5fr"}
@@ -164,14 +182,14 @@ export const useExpensePage = (providerId) => {
                 data={{
                   image: product.image,
                   title: product.name,
-                  subTitle: `$${Math.floor(product.price).toLocaleString()}`,
-                }}
+                  subTitle: product.amount,
+                  bodyBold: `$${Math.floor(product.price).toLocaleString()}`}}
               />
             </GridItem>
           ))}
         </SimpleGrid>
       </Grid>
-      <Grid border={"0.1px solid"} borderRadius={9}>
+      <Grid p={5} border={"0.1px solid"} borderRadius={9}>
         {productList.map((product, i) => (
           <CardHorizontal
             onDelete={() => {
