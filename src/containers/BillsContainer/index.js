@@ -1,27 +1,41 @@
+import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { CardSelectionGeneral } from "@/components/CardSelectionGeneral";
 import { useBillsPage } from "@/hooks/useBillsPage";
 import { Box, Flex, Grid } from "@chakra-ui/react";
 import { BiReceipt } from "react-icons/bi";
 import { BiSolidReceipt } from "react-icons/bi";
+import { GiReturnArrow } from "react-icons/gi";
 
 export const BillsContainer = () => {
-    const {options, handleShowBills, showBills} =useBillsPage()
+    const {options, handleShowBills, showBills, handleDefaultBills} =useBillsPage()
     
   return (
     <Grid gap={100}>
+      
+        
       <Box
         borderRadius={10}
         boxShadow={"xl"}
-        justifyContent={"center"}
+        justifyContent={"space-around"}
         key={1}
         p={4}
         display="flex"
         gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
-          Facturas
+        <Box>
+          <ButtonGeneral onClick={()=>{handleDefaultBills()}} title={<GiReturnArrow/>}/>
         </Box>
+        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+          {
+            !showBills.compras&&!showBills.ventas?"Facturas":showBills.compras&&!showBills.ventas?"Compras":!showBills.compras&&showBills.ventas&&"Ventas"
+          }
+          
+        </Box>
+        <Box></Box>
+        
       </Box>
+
+      
       {
         !showBills.compras&&!showBills.ventas&&
         <Flex justifyContent={'space-around'}>

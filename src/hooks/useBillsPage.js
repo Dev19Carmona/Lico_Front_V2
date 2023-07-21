@@ -2,6 +2,8 @@ import { useState } from "react";
 import { BiReceipt, BiSolidReceipt } from "react-icons/bi";
 
 export const useBillsPage = () => {
+  //CONSTANTS
+  
   const [showBills, setShowBills] = useState({
     compras: false,
     ventas: false,
@@ -12,6 +14,12 @@ export const useBillsPage = () => {
       ventas: alert ? true : false,
     });
   };
+  const handleDefaultBills = () => {
+    setShowBills({
+      compras: false,
+      ventas: false,
+    });
+  }
   const options = [
     {
       id: "Compras",
@@ -28,5 +36,6 @@ export const useBillsPage = () => {
     options,
     handleShowBills,
     showBills,
+    handleDefaultBills
   };
 };
