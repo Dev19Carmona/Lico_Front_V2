@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { motion } from "framer-motion";
 import {
   Box,
   Flex,
@@ -30,16 +30,20 @@ import { MdLiquor } from "react-icons/md";
 import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
 import { useQuery } from "@apollo/client";
 import { Companies } from "@/graphql/Company";
+import { ADMIN_NAME, SELLER_NAME } from "../../config/Constants";
+import {  AiOutlineBell } from "react-icons/ai";
+import { useState } from "react";
+import { BiSolidBellRing } from "react-icons/bi";
 
 export const NavBarLayout = () => {
   const { data: company } = useQuery(Companies);
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
-    { name: "Inicio", icon: FiHome },
-    { name: "Ventas", icon: BsCart4 },
-    { name: "Salidas", icon: GiExitDoor },
-    { name: "Facturas", icon: FaFileInvoiceDollar },
-    { name: "Productos", icon: MdLiquor },
+    { name: "Inicio", icon: FiHome, typeUser: [ADMIN_NAME, SELLER_NAME] },
+    { name: "Ventas", icon: BsCart4, typeUser: [ADMIN_NAME, SELLER_NAME] },
+    { name: "Salidas", icon: GiExitDoor, typeUser: [ADMIN_NAME] },
+    { name: "Facturas", icon: FaFileInvoiceDollar, typeUser: [ADMIN_NAME] },
+    { name: "Productos", icon: MdLiquor, typeUser: [ADMIN_NAME] },
   ];
   const {
     showUser,
@@ -48,10 +52,36 @@ export const NavBarLayout = () => {
     loginOrRegister,
     handleClickToChangeLoginOrRegister,
   } = useNavBar();
+  
+  const showLinks = (roles) => roles.some(rol=>rol===localSession?.rol.name)
+  const [angle, setAngle] = useState(0);
+console.log(localSession?.rol.name, ADMIN_NAME);
+  const handleHover = () => {
+    setAngle(45);
+  };
+
+  const handleMouseLeave = () => {
+    setAngle(0);
+  };
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")}>
       <Flex h={16} alignItems={"center"} justifyContent={"right"} mr={2}>
         <Flex alignItems={"center"} gap={5}>
+        <motion.div
+        animate={{ rotate: angle }}
+        >
+          <Box 
+          onMouseEnter={handleHover} 
+          onMouseLeave={handleMouseLeave} 
+          cursor={'pointer'}
+          >
+            {localSession?.rol.name===ADMIN_NAME&&
+              (angle === 0 ?<AiOutlineBell fontSize={25}/>:<BiSolidBellRing fontSize={25}/>)
+            }
+            
+            </Box>
+        
+      </motion.div>
           <Button onClick={toggleColorMode}>
             {colorMode === "light" ? <BsFillMoonFill /> : <BsSun />}
           </Button>
@@ -133,15 +163,18 @@ export const NavBarLayout = () => {
               {company?.Companies[0].name}
             </Grid>
           </Flex>
-          {LinkItems.map((link, i) => (
-            <AnimatedLinkItem
-              key={i}
-              name={link.name}
-              icon={link.icon}
-              textAlign="rigth"
-              mr={4}
-            />
-          ))}
+          {LinkItems.map(
+            (link, i) =>
+              showLinks(link.typeUser) && (
+                <AnimatedLinkItem
+                  key={i}
+                  name={link.name}
+                  icon={link.icon}
+                  textAlign="rigth"
+                  mr={4}
+                />
+              )
+          )}
         </Box>
       )}
     </Box>

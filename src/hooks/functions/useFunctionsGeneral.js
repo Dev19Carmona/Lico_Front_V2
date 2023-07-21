@@ -4,7 +4,7 @@ export const useFunctionsGeneral = () => {
   const [changeSell, setChangeSell] = useState(true)
   const [chekSwitch, setChekSwitch] = useState(false);
   const [radioPayment, setRadioPayment] = useState("Efectivo");
- console.log(changeSell);
+ 
   const handleSwitchPriceProducts = () => {
     setChangeSell(!changeSell)
    };

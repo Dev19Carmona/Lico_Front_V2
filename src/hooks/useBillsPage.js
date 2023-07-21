@@ -3,11 +3,11 @@ import { BiReceipt, BiSolidReceipt } from "react-icons/bi";
 
 export const useBillsPage = () => {
   //CONSTANTS
-  
-  const [showBills, setShowBills] = useState({
+  const defaultShowBills = Object.freeze({
     compras: false,
     ventas: false,
-  });
+  })
+  const [showBills, setShowBills] = useState(defaultShowBills);
   const handleShowBills = (alert) => {
     setShowBills({
       compras: alert ? false : true,
@@ -15,10 +15,7 @@ export const useBillsPage = () => {
     });
   };
   const handleDefaultBills = () => {
-    setShowBills({
-      compras: false,
-      ventas: false,
-    });
+    setShowBills(defaultShowBills);
   }
   const options = [
     {
@@ -36,6 +33,6 @@ export const useBillsPage = () => {
     options,
     handleShowBills,
     showBills,
-    handleDefaultBills
+    handleDefaultBills,
   };
 };

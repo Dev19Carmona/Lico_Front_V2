@@ -3,6 +3,7 @@ import { LoginContext } from '@/context/login';
 import { Box, Img } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React,{useContext} from 'react'
+import { ADMIN_NAME } from '../../../config/Constants';
 
 function Salida() {
   const localSession = useContext(LoginContext);
@@ -10,7 +11,7 @@ function Salida() {
   return (
     
     <>
-      {localSession?.localSession ? (
+      {localSession?.localSession?.rol.name === ADMIN_NAME ? (
         <Box ml={250} minH={"100vh"}>
           <ExpenseContainer providerId={router.query.id}/>
         </Box>

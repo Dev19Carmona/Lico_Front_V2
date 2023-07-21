@@ -12,13 +12,25 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { useProductList } from "./functions/useProductList";
 import { Companies } from "@/graphql/Company";
+import { LoginContext } from "@/context/login";
 
 
 export const useTablePage = (tableId) => {
+  const localSession = useContext(LoginContext)
+  const userSession = {
+    _id: localSession?.localSession._id,
+    fullName: localSession?.localSession.fullName,
+    rolId: localSession?.localSession.rolId,
+    email: localSession?.localSession.email,
+    nit: localSession?.localSession.nit,
+    phone: localSession?.localSession.phone,
+    genderId: localSession?.localSession.genderId,
+    password: localSession?.localSession.password,
+  }
   //context
  //HookFunctions
  const { chekSwitch, radioPayment, handlePaymentMethod } = useFunctionsGeneral();
@@ -126,6 +138,7 @@ export const useTablePage = (tableId) => {
       delete product.remaining;
       return product;
     });
+    
     billSave({
       variables: {
         billData: {
@@ -133,6 +146,7 @@ export const useTablePage = (tableId) => {
           products: sellProductList,
           paymentMethod: radioPayment,
           total,
+          seller: userSession
         },
       },
     });

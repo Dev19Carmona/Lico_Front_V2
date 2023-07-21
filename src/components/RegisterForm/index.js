@@ -25,7 +25,7 @@ export const RegisterForm = () => {
         {() => (
           <Form>
             <Grid gap={2}>
-              <Heading>Register</Heading>
+              <Heading>Registrar</Heading>
               <FormControl id="rolPassword">
                 <FormLabel>Rol password</FormLabel>
                 <Field
@@ -36,7 +36,7 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <FormControl id="fullName">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Nombre</FormLabel>
                 <Field
                   name="fullName"
                   as={Input}
@@ -45,7 +45,7 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <FormControl id="genderId">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Genero</FormLabel>
                 <Field
                   name="genderId"
                   as={Select}
@@ -70,7 +70,7 @@ export const RegisterForm = () => {
                 data={genders?.Genders}
               /> */}
               <FormControl id="address">
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Direccion</FormLabel>
                 <Field
                   name="address"
                   as={Input}
@@ -83,7 +83,7 @@ export const RegisterForm = () => {
                 <Field name="nit" as={Input} type="text" placeholder=" Nit" />
               </FormControl>
               <FormControl id="phone">
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Telefono</FormLabel>
                 <Field
                   name="phone"
                   as={Input}
@@ -92,7 +92,7 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <FormControl id="email">
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Correo electronico</FormLabel>
                 <Field
                   name="email"
                   as={Input}
@@ -101,7 +101,7 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <FormControl id="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Contraseña</FormLabel>
                 <Field
                   name="password"
                   as={Input}
@@ -110,7 +110,7 @@ export const RegisterForm = () => {
                 />
               </FormControl>
               <FormControl id="confirmPassword">
-                <FormLabel>Confirm password</FormLabel>
+                <FormLabel>Confirmar contraseña</FormLabel>
                 <Field
                   name="confirmPassword"
                   as={Input}

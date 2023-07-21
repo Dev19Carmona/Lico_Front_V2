@@ -37,3 +37,32 @@ export const Bill_delete = gql`
     Bill_delete(_id: $_id)
   }
 `;
+
+export const subNewBill = gql`
+  subscription Subscription {
+    subNewBill {
+      _id
+      isPaid
+      isRemove
+      paymentMethod
+      products {
+        amount
+        name
+        price
+        soldCount
+      }
+      table {
+        name
+      }
+      total
+
+      tableId
+      seller {
+        _id
+        email
+        fullName
+        rolId
+      }
+    }
+  }
+`;
