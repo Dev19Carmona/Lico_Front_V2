@@ -5,7 +5,6 @@ export const CategoryList = ({categories,
    handleOpenModalDeleteCategory
 }) => {
     return (
-        <>
         <SimpleGrid columns={3}>
             {
             categories?.Categories.map((category,i)=>(
@@ -27,6 +26,6 @@ export const CategoryList = ({categories,
             ))
             }
         </SimpleGrid>
-        </>
+       
     )
 }

@@ -1,3 +1,4 @@
+import { BillList } from "@/components/BillList";
 import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { CardSelectionGeneral } from "@/components/CardSelectionGeneral";
 import { useBillsPage } from "@/hooks/useBillsPage";
@@ -10,10 +11,12 @@ export const BillsContainer = () => {
     handleShowBills,
     showBills,
     handleDefaultBills,
+    handleSetType,
+    bills,
   } = useBillsPage();
-
+console.log(bills);
   return (
-    <Grid gap={100}>
+    <Grid gap={6}>
       <Box
         borderRadius={10}
         boxShadow={"xl"}
@@ -49,7 +52,8 @@ export const BillsContainer = () => {
           {options.map((opt, i) => (
             <Grid
               onClick={() => {
-                handleShowBills(opt.id === "Ventas" ? true : false);
+                handleSetType(opt.id)
+                handleShowBills(opt.id === "Venta" ? true : false);
               }}
               key={i}
             >
@@ -58,8 +62,8 @@ export const BillsContainer = () => {
           ))}
         </Flex>
       )}
-      {showBills.compras && !showBills.ventas && <Grid>Compras</Grid>}
-      {!showBills.compras && showBills.ventas && <Grid>Ventas</Grid>}
+      {showBills.compras && !showBills.ventas && <Grid><BillList data={bills?.Bills}/></Grid>}
+      {!showBills.compras && showBills.ventas && <Grid><BillList data={bills?.Bills}/></Grid>}
     </Grid>
   );
 };

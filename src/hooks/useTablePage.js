@@ -88,6 +88,9 @@ export const useTablePage = (tableId) => {
       refetchQueries:[
         {
           query: Products
+        },
+        {
+          query: Bills
         }
       ]
     });
@@ -132,7 +135,7 @@ export const useTablePage = (tableId) => {
   const { handleDateToday } = useFunctionsGeneral();
 
   //Handles Mutations
-  const handleBillSave = (total) => {
+  const handleBillSave = (obj) => {
     const sellProductList = productList.map((product) => {
       delete product.image;
       delete product.remaining;
@@ -145,8 +148,9 @@ export const useTablePage = (tableId) => {
           tableId:tableId?tableId:"Fast Sell",
           products: sellProductList,
           paymentMethod: radioPayment,
-          total,
-          seller: userSession
+          total:obj.total,
+          seller: userSession,
+          company: obj.companyData,
         },
       },
     });

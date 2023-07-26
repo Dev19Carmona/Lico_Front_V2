@@ -3,16 +3,12 @@ import {
   Box,
   Flex,
   Avatar,
-  Text,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  Grid,
-  useColorModeValue,
-  NavItem,
   useColorMode,
   Center,
 } from "@chakra-ui/react";
@@ -24,9 +20,8 @@ import { DrawerGeneral } from "@/components/DrawerGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { RegisterForm } from "@/components/RegisterForm";
 import { FiHome } from "react-icons/fi";
-import { FaFileInvoiceDollar } from "react-icons/fa";
+import { FaFileInvoiceDollar, FaBox } from "react-icons/fa";
 import { GiExitDoor } from "react-icons/gi";
-import { MdLiquor } from "react-icons/md";
 import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
 import { useQuery } from "@apollo/client";
 import { Companies } from "@/graphql/Company";
@@ -43,7 +38,7 @@ export const NavBarLayout = () => {
     { name: "Ventas", icon: BsCart4, typeUser: [ADMIN_NAME, SELLER_NAME] },
     { name: "Salidas", icon: GiExitDoor, typeUser: [ADMIN_NAME] },
     { name: "Facturas", icon: FaFileInvoiceDollar, typeUser: [ADMIN_NAME] },
-    { name: "Productos", icon: MdLiquor, typeUser: [ADMIN_NAME] },
+    { name: "Productos", icon: FaBox, typeUser: [ADMIN_NAME] },
   ];
   const {
     showUser,
@@ -158,7 +153,7 @@ export const NavBarLayout = () => {
           bg={"white"}
           shadow={"2xl"}
           borderRightRadius={9}
-          h="50%"
+          h="full"
           borderRight="1px"
           borderRightColor={"white"}
           //w={{ base: "full", md: 60 }}

@@ -1,29 +1,36 @@
 import { CardHorizontal } from "@/components/CardHorizontal";
 import { CardImage } from "@/components/CardImage";
-import { InputSearchGeneral } from "@/components/InputSearchGeneral";
-import { ProductList } from "@/components/ProductList";
-import { TableSelectProduct } from "@/components/TableSelectProduct";
 import { Products } from "@/graphql/Product";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   Box,
   Flex,
   Grid,
   GridItem,
-  Heading,
   ModalOverlay,
   SimpleGrid,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useProductList } from "./functions/useProductList";
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useState, useContext} from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { BillTable } from "@/components/BillTable";
-import { Bill_save } from "@/graphql/Bill";
+import { Bill_save, Bills } from "@/graphql/Bill";
+import { LoginContext } from "@/context/login";
 
 export const useExpensePage = (providerId) => {
-  
+  const localSession = useContext(LoginContext)
+  const userSession = {
+    _id: localSession?.localSession._id,
+    fullName: localSession?.localSession.fullName,
+    rolId: localSession?.localSession.rolId,
+    email: localSession?.localSession.email,
+    nit: localSession?.localSession.nit,
+    phone: localSession?.localSession.phone,
+    genderId: localSession?.localSession.genderId,
+    password: localSession?.localSession.password,
+  }
   //STATES
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
@@ -48,17 +55,20 @@ export const useExpensePage = (providerId) => {
       },
     },
   });
-  
+  const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] =
     useMutation(Bill_save,{
       refetchQueries:[
         {
           query: Products
+        },
+        {
+          query: Bills
         }
       ]
     });
-    const handleBillSave = (total) => {
+    const handleBillSave = (obj) => {
       const sellProductList = productList.map((product) => {
         delete product.image;
         delete product.remaining;
@@ -70,9 +80,12 @@ export const useExpensePage = (providerId) => {
             tableId:providerId?providerId:"Fast Sell",
             products: sellProductList,
             paymentMethod: radioPayment,
-            total,
+            total: obj.total,
             type:"Compra",
-            providerId
+            providerId,
+            seller: userSession,
+            company: obj.companyData,
+            
           },
         },
       });

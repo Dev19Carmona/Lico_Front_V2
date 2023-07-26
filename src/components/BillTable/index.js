@@ -28,13 +28,14 @@ import { ButtonGeneral } from "../ButtonGeneral/index.js";
 import { AlertGeneral } from "../AlertGeneral/index.js";
 
 export const BillTable = ({
-  date,
+  onlyWrite = false,
+  date = new Date(),
   productList,
   total,
-  handleBillSave,
-  loadSaveBill,
-  alertSaveTrue,
-  alertSaveFalse,
+  handleBillSave = () => {},
+  loadSaveBill = false,
+  alertSaveTrue =false,
+  alertSaveFalse=false,
   companyData = {
     name:"Company Name",
     address: "Company Address",
@@ -69,7 +70,7 @@ export const BillTable = ({
             Factura
           </Heading>
           <Text color="gray.600" fontWeight="bold">
-            {date()}
+            {date}
           </Text>
         </Box>
       </Flex>
@@ -111,56 +112,61 @@ export const BillTable = ({
         <Divider />
 
         <Flex justify="space-between" mt={6}>
-          <Text>Total a pagar:</Text>
+          <Text>Total:</Text>
           <Text fontSize="lg" fontWeight="bold">
             {Math.floor(total).toLocaleString()}
           </Text>
         </Flex>
-        <Flex
-          p={1.5}
-          justify="space-between"
-          mt={3}
-          border="1px solid #b32821"
-          borderRadius={5}
-        >
-          <Text>Método de Pago: </Text>
+        {
+            !onlyWrite &&
+            <>
+              <Flex
+                p={1.5}
+                justify="space-between"
+                mt={3}
+                border="1px solid #b32821"
+                borderRadius={5}
+              >
+                <Text>Método de Pago: </Text>
 
-          <RadioGroup>
-            <SimpleGrid columns={4}>
-              {paymentMethods?.map((payment, i) => (
-                <Radio
-                  autoFocus={i === 0}
-                  required
-                  border="2px solid #b32821"
-                  key={i}
-                  value={payment.name}
-                  onChange={(e) => {
-                    handlePaymentMethod(e.target.value);
+                <RadioGroup>
+                  <SimpleGrid columns={4}>
+                    {paymentMethods?.map((payment, i) => (
+                      <Radio
+                        autoFocus={i === 0}
+                        required
+                        border="2px solid #b32821"
+                        key={i}
+                        value={payment.name}
+                        onChange={(e) => {
+                          handlePaymentMethod(e.target.value);
+                        }}
+                        id={payment.id}
+                        colorScheme="red"
+                        _focus={{ boxShadow: "none", outline: "none" }}
+                      >
+                        {payment.name}
+                      </Radio>
+                    ))}
+                  </SimpleGrid>
+                </RadioGroup>
+              </Flex>
+              <Flex mt={5} justifyContent={"center"}>
+                <ButtonGeneral
+                  onClick={() => {
+                    handleBillSave({total, companyData});
                   }}
-                  id={payment.id}
-                  colorScheme="red"
-                  _focus={{ boxShadow: "none", outline: "none" }}
-                >
-                  {payment.name}
-                </Radio>
-              ))}
-            </SimpleGrid>
-          </RadioGroup>
-        </Flex>
-        <Flex mt={5} justifyContent={"center"}>
-          <ButtonGeneral
-            onClick={() => {
-              handleBillSave(total);
-            }}
-            title={loadSaveBill?(<Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="black"
-              size="md"
-            />):("PAGAR")}
-          />
-        </Flex>
+                  title={loadSaveBill?(<Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="black"
+                    size="md"
+                  />):("PAGAR")}
+                />
+              </Flex>
+            </>
+          }
       </Box>
       {
                 alertSaveTrue && (

@@ -53,6 +53,27 @@ export const useFunctionsGeneral = () => {
   const handlePaymentMethod = (method) => {
     setRadioPayment(method)
   }
+  const handleUnixToDDMMYYYY = (unixTimestamp) => {
+    try {
+      // Convertir el timestamp Unix a milisegundos
+      const milliseconds = unixTimestamp * 1000;
+  
+      // Crear un objeto de fecha a partir de los milisegundos
+      const dateObj = new Date(milliseconds);
+  
+      // Obtener los componentes de la fecha (día, mes y año)
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1; // Los meses en JavaScript son base 0, por lo que se suma 1
+      const year = dateObj.getFullYear();
+  
+      // Formatear la fecha como DD/MM/YYYY
+      const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+      return formattedDate;
+    } catch (error) {
+      console.error(`Error al formatear la fecha: ${error}`);
+      return null;
+    }
+  }
 
   return {
     chekSwitch,
@@ -63,6 +84,7 @@ export const useFunctionsGeneral = () => {
     changeSell,
     radioPayment,
     handlePaymentMethod,
-    handleSwitchPriceProductsTables
+    handleSwitchPriceProductsTables,
+    handleUnixToDDMMYYYY,
   };
 };
