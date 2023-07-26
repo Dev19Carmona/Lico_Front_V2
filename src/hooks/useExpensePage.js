@@ -19,7 +19,6 @@ import {
 import { useProductList } from "./functions/useProductList";
 import React,{useEffect, useState} from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
-import { useExpensesFunctions } from "./functions/useExpensesFunctions";
 import { BillTable } from "@/components/BillTable";
 import { Bill_save } from "@/graphql/Bill";
 
@@ -41,7 +40,6 @@ export const useExpensePage = (providerId) => {
   } = useProductList(providerId);
   const { handleDateToday, radioPayment, handlePaymentMethod } =
     useFunctionsGeneral();
-    const {} = useExpensesFunctions()
   //Queries
   const { data: productsByProvider } = useQuery(Products, {
     variables: {

@@ -30,7 +30,7 @@ function Mesa() {
   return (
     <>
       {localSession?.localSession ? (
-        <Box ml={250} minH={"100vh"}>
+        <Box ml={50} minH={"100vh"}>
           <Flex justifyContent={"space-around"}>
             <Grid>
               <ButtonGeneral
@@ -47,7 +47,7 @@ function Mesa() {
           <TableContainer tableId={router.query.id} />
         </Box>
       ) : (
-        <Box ml={250} minH={"100vh"}>
+        <Box ml={50} minH={"100vh"}>
           <Box borderBottom={"1px"} borderColor="black">
             <Img
               src={"https://i.ytimg.com/vi/m7ZZNsa0pOA/maxresdefault.jpg"}

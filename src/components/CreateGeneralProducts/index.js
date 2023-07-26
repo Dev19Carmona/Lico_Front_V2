@@ -22,13 +22,13 @@ export const CreateGeneralProducts = ({
       <Box
         borderRadius={10}
         boxShadow={"xl"}
-        justifyContent={"space-around"}
+        justifyContent={"space-between"}
         key={1}
         p={4}
         display="flex"
         gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+        <Box letterSpacing={10} fontSize={30} fontFamily={"mono"}>
           {titleTab}
         </Box>
         <Box color="white" justifySelf="end">

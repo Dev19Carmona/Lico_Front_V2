@@ -11,11 +11,11 @@ function Salidas() {
   return (
     <>
       {localSession?.localSession?.rol.name === ADMIN_NAME ? (
-        <Box ml={250} minH={"100vh"}>
+        <Box ml={50} minH={"100vh"}>
           <ExpensesContainer/>
         </Box>
       ) : (
-        <Box ml={250} minH={"100vh"}>
+        <Box ml={50} minH={"100vh"}>
           <Box borderBottom={"1px"} borderColor="black">
           <Img
             src={"https://i.ytimg.com/vi/m7ZZNsa0pOA/maxresdefault.jpg"}

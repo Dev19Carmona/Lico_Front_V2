@@ -77,7 +77,7 @@ export const useProductsPage = () => {
   const [searchProduct, setSearchProduct] = useState("");
   const [selectCategory, setSelectCategory] = useState("");
   const [imageProduct, setImageProduct] = useState();
-  const [changeView, setChangeView] = useState(false)
+  const [changeView, setChangeView] = useState(true);
   //InitialValues
   const initialValProviderRegister = {
     _id: providerData._id,
@@ -532,7 +532,7 @@ export const useProductsPage = () => {
   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
   //Handles
   const handleOpenModalCreateProduct = () => {
-    setSelectCategory("")
+    setSelectCategory("");
     setImageProduct();
     setProductData({
       _id: "",
@@ -607,7 +607,7 @@ export const useProductsPage = () => {
     settingsModalDeleteSubCategory.onOpen();
   };
   const handleOpenModalUpdateProduct = (data) => {
-    setSelectCategory(data.categoryId)
+    setSelectCategory(data.categoryId);
     setImageProduct();
     setProductData({
       _id: data._id,
@@ -704,7 +704,7 @@ export const useProductsPage = () => {
             price: values.price === "" ? 0 : values.price,
             categoryId: values.category._id,
             subCategoryId: values.subCategory._id,
-            providerId: values.providerId !==""&&values.providerId,
+            providerId: values.providerId !== "" && values.providerId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
             image: imageProduct,
@@ -821,23 +821,32 @@ export const useProductsPage = () => {
         onSubmit={handleSearchProduct}
       />
       <Grid
-      templateColumns="1fr auto"  // Divide el espacio en dos columnas, la primera ocupa el ancho restante y la segunda se ajusta al contenido.
-      justifyItems="center" 
+        templateColumns="1fr auto" // Divide el espacio en dos columnas, la primera ocupa el ancho restante y la segunda se ajusta al contenido.
+        justifyItems="center"
       >
         <PaginatorGeneral
-        pagesTotal={pagesTotalProducts}
-        page={pageProducts}
-        setPage={setPageProducts}
-      />
-        <Flex justifySelf="end"> 
-        <ButtonGeneral onClick={()=>{setChangeView(!changeView)}} title={changeView?<AiOutlineUnorderedList fontSize={25}/>:<BsFillGrid3X3GapFill fontSize={25}/>}/>
-      </Flex>
-      
-
+          pagesTotal={pagesTotalProducts}
+          page={pageProducts}
+          setPage={setPageProducts}
+        />
+        <Flex justifySelf="end">
+          <ButtonGeneral
+            onClick={() => {
+              setChangeView(!changeView);
+            }}
+            title={
+              changeView ? (
+                <AiOutlineUnorderedList fontSize={25} />
+              ) : (
+                <BsFillGrid3X3GapFill fontSize={25} />
+              )
+            }
+          />
+        </Flex>
       </Grid>
-      
+
       <ProductList
-      changeView={changeView}
+        changeView={changeView}
         handleOpenModalUpdate={handleOpenModalUpdateProduct}
         handleOpenModalDelete={handleOpenModalDeleteProduct}
         products={products}

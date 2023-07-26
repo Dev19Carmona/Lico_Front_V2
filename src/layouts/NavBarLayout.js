@@ -55,7 +55,6 @@ export const NavBarLayout = () => {
   
   const showLinks = (roles) => roles.some(rol=>rol===localSession?.rol.name)
   const [angle, setAngle] = useState(0);
-console.log(localSession?.rol.name, ADMIN_NAME);
   const handleHover = () => {
     setAngle(45);
   };
@@ -64,9 +63,14 @@ console.log(localSession?.rol.name, ADMIN_NAME);
     setAngle(0);
   };
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")}>
-      <Flex h={16} alignItems={"center"} justifyContent={"right"} mr={2}>
-        <Flex alignItems={"center"} gap={5}>
+    <Box
+    position={'relative'}
+    >
+      <Flex ml={10} h={16} alignItems={"center"} justifyContent={"space-between"} mr={5}>
+        <Box fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        {company?.Companies[0].name}
+        </Box>
+        <Flex alignItems={"center"} gap={15}>
         <motion.div
         animate={{ rotate: angle }}
         >
@@ -82,9 +86,9 @@ console.log(localSession?.rol.name, ADMIN_NAME);
             </Box>
         
       </motion.div>
-          <Button onClick={toggleColorMode}>
+          <Box cursor={'pointer'} onClick={toggleColorMode}>
             {colorMode === "light" ? <BsFillMoonFill /> : <BsSun />}
-          </Button>
+          </Box>
           {showUser ? (
             <Menu>
               <MenuButton
@@ -146,23 +150,18 @@ console.log(localSession?.rol.name, ADMIN_NAME);
       />
       {localSession && (
         <Box
+        ml={2}
+        gap={15}
+          mt={10}
           bg={"white"}
           borderRight="1px"
           borderRightColor={"white"}
-          w={{ base: "full", md: 60 }}
+          //w={{ base: "full", md: 60 }}
           pos="fixed"
-          h="full"
+          
+          //h="full"
         >
-          <Flex
-            h="20"
-            alignItems="center"
-            mx="8"
-            justifyContent="space-between"
-          >
-            <Grid fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-              {company?.Companies[0].name}
-            </Grid>
-          </Flex>
+          
           {LinkItems.map(
             (link, i) =>
               showLinks(link.typeUser) && (

@@ -3,6 +3,7 @@ import { CardGeneralBorder } from "../CardGeneralBorder";
 import { TablePricesProducts } from "../TablePricesProducts";
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 import { ProductTable } from "../ProductTable";
+import { PricesTable } from "../PricesTable";
 export const ProductList = ({
   products,
   handleOpenModalUpdate = () => {},
@@ -15,7 +16,9 @@ export const ProductList = ({
     let precios = [];
     precios.push({
       compra: Math.round(product.price).toLocaleString(),
-      llevar: redondeo(product.price * (product.isLeave / 100) + product.price).toLocaleString(),
+      llevar: redondeo(
+        product.price * (product.isLeave / 100) + product.price
+      ).toLocaleString(),
       establecimiento: redondeo(
         product.price * (product.isStay / 100) + product.price
       ).toLocaleString(),
@@ -29,24 +32,21 @@ export const ProductList = ({
     "Precio",
     "Llevar",
     "Establecimiento",
-    "Acciones"
+    "Acciones",
   ];
   return (
     <>
-    {
-      changeView?(
-      <SimpleGrid columns={3}>
-        
-        {products?.Products.map((product, i) => (
-          <Box key={i}>
-            
+      {changeView ? (
+        <SimpleGrid columns={3}>
+          {products?.Products.map((product, i) => (
+            <Box key={i}>
               <CardGeneralBorder
                 data={{
                   firstPlace: product.amount,
                   secondPlace: product.name,
                   //  thirdPlace:`Precio: ${Math.floor(product.price).toLocaleString()} | Llevar: ${Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString()} | Establecimiento: ${Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()}`,
                   thirdPlace: (
-                    <TablePricesProducts index={index} data={data(product)} />
+                    <PricesTable data={data(product)} />
                   ),
                   fourthPlace: product.category?.name,
                 }}
@@ -60,15 +60,17 @@ export const ProductList = ({
                 imageSize="100px"
                 imageType="contain"
               />
-            
-          </Box>
-        ))}
-      </SimpleGrid>
-
-      ):(
-        <ProductTable onDelete={handleOpenModalDelete} onUpdate={handleOpenModalUpdate} data={products?.Products} index={indexTableProductList}/>
-      )
-    }
+            </Box>
+          ))}
+        </SimpleGrid>
+      ) : (
+        <ProductTable
+          onDelete={handleOpenModalDelete}
+          onUpdate={handleOpenModalUpdate}
+          data={products?.Products}
+          index={indexTableProductList}
+        />
+      )}
     </>
   );
 };
