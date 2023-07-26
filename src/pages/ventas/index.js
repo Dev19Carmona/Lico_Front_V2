@@ -16,11 +16,11 @@ function Ventas() {
   return (
     <>
       {localSession?.localSession ? (
-        <Box ml={50} minH={"100vh"}>
+        <Box ml={"65px"} minH={"100vh"}>
           <TablesContainer/>
         </Box>
       ) : (
-        <Box ml={50} minH={"100vh"}>
+        <Box ml={"65px"} minH={"100vh"}>
           <Box borderBottom={"1px"} borderColor="black">
           <Img
             src={"https://i.ytimg.com/vi/m7ZZNsa0pOA/maxresdefault.jpg"}

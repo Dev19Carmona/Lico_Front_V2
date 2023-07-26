@@ -34,7 +34,7 @@ const authLink = setContext((_, { headers }) => {
   };
 }).concat(
   createUploadLink({
-    uri: "http://mas-copas-lounge-backend.onrender.com/graphql",
+    uri: "https://mas-copas-lounge-backend.onrender.com/graphql",
   })
 );
 //hola
