@@ -34,14 +34,14 @@ const authLink = setContext((_, { headers }) => {
   };
 }).concat(
   createUploadLink({
-    uri: "http://127.0.0.1:4000/graphql",
+    uri: "https://mas-copas-lounge-backend.onrender.com/graphql",
   })
 );
 //hola
 const wsLink = new GraphQLWsLink(
   createClient({
     webSocketImpl: WebSocket,
-    url: "ws://127.0.0.1:4000/graphql",
+    url: "ws://mas-copas-lounge-backend.onrender.com/graphql",
   })
 );
 
