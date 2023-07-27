@@ -14,9 +14,8 @@ export const BillsContainer = () => {
     handleSetType,
     bills,
   } = useBillsPage();
-console.log(bills);
   return (
-    <Grid gap={6}>
+    <Grid gap={3}>
       <Box
         borderRadius={10}
         boxShadow={"xl"}

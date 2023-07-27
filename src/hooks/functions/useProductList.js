@@ -21,11 +21,9 @@ export const useProductList = (id) => {
 
       if (localStorage.getItem(id||"fastSell")) {
         productList = JSON.parse(localStorage.getItem(id?id:"fastSell"));
-        //console.log(productList);
         const productFound = productList.find(
           (product) => product._id === newProduct._id
           );
-        //console.log(productFound);
         
         const productFoundIndex = productList.findIndex(
           (product) => product._id === newProduct._id
@@ -68,11 +66,9 @@ export const useProductList = (id) => {
 
       if (localStorage.getItem(id||"fastSell")) {
         productList = JSON.parse(localStorage.getItem(id?id:"fastSell"));
-        //console.log(productList);
         const productFound = productList.find(
           (product) => product._id === newProduct._id
           );
-        //console.log(productFound);
         
         const productFoundIndex = productList.findIndex(
           (product) => product._id === newProduct._id

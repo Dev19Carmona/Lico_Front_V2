@@ -81,7 +81,25 @@ export const useFunctionsGeneral = () => {
     const number = (price * percent) / 100 + price;
     return redondeo(number)
   }
+const shelledDate = () => {
+  const datetime = new Date();
+const day = datetime.getDate();
+const month = datetime.getMonth() + 1;
+const year = datetime.getFullYear();
+const hours = datetime.getHours();
+const minuts = datetime.getMinutes();
+const seconds = datetime.getSeconds();
 
+return{
+  datetime,
+  day,
+  month,
+  year,
+  hours,
+  minuts,
+  seconds
+}
+}
   return {
     chekSwitch,
     handleDateToday,
@@ -94,5 +112,6 @@ export const useFunctionsGeneral = () => {
     handleSwitchPriceProductsTables,
     handleUnixToDDMMYYYY,
     convertPrice,
+    shelledDate,
   };
 };

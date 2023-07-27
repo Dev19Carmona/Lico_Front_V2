@@ -1,3 +1,4 @@
+import { GraphicsGeneral } from "@/components/GraphicsGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { LoginContext } from "@/context/login";
 import { Box } from "@chakra-ui/react";
@@ -10,7 +11,7 @@ function Index() {
     <>
       {localSession?.localSession ? (
         <Box ml={"65px"} minH={"100vh"}>
-          Home
+          <GraphicsGeneral/>
         </Box>
       ) : (
         <Box ml={"65px"} minH={"100vh"}>

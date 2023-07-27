@@ -26,6 +26,15 @@ export const Bills = gql`
         email
       }
       createdAt
+      dateInfo {
+      datetime
+      day
+      hours
+      minuts
+      month
+      seconds
+      year
+    }
     }
   }
 `;

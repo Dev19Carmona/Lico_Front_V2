@@ -1,16 +1,23 @@
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
-import { Grid, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
+import { Box, Divider, Flex, Grid, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { SubtitleGeneral } from "../SubtitleGeneral";
 
 export const GridSelectProduct = ({ data, onClick, isStay }) => {
   const { convertPrice } = useFunctionsGeneral();
 
   return (
-    <SimpleGrid cursor={"pointer"} columns={{base:3, md:5, lg:5}} gap={3}>
+    <SimpleGrid
+      
+      cursor={"pointer"}
+      columns={{ base: 3, md: 5, lg: 5 }}
+      gap={7}
+    >
       {data?.map((element, index) => (
         <motion.div whileHover={{ translateY: -5 }} key={index}>
-          <GridItem
-            _hover={{ shadow: "xl", border: "0.5px solid grey" }}
+          <Flex
+          _hover={{ shadow: "xl", border: "0.5px solid grey" }}
+            bg={"white"}
             borderRadius={9}
             onClick={() => {
               onClick({
@@ -24,22 +31,26 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
                 remaining: element.amount,
               });
             }}
-            w={"90px"}
-            h={"90px"}
+            h="full"
+              w="full"
             rowSpan={1}
-            colSpan={1}
-            bg={"white"}
+            flexDirection="column"
           >
             <Image
+            w={"90px"}
+            h={"90px"}
               fill={true}
               style={{ objectFit: "contain" }}
               maxW={{ base: "100%", sm: "200px" }}
-              h="full"
-              w="full"
+              
               src={element.image}
               alt="ProductImage"
             />
-          </GridItem>
+            {/* <Divider/> */}
+            <Box >
+              <SubtitleGeneral data={element.amount} />
+            </Box>
+          </Flex>
         </motion.div>
       ))}
     </SimpleGrid>

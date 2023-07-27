@@ -33,7 +33,6 @@ export const ProductForm = ({
   alertSaveTrue,
   onSubmit = () => {},
 }) => {
-  //console.log(initialValues.category.name);
   return (
     <Box margin={4} border={"1px solid"} p={4} borderRadius={9}>
       <Formik onSubmit={onSubmit} initialValues={initialValues}>

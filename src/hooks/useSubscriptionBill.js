@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 export const useSubscriptionBill = () => {
   const{data:notificationNewBill, loading:loadNewBill}=useSubscription(subNewBill)
   const [adminNotifications, setAdminNotifications] = useState([]);
-  console.log(adminNotifications);
   const notifications = "notifications"
   useEffect(() => {
     if (localStorage.getItem(notifications)) {

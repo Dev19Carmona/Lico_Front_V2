@@ -45,7 +45,7 @@ export const useExpensePage = (providerId) => {
     handleDeleteProductList,
     setProductList,
   } = useProductList(providerId);
-  const { handleDateToday, radioPayment, handlePaymentMethod } =
+  const { handleDateToday, radioPayment, handlePaymentMethod, shelledDate } =
     useFunctionsGeneral();
   //Queries
   const { data: productsByProvider } = useQuery(Products, {
@@ -85,7 +85,7 @@ export const useExpensePage = (providerId) => {
             providerId,
             seller: userSession,
             company: obj.companyData,
-            
+            dateInfo:shelledDate(),
           },
         },
       });
@@ -199,7 +199,7 @@ export const useExpensePage = (providerId) => {
         </SimpleGrid>
       </Grid>
       <Grid p={5} border={"0.1px solid"} borderRadius={9}>
-        {productList.map((product, i) => (
+        {productList.slice().reverse().map((product, i) => (
           <CardHorizontal
             onDelete={() => {
               handleOpenModalDeleteProduct(product);

@@ -39,7 +39,7 @@ export const useTablePage = (tableId) => {
   };
   //context
   //HookFunctions
-  const { chekSwitch, radioPayment, handlePaymentMethod } =
+  const { chekSwitch, radioPayment, handlePaymentMethod, shelledDate } =
     useFunctionsGeneral();
   const {
     productList,
@@ -78,7 +78,6 @@ export const useTablePage = (tableId) => {
     setOverlay(<OverlayTwo />);
     settingsModalDeleteProduct.onOpen();
   };
-  //console.log(productList);
   //Queries
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
   const { data: products } = useQuery(Products, {
@@ -97,12 +96,10 @@ export const useTablePage = (tableId) => {
         {
           query: Products,
         },
-        {
-          query: Bills,
-        },
       ],
     }
   );
+  console.log(isBillSave);
   //Effects
   useEffect(() => {
     if (isBillSave?.Bill_save) {
@@ -139,9 +136,6 @@ export const useTablePage = (tableId) => {
   //Handles
 
   //Functions
-
-  const { handleDateToday } = useFunctionsGeneral();
-
   //Handles Mutations
   const handleBillSave = (obj) => {
     const sellProductList = productList.map((product) => {
@@ -159,6 +153,7 @@ export const useTablePage = (tableId) => {
           total: obj.total,
           seller: userSession,
           company: obj.companyData,
+          dateInfo:shelledDate(),
         },
       },
     });
@@ -171,16 +166,6 @@ export const useTablePage = (tableId) => {
   const handleProductSearch = (e) => {
     setProductSearch(e.target.value);
   };
-  // const handleDeleteProduct = () => {
-  //   const productFoundIndex = productList.findIndex(
-  //     (product) => product._id === productData._id
-  //   );
-  //   productList.splice(productFoundIndex, 1);
-  //   localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
-
-  // };
-  //TableProductsSettings
-  const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
 
   //TabsSettings
 
@@ -194,32 +179,23 @@ export const useTablePage = (tableId) => {
   ];
 
   const components = [
-    <SimpleGrid w={'full'} columns={{base:1, md:1, lg:2}} key="products" gap={10}>
-      <Box
-        
-        gap={50}
-        p={3}
-        bg={"blue.100"}
-        borderRadius={9}
-        w={"full"}
-        h={"full"}
-      >
-          <SubtitleGeneral data={"Seleccionar Productos"} />
-          <InputSearchGeneral
-            value={productSearch}
-            onChange={handleProductSearch}
-          />
-          <GridSelectProduct
-            isStay={chekSwitch}
-            onClick={handleProductSelect}
-            data={products?.Products}
-          />
+    <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} key="products" gap={5}>
+      <Box p={3} bg={"blue.100"} borderRadius={9} w={"full"} h={"full"}>
+        <SubtitleGeneral data={"Seleccionar Productos"} />
+        <InputSearchGeneral
+          value={productSearch}
+          onChange={handleProductSearch}
+        />
+        <GridSelectProduct
+          isStay={chekSwitch}
+          onClick={handleProductSelect}
+          data={products?.Products}
+        />
       </Box>
       {productList.length > 0 ? (
         <Box
-          as={Grid}
           mt={{ base: 2, md: 0, lg: 0 }}
-          bg={{base:"transparent", md:"blue.100", lg: "blue.100"}}
+          bg={{ base: "transparent", md: "blue.100", lg: "blue.100" }}
           borderRadius={9}
           w={"100%"}
           h={"full"}
@@ -239,34 +215,35 @@ export const useTablePage = (tableId) => {
               handleTotal()
             ).toLocaleString()}`}</Text>
           </Flex>
-          {productList.slice().reverse().map((product, i) => (
-            <CardHorizontal
-              onDelete={() => {
-                handleOpenModalDeleteProduct(product);
-              }}
-              onClick={handleProductSelect}
-              parameter={{
-                _id: product._id,
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                remaining: product.remaining,
-                amount: 1,
-              }}
-              data={{
-                head: product.name,
-                image: product.image,
-                body: product.amount,
-                title: Math.floor(product.price).toLocaleString(),
-                secondTitle: Math.floor(
-                  product.amount * product.price
-                ).toLocaleString(),
-              }}
-              key={i}
-            />
-          ))}
-
-          
+          {productList
+            .slice()
+            .reverse()
+            .map((product, i) => (
+              <CardHorizontal
+                onDelete={() => {
+                  handleOpenModalDeleteProduct(product);
+                }}
+                onClick={handleProductSelect}
+                parameter={{
+                  _id: product._id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.image,
+                  remaining: product.remaining,
+                  amount: 1,
+                }}
+                data={{
+                  head: product.name,
+                  image: product.image,
+                  body: product.amount,
+                  title: Math.floor(product.price).toLocaleString(),
+                  secondTitle: Math.floor(
+                    product.amount * product.price
+                  ).toLocaleString(),
+                }}
+                key={i}
+              />
+            ))}
         </Box>
       ) : (
         <Box m={"auto"} w={"100%"}>
@@ -286,7 +263,9 @@ export const useTablePage = (tableId) => {
           handlePaymentMethod={handlePaymentMethod}
           total={handleTotal()}
           productList={productList}
-          date={handleDateToday}
+          date={`${((shelledDate().day).toString()).padStart(2,"0")}-${((shelledDate().month).toString()).padStart(2,"0")}-${
+            shelledDate().year
+          }`}
           handleBillSave={handleBillSave}
           loadSaveBill={loadSaveBill}
           alertSaveTrue={alertSaveTrue}

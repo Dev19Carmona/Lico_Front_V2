@@ -17,6 +17,7 @@ import { BsTrash } from "react-icons/bs";
 export const CardHorizontal = ({
   onDelete = () => {},
   onClick = () => {},
+  onImage = () => {},
   parameter,
   data = {
     image:
@@ -24,8 +25,9 @@ export const CardHorizontal = ({
     head: "Heading",
     body: "Body",
     title: "Title",
-    secondTitle: "",
+    secondTitle: "Second Title",
   },
+  showButtons = true
 }) => {
   const { image, head, body, title, secondTitle } = data;
   return (
@@ -43,23 +45,26 @@ export const CardHorizontal = ({
           overflow="hidden"
         >
           <HStack
-            py={6}
-            px={5}
-            spacing={4}
+            py={2}
+            px={2}
+            spacing={0}
             as={Flex}
             justifyContent={"space-between"}
             bg={useColorModeValue("gray.100", "gray.800")}
             w="100%"
           >
             <Flex
+            onClick={()=>{
+              onImage()
+            }}
               justifyContent="space-around"
               justify="center"
               alignItems="center"
               rounded="lg"
               bg="#fff"
               position="relative"
-              w={20}
-              h={20}
+              w={{base:10,md:20,lg:20}}
+              h={{base:10,md:20,lg:20}}
               overflow="hidden"
               lineHeight={0}
               boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
@@ -72,26 +77,30 @@ export const CardHorizontal = ({
                 w="full"
                 src={image}
                 alt="ProductImage"
+                
               />
             </Flex>
-            <VStack spacing={0} align="start" maxW="lg" h="100%">
+            <VStack spacing={0} align="center" maxW="sm" h="100%">
               <Text
                 as="h2"
-                fontSize="lg"
+                fontSize="sm"
                 fontWeight="extrabold"
                 letterSpacing={1}
               >
+                
                 {head}
               </Text>
-              <Flex justifyContent="space-between" gap={100} mt={3}>
-                <Text as="h3" fontSize="md" noOfLines={2} color="gray.500">
+              <Flex justifyContent="space-between" gap={10} mt={1}>
+                <Text as="h3" fontSize="sm" noOfLines={2} color="gray.500">
                   {title}
                 </Text>
 
                 <Text color="#b32821">{secondTitle}</Text>
               </Flex>
             </VStack>
-            <Flex direction={"column"} justifyContent={"end"} gap={3}>
+            {
+              showButtons&&
+            <Flex direction={"column"} justifyContent={"end"} gap={1}>
               <Flex
                 alignItems={"center"}
                 justifyContent={"center"}
@@ -141,6 +150,7 @@ export const CardHorizontal = ({
                 </Button>
               </Flex>
             </Flex>
+            }
           </HStack>
         </Flex>
       </motion.div>

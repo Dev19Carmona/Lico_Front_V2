@@ -57,7 +57,7 @@ export const ProductsContainer = () => {
   } = useProductsPage();
 
   return (
-    <Box m={5}>
+    <Box m={5} w={'full'}>
       <TabsGeneral index={index} components={components} />
 
       {/* MODAL CREAR PROVEEDOR */}
