@@ -2,7 +2,7 @@ import { BillList } from "@/components/BillList";
 import { ButtonGeneral } from "@/components/ButtonGeneral";
 import { CardSelectionGeneral } from "@/components/CardSelectionGeneral";
 import { useBillsPage } from "@/hooks/useBillsPage";
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex, Grid, SimpleGrid } from "@chakra-ui/react";
 import { GiReturnArrow } from "react-icons/gi";
 
 export const BillsContainer = () => {
@@ -48,7 +48,7 @@ console.log(bills);
       </Box>
 
       {!showBills.compras && !showBills.ventas && (
-        <Flex justifyContent={"space-around"}>
+        <SimpleGrid columns={{base:1, md:2, lg:2}} gap={10}>
           {options.map((opt, i) => (
             <Grid
               onClick={() => {
@@ -56,11 +56,12 @@ console.log(bills);
                 handleShowBills(opt.id === "Venta" ? true : false);
               }}
               key={i}
+              
             >
               <CardSelectionGeneral icono={opt.icono} texto={opt.texto} />
             </Grid>
           ))}
-        </Flex>
+        </SimpleGrid>
       )}
       {showBills.compras && !showBills.ventas && <Grid><BillList data={bills?.Bills}/></Grid>}
       {!showBills.compras && showBills.ventas && <Grid><BillList data={bills?.Bills}/></Grid>}

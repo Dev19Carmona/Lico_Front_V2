@@ -13,6 +13,7 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { FiDelete } from "react-icons/fi";
 import Link from "next/link";
+import { SubtitleGeneral } from "../SubtitleGeneral";
 
 export const CardGeneralBorder = ({
   data = {},
@@ -30,7 +31,7 @@ export const CardGeneralBorder = ({
   return (
     <Center py={6}>
       <Box
-        w="100%" // Ajusta el ancho del contenedor principal según tus necesidades
+        w="90%" // Ajusta el ancho del contenedor principal según tus necesidades
         h="100%" // Ajusta la altura del contenedor principal según tus necesidades
         rounded={"sm"}
         my={5}
@@ -73,14 +74,8 @@ export const CardGeneralBorder = ({
               {firstPlace}
             </Text>
           </Box>
-          <Heading
-            letterSpacing={1}
-            color={"black"}
-            fontSize={"2xl"}
-            noOfLines={1}
-          >
-            {secondPlace}
-          </Heading>
+          <SubtitleGeneral data={secondPlace}/>
+          
           <Text mt={3} color={"black.500"} noOfLines={2}>
             {thirdPlace}
           </Text>

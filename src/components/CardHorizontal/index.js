@@ -41,7 +41,6 @@ export const CardHorizontal = ({
           align="start"
           role="group"
           overflow="hidden"
-          ml={-9}
         >
           <HStack
             py={6}

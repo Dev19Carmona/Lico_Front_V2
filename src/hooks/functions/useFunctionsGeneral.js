@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 
 export const useFunctionsGeneral = () => {
+  
   const [changeSell, setChangeSell] = useState(true)
   const [chekSwitch, setChekSwitch] = useState(false);
   const [radioPayment, setRadioPayment] = useState("Efectivo");
  
   const handleSwitchPriceProducts = () => {
+
     setChangeSell(!changeSell)
    };
   const handleSwitchPriceProductsTables = () =>{
     setChangeSell(true)
 
   }
+ 
   
   useEffect(() => {
     if (localStorage.getItem("changeSell")) {
@@ -74,6 +77,10 @@ export const useFunctionsGeneral = () => {
       return null;
     }
   }
+  const convertPrice = (percent, price) => {
+    const number = (price * percent) / 100 + price;
+    return redondeo(number)
+  }
 
   return {
     chekSwitch,
@@ -86,5 +93,6 @@ export const useFunctionsGeneral = () => {
     handlePaymentMethod,
     handleSwitchPriceProductsTables,
     handleUnixToDDMMYYYY,
+    convertPrice,
   };
 };

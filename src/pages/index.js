@@ -9,11 +9,11 @@ function Index() {
   return (
     <>
       {localSession?.localSession ? (
-        <Box ml={50} minH={"100vh"}>
+        <Box ml={"65px"} minH={"100vh"}>
           Home
         </Box>
       ) : (
-        <Box ml={50} minH={"100vh"}>
+        <Box ml={"65px"} minH={"100vh"}>
           ir a login
         </Box>
       )}

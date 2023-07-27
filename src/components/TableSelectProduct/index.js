@@ -14,23 +14,24 @@ import {
 
 export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
  
-  const {redondeo} = useFunctionsGeneral()
-  const convertPrice = (percent, price) => {
-    const number = (price * percent) / 100 + price;
-    return redondeo(number)
-  }
+  const {convertPrice} = useFunctionsGeneral()
+  // const convertPrice = (percent, price) => {
+  //   const number = (price * percent) / 100 + price;
+  //   return redondeo(number)
+  // }
   
   return (
     <TableContainer
-    mt={100}
+    mt={"40px"}
     w={"70%"}
       justifySelf={"center"}
       position={"absolute"}
       zIndex={1}
       borderRadius={9}
       p={2}
-      border={"1px solid"}
-      bg={"white"}
+      borderTop={"1px solid"}
+      borderBottom={"1px solid"}
+      bg={"whiteAlpha.900"}
     >
       <Table size="md">
         <Thead>
@@ -44,7 +45,7 @@ export const TableSelectProduct = ({ index, data, isStay, onClick }) => {
           {data?.map((element, i) => (
             <Tr
             borderRadius={9}
-            bg={element.amount > 0 ?"white":"red"}
+            bg={element.amount > 0 ?"transparent":"red"}
             color={element.amount > 0 ?"black":"white"}
               cursor={"pointer"}
               key={i}

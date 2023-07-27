@@ -12,7 +12,7 @@ export const TableList = ({
 }) => {
   
   return (
-    <SimpleGrid columns={3}>
+    <SimpleGrid columns={{base:1, md:2, lg:4}}>
       {data?.map((element, i) => (
         <CardGeneralBorder
           key={i}

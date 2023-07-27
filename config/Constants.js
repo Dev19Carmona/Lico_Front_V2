@@ -15,3 +15,6 @@ export const paymentMethods = [
   { id: "4", name: "Credito" },
 ];
 
+// export const viewportHeight = window.innerHeight;
+// export const viewportWidth = window.innerWidth;
+// export const onePercentOfViewportHeight = viewportHeight / 100;

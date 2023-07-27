@@ -150,7 +150,6 @@ export const NavBarLayout = () => {
       {localSession && (
         <Flex
           gap={15}
-          bg={"white"}
           shadow={"2xl"}
           borderRightRadius={9}
           h="full"
@@ -159,7 +158,7 @@ export const NavBarLayout = () => {
           //w={{ base: "full", md: 60 }}
           pos="fixed"
           flexDirection="column"
-          justifyContent="center"
+          justifyContent="start"
           alignItems="center"
           alignContent="center"
           //h="full"

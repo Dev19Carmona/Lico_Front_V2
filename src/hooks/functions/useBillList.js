@@ -14,7 +14,7 @@ export const useBillList = () => {
   const handleSetType = (value) =>{
     setType(value)
   }
-  console.log(bills);
+ 
   return{
     handleSetType,
     bills

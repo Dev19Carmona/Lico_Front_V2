@@ -37,7 +37,7 @@ export const ProductList = ({
   return (
     <>
       {changeView ? (
-        <SimpleGrid columns={3}>
+        <SimpleGrid columns={{base:1, md:1, lg:3}}>
           {products?.Products.map((product, i) => (
             <Box key={i}>
               <CardGeneralBorder

@@ -6,9 +6,12 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { Products } from "@/graphql/Product";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
+  Box,
   Flex,
   Grid,
+  Heading,
   ModalOverlay,
+  SimpleGrid,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -17,10 +20,13 @@ import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { useProductList } from "./functions/useProductList";
 import { Companies } from "@/graphql/Company";
 import { LoginContext } from "@/context/login";
-
+import { GridSelectProduct } from "@/components/GridSelectProduct";
+import { SubtitleGeneral } from "@/components/SubtitleGeneral";
+import styled from "styled-components";
+//import { viewportHeight, viewportWidth } from "../../config/Constants";
 
 export const useTablePage = (tableId) => {
-  const localSession = useContext(LoginContext)
+  const localSession = useContext(LoginContext);
   const userSession = {
     _id: localSession?.localSession._id,
     fullName: localSession?.localSession.fullName,
@@ -30,10 +36,11 @@ export const useTablePage = (tableId) => {
     phone: localSession?.localSession.phone,
     genderId: localSession?.localSession.genderId,
     password: localSession?.localSession.password,
-  }
+  };
   //context
- //HookFunctions
- const { chekSwitch, radioPayment, handlePaymentMethod } = useFunctionsGeneral();
+  //HookFunctions
+  const { chekSwitch, radioPayment, handlePaymentMethod } =
+    useFunctionsGeneral();
   const {
     productList,
     handleProductSelect,
@@ -41,18 +48,18 @@ export const useTablePage = (tableId) => {
     setProductSearch,
     setProductList,
     handleDeleteProductList,
-    productData, 
+    productData,
     setProductData,
     handleDeleteProduct,
     handleTotal,
   } = useProductList(tableId);
   //States
-  
+
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
 
   //Functions General
-  
+
   //Modal Settings
 
   const OverlayTwo = () => (
@@ -83,17 +90,19 @@ export const useTablePage = (tableId) => {
   });
   const { data: company } = useQuery(Companies);
   //Mutations
-  const [billSave, { data: isBillSave, loading: loadSaveBill }] =
-    useMutation(Bill_save,{
-      refetchQueries:[
+  const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
+    Bill_save,
+    {
+      refetchQueries: [
         {
-          query: Products
+          query: Products,
         },
         {
-          query: Bills
-        }
-      ]
-    });
+          query: Bills,
+        },
+      ],
+    }
+  );
   //Effects
   useEffect(() => {
     if (isBillSave?.Bill_save) {
@@ -128,10 +137,9 @@ export const useTablePage = (tableId) => {
   };
 
   //Handles
-  
+
   //Functions
- 
-  
+
   const { handleDateToday } = useFunctionsGeneral();
 
   //Handles Mutations
@@ -141,14 +149,14 @@ export const useTablePage = (tableId) => {
       delete product.remaining;
       return product;
     });
-    
+
     billSave({
       variables: {
         billData: {
-          tableId:tableId?tableId:"Fast Sell",
+          tableId: tableId ? tableId : "Fast Sell",
           products: sellProductList,
           paymentMethod: radioPayment,
-          total:obj.total,
+          total: obj.total,
           seller: userSession,
           company: obj.companyData,
         },
@@ -156,7 +164,7 @@ export const useTablePage = (tableId) => {
     });
     handleDeleteProductList();
     setTimeout(() => {
-      setProductList([])
+      setProductList([]);
     }, 3000);
   };
 
@@ -169,7 +177,7 @@ export const useTablePage = (tableId) => {
   //   );
   //   productList.splice(productFoundIndex, 1);
   //   localStorage.setItem(tableId?tableId:"fastSell", JSON.stringify(productList));
-    
+
   // };
   //TableProductsSettings
   const indexProductsSelect = ["Cantidad", "Nombre", "Precio"];
@@ -184,81 +192,107 @@ export const useTablePage = (tableId) => {
       name: "Factura",
     },
   ];
+
   const components = [
-    <Grid key="products" gap={1}>
-      <>
-        <InputSearchGeneral
-          value={productSearch}
-          onChange={handleProductSearch}
-        />
-        {productSearch !== "" && (
-          <TableSelectProduct
-            onClick={handleProductSelect}
-            isStay={chekSwitch}
-            data={products?.Products}
-            index={indexProductsSelect}
+    <SimpleGrid w={'full'} columns={{base:1, md:1, lg:2}} key="products" gap={10}>
+      <Box
+        
+        gap={50}
+        p={3}
+        bg={"blue.100"}
+        borderRadius={9}
+        w={"full"}
+        h={"full"}
+      >
+          <SubtitleGeneral data={"Seleccionar Productos"} />
+          <InputSearchGeneral
+            value={productSearch}
+            onChange={handleProductSearch}
           />
-        )}
-      </>
-      {productList.map((product, i) => (
-        <CardHorizontal
-          onDelete={() => {
-            handleOpenModalDeleteProduct(product);
-            
-          }}
-          onClick={handleProductSelect}
-          parameter={{
-            _id: product._id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            remaining: product.remaining,
-            amount: 1,
-          }}
-          data={{
-            head: product.name,
-            image: product.image,
-            body: product.amount,
-            title: Math.floor(product.price).toLocaleString(),
-            secondTitle: Math.floor(
-              product.amount * product.price
-            ).toLocaleString(),
-          }}
-          key={i}
-        />
-      ))}
-      {productList.length > 0 && (
-        <Flex
-          bg={"gray.100"}
+          <GridSelectProduct
+            isStay={chekSwitch}
+            onClick={handleProductSelect}
+            data={products?.Products}
+          />
+      </Box>
+      {productList.length > 0 ? (
+        <Box
+          as={Grid}
+          mt={{ base: 2, md: 0, lg: 0 }}
+          bg={{base:"transparent", md:"blue.100", lg: "blue.100"}}
           borderRadius={9}
-          p={5}
-          mb={1}
-          justifyContent="space-around"
+          w={"100%"}
+          h={"full"}
+          p={3}
+          gap={5}
         >
-          <Text>Total:</Text>
-          <Text textAlign="center">{`$ ${Math.floor(handleTotal()).toLocaleString()}`}</Text>
-        </Flex>
+          <SubtitleGeneral data={"Productos Seleccionados"} />
+          <Flex
+            bg={"gray.100"}
+            borderRadius={9}
+            p={2}
+            //mb={1}
+            justifyContent="space-around"
+          >
+            <Text>Total:</Text>
+            <Text textAlign="center">{`$ ${Math.floor(
+              handleTotal()
+            ).toLocaleString()}`}</Text>
+          </Flex>
+          {productList.slice().reverse().map((product, i) => (
+            <CardHorizontal
+              onDelete={() => {
+                handleOpenModalDeleteProduct(product);
+              }}
+              onClick={handleProductSelect}
+              parameter={{
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                remaining: product.remaining,
+                amount: 1,
+              }}
+              data={{
+                head: product.name,
+                image: product.image,
+                body: product.amount,
+                title: Math.floor(product.price).toLocaleString(),
+                secondTitle: Math.floor(
+                  product.amount * product.price
+                ).toLocaleString(),
+              }}
+              key={i}
+            />
+          ))}
+
+          
+        </Box>
+      ) : (
+        <Box m={"auto"} w={"100%"}>
+          No se han agregado productos
+        </Box>
       )}
-    </Grid>,
+    </SimpleGrid>,
+    //----------------------------------------------------------//
     <Grid key="bill" gap={5}>
-      {
-        productList.length > 0 &&
-      <BillTable
-      companyData={{
-        name:company?.Companies[0].name,
-        address: company?.Companies[0].address,
-        email:company?.Companies[0].email
-      }}
-      handlePaymentMethod={handlePaymentMethod}
-        total={handleTotal()}
-        productList={productList}
-        date={handleDateToday}
-        handleBillSave={handleBillSave}
-        loadSaveBill={loadSaveBill}
-        alertSaveTrue={alertSaveTrue}
-        alertSaveFalse={alertSaveFalse}
-      />
-      }
+      {productList.length > 0 && (
+        <BillTable
+          companyData={{
+            name: company?.Companies[0].name,
+            address: company?.Companies[0].address,
+            email: company?.Companies[0].email,
+          }}
+          handlePaymentMethod={handlePaymentMethod}
+          total={handleTotal()}
+          productList={productList}
+          date={handleDateToday}
+          handleBillSave={handleBillSave}
+          loadSaveBill={loadSaveBill}
+          alertSaveTrue={alertSaveTrue}
+          alertSaveFalse={alertSaveFalse}
+        />
+      )}
     </Grid>,
   ];
 

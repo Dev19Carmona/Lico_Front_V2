@@ -14,7 +14,7 @@ export const TableContainer = ({ tableId }) => {
   
   
   return (
-    <Grid gap={5} m={5}>
+    <Grid>
       
       <TabsGeneral index={indexTabsTable} components={components} />
       <ModalGeneral

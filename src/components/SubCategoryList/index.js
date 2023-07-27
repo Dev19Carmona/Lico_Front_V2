@@ -6,7 +6,7 @@ export const SubCategoryList = ({subCategories,
 }) => {
     return (
         <>
-        <SimpleGrid columns={3}>
+        <SimpleGrid columns={{base:1, md:1, lg:3}}>
             {
             subCategories?.SubCategories.map((subCategory,i)=>(
                 <Box key={i}>

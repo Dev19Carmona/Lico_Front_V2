@@ -171,9 +171,7 @@ export const useExpensePage = (providerId) => {
       </Box>
         <SimpleGrid
           
-          columns={5}
-          templateColumns={"1fr 1fr 1fr 1fr"}
-          templateRows={"5fr"}
+          columns={{base:1, md:1, lg:5}}
         >
           {productsByProvider?.Products.map((product, i) => (
             <GridItem
