@@ -36,6 +36,7 @@ export const TabsGeneral = ({ index = [], components = [], opacity = 1 }) => {
       variant="soft-rounded"
       colorScheme="blue"
       opacity={opacity}
+      w={"full"}
     >
       <TransitionGroup component={TabList}>
         {index.map((e, i) => (

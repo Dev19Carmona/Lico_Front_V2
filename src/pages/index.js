@@ -1,4 +1,5 @@
 import { GraphicsGeneral } from "@/components/GraphicsGeneral";
+import { LoadingGeneral } from "@/components/LoadingGeneral";
 import { LoginForm } from "@/components/LoginForm";
 import { LoginContext } from "@/context/login";
 import { Box } from "@chakra-ui/react";

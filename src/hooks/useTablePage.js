@@ -52,12 +52,13 @@ export const useTablePage = (tableId) => {
     setProductData,
     handleDeleteProduct,
     handleTotal,
+    allProducts = [],
   } = useProductList(tableId);
   //States
 
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
-
+  const [fullProducts, setFullProducts] = useState([]);
   //Functions General
 
   //Modal Settings
@@ -99,8 +100,34 @@ export const useTablePage = (tableId) => {
       ],
     }
   );
-  console.log(isBillSave);
+
   //Effects
+
+  useEffect(() => {
+    let matriz = [];
+    let productsOfTables = [];
+    if (allProducts.length > 0) {
+      matriz.push(products?.Products, allProducts);
+      for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz[i]?.length; j++) {
+          const element = matriz[i][j];
+          productsOfTables.push(element);
+        }
+      }
+      const sumarAmounts = productsOfTables.reduce((acc, obj) => {
+        if (acc[obj._id]) {
+          acc[obj._id].amount -= obj.amount;
+        } else {
+          acc[obj._id] = { ...obj };
+        }
+        return acc;
+      }, {});
+
+      const uniqueObjects = Object.values(sumarAmounts);
+      setFullProducts(uniqueObjects);
+    }
+  }, [productList, allProducts, products]);
+
   useEffect(() => {
     if (isBillSave?.Bill_save) {
       setalertSaveTrue(true);
@@ -109,6 +136,7 @@ export const useTablePage = (tableId) => {
       setalertSaveFalse(true);
     }
   }, [isBillSave]);
+
   useEffect(() => {
     let timer;
     if (alertSaveTrue) {
@@ -153,7 +181,7 @@ export const useTablePage = (tableId) => {
           total: obj.total,
           seller: userSession,
           company: obj.companyData,
-          dateInfo:shelledDate(),
+          dateInfo: shelledDate(),
         },
       },
     });
@@ -189,7 +217,7 @@ export const useTablePage = (tableId) => {
         <GridSelectProduct
           isStay={chekSwitch}
           onClick={handleProductSelect}
-          data={products?.Products}
+          data={allProducts.length > 0 ? fullProducts : products?.Products}
         />
       </Box>
       {productList.length > 0 ? (
@@ -263,9 +291,11 @@ export const useTablePage = (tableId) => {
           handlePaymentMethod={handlePaymentMethod}
           total={handleTotal()}
           productList={productList}
-          date={`${((shelledDate().day).toString()).padStart(2,"0")}-${((shelledDate().month).toString()).padStart(2,"0")}-${
-            shelledDate().year
-          }`}
+          date={`${shelledDate()
+            .day.toString()
+            .padStart(2, "0")}-${shelledDate()
+            .month.toString()
+            .padStart(2, "0")}-${shelledDate().year}`}
           handleBillSave={handleBillSave}
           loadSaveBill={loadSaveBill}
           alertSaveTrue={alertSaveTrue}

@@ -5,13 +5,13 @@ export const Products = gql`
       _id
       amount
       provider {
-      _id
-      address
-      email
-      name
-      phone
-      salesManager
-    }
+        _id
+        address
+        email
+        name
+        phone
+        salesManager
+      }
       category {
         _id
         name

@@ -15,6 +15,7 @@ import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { useRegisterLogin } from "@/hooks/useRegisterLogin";
 import { AlertGeneral } from "../AlertGeneral";
+import { LoadingGeneral } from "../LoadingGeneral";
 
 export const LoginForm = () => {
   const {
@@ -51,17 +52,7 @@ export const LoginForm = () => {
               </FormControl>
               <ButtonGeneral
                 title={
-                  loadLogin ? (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="black"
-                      size="md"
-                    />
-                  ) : (
-                    "Enter"
-                  )
+                  "Entrar"
                 }
                 colorA={"green.400"}
                 colorB={"green.500"}
@@ -71,6 +62,11 @@ export const LoginForm = () => {
           </Form>
         )}
       </Formik>
+      {
+        loadLogin&&
+        <LoadingGeneral/>
+
+      }
       {alertLogInTrue && (
         <AlertGeneral
           status={"success"}

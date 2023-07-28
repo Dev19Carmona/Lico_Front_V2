@@ -68,6 +68,7 @@ export const useExpensePage = (providerId) => {
         }
       ]
     });
+    
     const handleBillSave = (obj) => {
       const sellProductList = productList.map((product) => {
         delete product.image;

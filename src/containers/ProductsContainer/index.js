@@ -1,5 +1,6 @@
 import { AlertDeleteGeneral } from "@/components/AlertDeleteGeneral";
 import { CategoryForm } from "@/components/CategoryForm";
+import { LoadingGeneral } from "@/components/LoadingGeneral";
 import { ModalGeneral } from "@/components/ModalGeneral";
 import { ProductForm } from "@/components/ProductForm";
 import { ProviderForm } from "@/components/ProviderForm";
@@ -54,6 +55,10 @@ export const ProductsContainer = () => {
     loadProductDelete,
     handleDeleteProduct,
     providers,
+    loadProviders,
+    loadProducts,
+    loadSubCategories,
+    loadCategories,
   } = useProductsPage();
 
   return (
@@ -296,6 +301,22 @@ export const ProductsContainer = () => {
         isOpen={settingsModalDeleteProduct.isOpen}
         onClose={settingsModalDeleteProduct.onClose}
       />
+      {
+        loadProviders||
+        loadProducts||
+        loadSubCategories||
+        loadCategories||
+        loadCategoryDelete||
+        loadProductDelete||
+        loadProviderDelete||
+        loadSubCategoryDelete||
+        loadRegisterCategory||
+        loadRegisterProduct||
+        loadRegisterProvider||
+        loadRegisterSubCategory
+        &&
+        <LoadingGeneral/>
+      }
     </Box>
   );
 };

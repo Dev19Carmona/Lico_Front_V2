@@ -101,10 +101,10 @@ export const useProductsPage = () => {
   };
   const initialValProductRegister = productData;
   //Queries
-  const [getProviders, { data: providers }] = useLazyQuery(Providers);
-  const [getCategories, { data: categories }] = useLazyQuery(Categories);
-  const [getProducts, { data: products }] = useLazyQuery(Products);
-  const [getSubCategories, { data: subCategories }] =
+  const [getProviders, { data: providers, loading:loadProviders }] = useLazyQuery(Providers);
+  const [getCategories, { data: categories, loading:loadCategories }] = useLazyQuery(Categories);
+  const [getProducts, { data: products, loading:loadProducts }] = useLazyQuery(Products);
+  const [getSubCategories, { data: subCategories, loading:loadSubCategories }] =
     useLazyQuery(SubCategories);
   const { data: totalProviders } = useQuery(providersTotal);
   const { data: totalCategories } = useQuery(categoriesTotal);
@@ -334,7 +334,8 @@ export const useProductsPage = () => {
         return refetchQueries;
       },
     });
-
+    
+    
   const [deleteProduct, { data: isProductDelete, loading: loadProductDelete }] =
     useMutation(Product_delete, {
       refetchQueries: () => {
@@ -678,6 +679,7 @@ export const useProductsPage = () => {
     resetForm();
   };
   const handleProductRegister = (values, { resetForm }) => {
+    
     if (values._id) {
       productSave({
         variables: {
@@ -696,14 +698,16 @@ export const useProductsPage = () => {
         },
       });
     } else {
+      delete values._id
+      
       productSave({
         variables: {
           productData: {
             name: values.name,
             amount: values.amount === "" ? 0 : values.amount,
             price: values.price === "" ? 0 : values.price,
-            categoryId: values.category._id,
-            subCategoryId: values.subCategory._id,
+            categoryId: selectCategory,
+            subCategoryId: values.subCategoryId,
             providerId: values.providerId !== "" && values.providerId,
             isLeave: values.isLeave === "" ? 0 : values.isLeave,
             isStay: values.isStay === "" ? 0 : values.isStay,
@@ -958,5 +962,9 @@ export const useProductsPage = () => {
     loadProductDelete,
     handleDeleteProduct,
     providers,
+    loadProviders,
+    loadProducts,
+    loadSubCategories,
+    loadCategories,
   };
 };

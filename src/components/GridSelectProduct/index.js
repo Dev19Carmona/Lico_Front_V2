@@ -1,5 +1,5 @@
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
-import { Box, Divider, Flex, Grid, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
+import { Box, Divider, Flex, Grid, GridItem, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { SubtitleGeneral } from "../SubtitleGeneral";
 
@@ -37,7 +37,7 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
             flexDirection="column"
           >
             <Image
-            w={"90px"}
+            w={"100px"}
             h={"90px"}
               fill={true}
               style={{ objectFit: "contain" }}
@@ -47,9 +47,10 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
               alt="ProductImage"
             />
             {/* <Divider/> */}
-            <Box >
+            <Flex p={2} justifyContent={'space-between'}>
+              <Text fontSize={'sm'}>{element.name}</Text>
               <SubtitleGeneral data={element.amount} />
-            </Box>
+            </Flex>
           </Flex>
         </motion.div>
       ))}

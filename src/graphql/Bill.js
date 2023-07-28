@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const Bills = gql`
-  query Bills($filters: Filters_bills, $options: Options) {
+  query Bills($filters: [Filters_bills], $options: Options) {
     Bills(filters: $filters, options: $options) {
       _id
       isPaid
