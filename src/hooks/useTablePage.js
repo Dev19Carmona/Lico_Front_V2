@@ -10,6 +10,7 @@ import {
   Flex,
   Grid,
   Heading,
+  Icon,
   ModalOverlay,
   SimpleGrid,
   Text,
@@ -23,6 +24,8 @@ import { LoginContext } from "@/context/login";
 import { GridSelectProduct } from "@/components/GridSelectProduct";
 import { SubtitleGeneral } from "@/components/SubtitleGeneral";
 import styled from "styled-components";
+import { FaExclamationCircle } from "react-icons/fa";
+import { GiBoxTrap } from "react-icons/gi";
 //import { viewportHeight, viewportWidth } from "../../config/Constants";
 
 export const useTablePage = (tableId) => {
@@ -39,7 +42,7 @@ export const useTablePage = (tableId) => {
   };
   //context
   //HookFunctions
-  const { chekSwitch, radioPayment, handlePaymentMethod, shelledDate } =
+  const { chekSwitch, radioPayment, handlePaymentMethod, shelledDate, stylizeDate } =
     useFunctionsGeneral();
   const {
     productList,
@@ -238,45 +241,70 @@ export const useTablePage = (tableId) => {
             //mb={1}
             justifyContent="space-around"
           >
-            <Text>Total:</Text>
-            <Text textAlign="center">{`$ ${Math.floor(
-              handleTotal()
-            ).toLocaleString()}`}</Text>
+            <Text
+              fontFamily={"monospace"}
+              fontSize={"lg"}
+              letterSpacing={2}
+              fontWeight={"extrabold"}
+            >
+              Total:
+            </Text>
+            <Text
+              fontWeight={"extrabold"}
+              color={"cyan.700"}
+              textAlign="center"
+            >{`$ ${Math.floor(handleTotal()).toLocaleString()}`}</Text>
           </Flex>
           {productList
             .slice()
             .reverse()
             .map((product, i) => (
-              <CardHorizontal
-                onDelete={() => {
-                  handleOpenModalDeleteProduct(product);
-                }}
-                onClick={handleProductSelect}
-                parameter={{
-                  _id: product._id,
-                  name: product.name,
-                  price: product.price,
-                  image: product.image,
-                  remaining: product.remaining,
-                  amount: 1,
-                }}
-                data={{
-                  head: product.name,
-                  image: product.image,
-                  body: product.amount,
-                  title: Math.floor(product.price).toLocaleString(),
-                  secondTitle: Math.floor(
-                    product.amount * product.price
-                  ).toLocaleString(),
-                }}
-                key={i}
-              />
+              <Box mt={5} key={i}>
+                <CardHorizontal
+                  onDelete={() => {
+                    handleOpenModalDeleteProduct(product);
+                  }}
+                  onClick={handleProductSelect}
+                  parameter={{
+                    _id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    remaining: product.remaining,
+                    amount: 1,
+                  }}
+                  data={{
+                    head: product.name,
+                    image: product.image,
+                    body: product.amount,
+                    title: Math.floor(product.price).toLocaleString(),
+                    secondTitle: Math.floor(
+                      product.amount * product.price
+                    ).toLocaleString(),
+                  }}
+                />
+              </Box>
             ))}
         </Box>
       ) : (
-        <Box m={"auto"} w={"100%"}>
-          No se han agregado productos
-        </Box>
+        <Box
+        borderRadius={9}
+        bg={{ base: "transparent", md: "blue.100", lg: "blue.100" }}
+      w="full"  // Ancho del componente al tamaño completo de la pantalla
+      h="full"  // Alto del componente al tamaño completo de la pantalla
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Box
+        w="30%"   // Ancho del ícono al 40% del contenedor padre
+        h="30%"   // Alto del ícono al 40% del contenedor padre
+        position="relative"
+      >
+        <Icon as={GiBoxTrap} boxSize="100%" />
+        <SubtitleGeneral size="sm" data={'No se han registrado productos aún...'}/>
+      </Box>
+    </Box>
       )}
     </SimpleGrid>,
     //----------------------------------------------------------//
@@ -291,11 +319,12 @@ export const useTablePage = (tableId) => {
           handlePaymentMethod={handlePaymentMethod}
           total={handleTotal()}
           productList={productList}
-          date={`${shelledDate()
-            .day.toString()
-            .padStart(2, "0")}-${shelledDate()
-            .month.toString()
-            .padStart(2, "0")}-${shelledDate().year}`}
+          date={stylizeDate()}
+          // date={`${shelledDate()
+          //   .day.toString()
+          //   .padStart(2, "0")}-${shelledDate()
+          //   .month.toString()
+          //   .padStart(2, "0")}-${shelledDate().year}`}
           handleBillSave={handleBillSave}
           loadSaveBill={loadSaveBill}
           alertSaveTrue={alertSaveTrue}

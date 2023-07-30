@@ -40,7 +40,7 @@ export const useProductList = (id) => {
     const uniqueObjects = Object.values(sumarAmounts);
     
     setAllProducts(uniqueObjects);
-  }, [productList, alertDeleteProduct]);
+  }, [productList, alertDeleteProduct, tables?.Tables]);
 
   useEffect(() => {
     if (localStorage.getItem(id ? id : "fastSell")) {

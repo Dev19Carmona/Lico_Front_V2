@@ -29,6 +29,7 @@ import { ADMIN_NAME, SELLER_NAME } from "../../config/Constants";
 import { AiOutlineBell } from "react-icons/ai";
 import { useState } from "react";
 import { BiSolidBellRing } from "react-icons/bi";
+import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 
 export const NavBarLayout = () => {
   const { data: company } = useQuery(Companies);
@@ -47,7 +48,7 @@ export const NavBarLayout = () => {
     loginOrRegister,
     handleClickToChangeLoginOrRegister,
   } = useNavBar();
-
+  const {stylizeDate} = useFunctionsGeneral()
   const showLinks = (roles) =>
     roles.some((rol) => rol === localSession?.rol.name);
   const [angle, setAngle] = useState(0);
@@ -67,8 +68,8 @@ export const NavBarLayout = () => {
         justifyContent={"space-between"}
         mr={5}
       >
-        <Box letterSpacing={2} fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          {company?.Companies[0].name}
+        <Box letterSpacing={1} fontSize="sm" fontFamily="monospace" fontWeight="thin">
+          {stylizeDate()}
         </Box>
         <Flex alignItems={"center"} gap={15}>
           <motion.div animate={{ rotate: angle }}>

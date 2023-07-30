@@ -85,11 +85,19 @@ const shelledDate = () => {
   const datetime = new Date();
 const day = datetime.getDate();
 const month = datetime.getMonth() + 1;
+const monthNumberByName = datetime.getMonth();
 const year = datetime.getFullYear();
 const hours = datetime.getHours();
 const minuts = datetime.getMinutes();
 const seconds = datetime.getSeconds();
-
+const dayNumber = datetime.getDay();
+const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const months = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+const monthName = months[monthNumberByName]
+const dayName = days[dayNumber];
 return{
   datetime,
   day,
@@ -97,8 +105,24 @@ return{
   year,
   hours,
   minuts,
-  seconds
+  seconds,
+  dayName,
+  monthName,
 }
+}
+const stylizeDate = () => {
+  const {
+    datetime,
+    day,
+    month,
+    year,
+    hours,
+    minuts,
+    seconds,
+    dayName,
+    monthName
+  } = shelledDate()
+  return `${dayName}, ${day} de ${monthName} del ${year}`
 }
   return {
     chekSwitch,
@@ -113,5 +137,6 @@ return{
     handleUnixToDDMMYYYY,
     convertPrice,
     shelledDate,
+    stylizeDate,
   };
 };

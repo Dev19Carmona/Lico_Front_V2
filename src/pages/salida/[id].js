@@ -12,7 +12,7 @@ function Salida() {
     
     <>
       {localSession?.localSession?.rol.name === ADMIN_NAME ? (
-        <Box ml={50} minH={"100vh"}>
+        <Box ml={"65px"} minH={"100vh"}>
           <ExpenseContainer providerId={router.query.id}/>
         </Box>
       ) : (

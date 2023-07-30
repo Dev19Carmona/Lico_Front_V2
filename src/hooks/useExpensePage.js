@@ -13,14 +13,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useProductList } from "./functions/useProductList";
-import React,{useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 import { BillTable } from "@/components/BillTable";
 import { Bill_save, Bills } from "@/graphql/Bill";
 import { LoginContext } from "@/context/login";
+import { CardMiniNice } from "@/components/CardMiniNice";
 
 export const useExpensePage = (providerId) => {
-  const localSession = useContext(LoginContext)
+  const localSession = useContext(LoginContext);
   const userSession = {
     _id: localSession?.localSession._id,
     fullName: localSession?.localSession.fullName,
@@ -30,7 +31,7 @@ export const useExpensePage = (providerId) => {
     phone: localSession?.localSession.phone,
     genderId: localSession?.localSession.genderId,
     password: localSession?.localSession.password,
-  }
+  };
   //STATES
   const [alertSaveTrue, setalertSaveTrue] = useState(false);
   const [alertSaveFalse, setalertSaveFalse] = useState(false);
@@ -45,7 +46,7 @@ export const useExpensePage = (providerId) => {
     handleDeleteProductList,
     setProductList,
   } = useProductList(providerId);
-  const { handleDateToday, radioPayment, handlePaymentMethod, shelledDate } =
+  const { handleDateToday, radioPayment, handlePaymentMethod, stylizeDate } =
     useFunctionsGeneral();
   //Queries
   const { data: productsByProvider } = useQuery(Products, {
@@ -57,73 +58,75 @@ export const useExpensePage = (providerId) => {
   });
   const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
   //Mutations
-  const [billSave, { data: isBillSave, loading: loadSaveBill }] =
-    useMutation(Bill_save,{
-      refetchQueries:[
+  const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
+    Bill_save,
+    {
+      refetchQueries: [
         {
-          query: Products
+          query: Products,
         },
         {
-          query: Bills
-        }
-      ]
-    });
-    
-    const handleBillSave = (obj) => {
-      const sellProductList = productList.map((product) => {
-        delete product.image;
-        delete product.remaining;
-        return product;
-      });
-      billSave({
-        variables: {
-          billData: {
-            tableId:providerId?providerId:"Fast Sell",
-            products: sellProductList,
-            paymentMethod: radioPayment,
-            total: obj.total,
-            type:"Compra",
-            providerId,
-            seller: userSession,
-            company: obj.companyData,
-            dateInfo:shelledDate(),
-          },
+          query: Bills,
         },
-      });
-      handleDeleteProductList();
-      setTimeout(() => {
-        setProductList([])
-      }, 3000);
-    };
+      ],
+    }
+  );
 
-    //EFFECTS
-    useEffect(() => {
-      if (isBillSave?.Bill_save) {
-        setalertSaveTrue(true);
-      }
-      if (isBillSave?.Bill_save === false) {
-        setalertSaveFalse(true);
-      }
-    }, [isBillSave]);
-    useEffect(() => {
-      let timer;
-      if (alertSaveTrue) {
-        timer = setTimeout(() => {
-          setalertSaveTrue(false);
-        }, 3000);
-      }
-      return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
-    }, [alertSaveTrue]);
-  
-    useEffect(() => {
-      let timer;
-      if (alertSaveFalse) {
-        timer = setTimeout(() => {
-          setalertSaveFalse(false);
-        }, 3000);
-      }
-      return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
-    }, [alertSaveFalse]);
+  const handleBillSave = (obj) => {
+    const sellProductList = productList.map((product) => {
+      delete product.image;
+      delete product.remaining;
+      return product;
+    });
+    billSave({
+      variables: {
+        billData: {
+          tableId: providerId ? providerId : "Fast Sell",
+          products: sellProductList,
+          paymentMethod: radioPayment,
+          total: obj.total,
+          type: "Compra",
+          providerId,
+          seller: userSession,
+          company: obj.companyData,
+          dateInfo: shelledDate(),
+        },
+      },
+    });
+    handleDeleteProductList();
+    setTimeout(() => {
+      setProductList([]);
+    }, 3000);
+  };
+
+  //EFFECTS
+  useEffect(() => {
+    if (isBillSave?.Bill_save) {
+      setalertSaveTrue(true);
+    }
+    if (isBillSave?.Bill_save === false) {
+      setalertSaveFalse(true);
+    }
+  }, [isBillSave]);
+  useEffect(() => {
+    let timer;
+    if (alertSaveTrue) {
+      timer = setTimeout(() => {
+        setalertSaveTrue(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveTrue]);
+
+  useEffect(() => {
+    let timer;
+    if (alertSaveFalse) {
+      timer = setTimeout(() => {
+        setalertSaveFalse(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+  }, [alertSaveFalse]);
 
   //Modal Settings
   const settingsModalDeleteProduct = useDisclosure();
@@ -155,25 +158,21 @@ export const useExpensePage = (providerId) => {
   };
   const components = [
     <Grid key="products" gap={10}>
-      <Grid p={5} border={"0.1px solid"} borderRadius={9}>
-      <Box
-        borderRadius={10}
-        boxShadow={"xl"}
-        justifyContent={"center"}
-        key={1}
-        p={4}
-        display="flex"
-        gridTemplateColumns="1fr"
-      >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
-        Seleccionar productos
-        </Box>
-        
-      </Box>
-        <SimpleGrid
-          
-          columns={{base:1, md:1, lg:5}}
+      <Grid gap={5} p={5} border={"0.1px solid"} borderRadius={9}>
+        <Box
+          borderRadius={10}
+          boxShadow={"xl"}
+          justifyContent={"center"}
+          key={1}
+          p={4}
+          display="flex"
+          gridTemplateColumns="1fr"
         >
+          <Text letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+            Seleccionar productos
+          </Text>
+        </Box>
+        <SimpleGrid gap={10} columns={{ base: 1, md: 1, lg: 5 }}>
           {productsByProvider?.Products.map((product, i) => (
             <GridItem
               key={i}
@@ -188,44 +187,56 @@ export const useExpensePage = (providerId) => {
                 });
               }}
             >
-              <CardImage
+              <CardMiniNice
+                data={{
+                  image: product.image,
+                  firstBox: product.amount,
+                  secondBox: `$${Math.floor(product.price).toLocaleString()}`,
+                  title: product.name,
+                }}
+              />
+              {/* <CardImage
                 data={{
                   image: product.image,
                   title: product.name,
                   subTitle: product.amount,
-                  bodyBold: `$${Math.floor(product.price).toLocaleString()}`}}
-              />
+                  bodyBold: `$${Math.floor(product.price).toLocaleString()}`,
+                }}
+              /> */}
             </GridItem>
           ))}
         </SimpleGrid>
       </Grid>
-      <Grid p={5} border={"0.1px solid"} borderRadius={9}>
-        {productList.slice().reverse().map((product, i) => (
-          <CardHorizontal
-            onDelete={() => {
-              handleOpenModalDeleteProduct(product);
-            }}
-            onClick={handleProductSelectExpenses}
-            parameter={{
-              _id: product._id,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              remaining: product.remaining,
-              amount: 1,
-            }}
-            data={{
-              head: product.name,
-              image: product.image,
-              body: product.amount,
-              title: Math.floor(product.price).toLocaleString(),
-              secondTitle: Math.floor(
-                product.amount * product.price
-              ).toLocaleString(),
-            }}
-            key={i}
-          />
-        ))}
+      <Grid p={5}  borderRadius={9}>
+        {productList
+          .slice()
+          .reverse()
+          .map((product, i) => (
+            <CardHorizontal
+              onDelete={() => {
+                handleOpenModalDeleteProduct(product);
+              }}
+              onClick={handleProductSelectExpenses}
+              parameter={{
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                remaining: product.remaining,
+                amount: 1,
+              }}
+              data={{
+                head: product.name,
+                image: product.image,
+                body: product.amount,
+                title: Math.floor(product.price).toLocaleString(),
+                secondTitle: Math.floor(
+                  product.amount * product.price
+                ).toLocaleString(),
+              }}
+              key={i}
+            />
+          ))}
         {productList.length > 0 && (
           <Flex
             bg={"gray.100"}
@@ -253,11 +264,11 @@ export const useExpensePage = (providerId) => {
           handlePaymentMethod={handlePaymentMethod}
           total={handleTotal()}
           productList={productList}
-          date={handleDateToday}
+          date={stylizeDate()}
           handleBillSave={handleBillSave}
           loadSaveBill={loadSaveBill}
-           alertSaveTrue={alertSaveTrue}
-           alertSaveFalse={alertSaveFalse}
+          alertSaveTrue={alertSaveTrue}
+          alertSaveFalse={alertSaveFalse}
         />
       )}
     </Grid>,

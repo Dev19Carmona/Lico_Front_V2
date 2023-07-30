@@ -1,35 +1,25 @@
-import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
-import { Box, Divider, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { SubtitleGeneral } from "../SubtitleGeneral";
 
-export const GridSelectProduct = ({ data, onClick, isStay }) => {
-  const { convertPrice } = useFunctionsGeneral();
-  return (
-    <SimpleGrid mt={{ base: 2, md: 5, lg: 5 }} cursor={"pointer"} columns={{ base: 3, md: 4, lg: 4 }} gap={7}>
-      {data?.map((element, index) => (
-        <motion.div whileHover={{ translateY: -5 }} key={index}>
+import { Box, Divider, Flex, Image, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { BLUE_BG_IMAGE } from "../../../config/Constants";
+
+export const CardMiniNice = ({onClick = () =>{}, data={image:BLUE_BG_IMAGE, firstBox:"First", secondBox:"Second", title:"Title"}}) => {
+    const {image, firstBox, secondBox, title} = data;
+    return(
+        <motion.div whileHover={{ translateY: -5 }}>
           <Flex
           p={2}
-          alignItems={'center'}
+          cursor={'pointer'}
             _hover={{ shadow: "xl", border: "0.5px solid grey" }}
             bg={"white"}
             borderRadius={9}
             onClick={() => {
-              onClick({
-                _id: element._id,
-                name: element.name,
-                price: isStay
-                  ? convertPrice(element.isStay, element.price)
-                  : convertPrice(element.isLeave, element.price),
-                amount: 1,
-                image: element.image,
-                remaining: element.amount,
-              });
+              onClick();
             }}
             h="full"
             w="full"
             flexDirection="column"
+            alignItems={'center'}
           >
             <Image
               w={"100px"}
@@ -37,7 +27,7 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
               fill={true}
               style={{ objectFit: "contain" }}
               maxW={{ base: "100%", sm: "200px" }}
-              src={element.image}
+              src={image}
               alt="ProductImage"
             />
             {/* <Divider/> */}
@@ -51,7 +41,9 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
                 mb={2}
                 borderRadius={2}
               >
-                <SubtitleGeneral size="xs" data={element.amount} />
+                <Text fontFamily={'mono'} fontSize={'xs'}>
+              {firstBox}
+                </Text>
               </Box>
               <Box
                 bg="gray.200"
@@ -63,11 +55,7 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
                 borderRadius={2}
               >
                 <Text fontSize={'xs'}>
-              $
-              {
-                isStay?convertPrice(element.isStay, element.price).toLocaleString()
-                : convertPrice(element.isLeave, element.price).toLocaleString()
-              }  
+              {secondBox}
                 </Text>
                   
                 
@@ -77,12 +65,10 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
             <Divider />
             <Box m={1}>
               <Text fontWeight={"semibold"} letterSpacing={1} fontSize={"xs"}>
-                {element.name}
+                {title}
               </Text>
             </Box>
           </Flex>
         </motion.div>
-      ))}
-    </SimpleGrid>
-  );
-};
+    )
+}
