@@ -4,11 +4,9 @@ import { InputGeneral } from "@/components/InputGeneral";
 import { ModalGeneral } from "@/components/ModalGeneral";
 import { TableList } from "@/components/TableList";
 import { useTablesPage } from "@/hooks/useTablesPage";
-import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import { RiBillLine, RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { GrAdd, GrMultiple } from "react-icons/gr";
-import { useState } from "react";
+import { GrAdd } from "react-icons/gr";
 import { motion } from "framer-motion";
 import { TableContainer } from "../TableContainer";
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
@@ -39,30 +37,37 @@ export const TablesContainer = () => {
   const { handleSwitchPriceProducts, changeSell } = useFunctionsGeneral();
   return (
     <Grid gap={5} mt={5}>
-      <Box 
-      borderRadius={10}
-      boxShadow={"xl"}
-      justifyContent={"space-around"}
-      key={1}
-      p={4}
-      display="flex"
-      gridTemplateColumns="1fr"
+      <Box
+        borderRadius={10}
+        boxShadow={"xl"}
+        justifyContent={"space-around"}
+        key={1}
+        p={4}
+        display="flex"
+        gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>{changeSell?"Crea varias ventas":"Realiza una venta"} </Box>
-      <GridItem justifySelf={"end"}>
-      <ButtonGeneral
-        
-        onClick={handleSwitchPriceProducts}
-        title={
-          !changeSell ? (
-            <RiCheckboxMultipleBlankLine fontSize={20} />
-          ) : (
-            <RiBillLine fontSize={20} />
-          )
-        }
-      />
-      </GridItem>
-
+        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+          {changeSell ? "Crea varias ventas" : "Realiza una venta"}{" "}
+        </Box>
+        <GridItem justifySelf={"end"}>
+          <ButtonGeneral
+            onClick={handleSwitchPriceProducts}
+            title={
+              !changeSell ? (
+                <Flex justifyContent={'space-between'}>
+                  <RiCheckboxMultipleBlankLine fontSize={20} />
+                  <Text fontFamily={'mono'}>Carritos</Text>
+                </Flex>
+              ) : (
+                <Flex justifyContent={'space-between'}>
+                  <RiBillLine fontSize={20} />
+                  <Text fontFamily={'mono'}>Venta</Text>
+                </Flex>
+                
+              )
+            }
+          />
+        </GridItem>
       </Box>
       {changeSell && (
         <motion.div
@@ -102,8 +107,7 @@ export const TablesContainer = () => {
           />
         </motion.div>
       ) : (
-        <Grid style={{ textAlign: 'center' }}>
-          
+        <Grid style={{ textAlign: "center" }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

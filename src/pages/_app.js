@@ -18,12 +18,14 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { WebSocket } from "ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { useRouter } from "next/router";
 
 // const httpLink = createHttpLink({
 //   uri: "http://127.0.0.1:4000/graphql",
 // });
 //"https://mas-copas-lounge-backend.onrender.com/graphql"
 const authLink = setContext((_, { headers }) => {
+
   const token = localStorage.getItem("session");
   return {
     headers: {
@@ -34,14 +36,14 @@ const authLink = setContext((_, { headers }) => {
   };
 }).concat(
   createUploadLink({
-    uri: "https://mas-copas-lounge-backend.onrender.com/graphql",
+    uri: "http://127.0.0.1:4000/graphql",
   })
 );
 //hola
 const wsLink = new GraphQLWsLink(
   createClient({
     webSocketImpl: WebSocket,
-    url: "ws://mas-copas-lounge-backend.onrender.com/graphql",
+    url: "ws://127.0.0.1:4000/graphql",
   })
 );
 
@@ -63,14 +65,16 @@ const client = new ApolloClient({
 });
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter()
   useEffect(() => {
     const tokenSession = localStorage.getItem("session");
     const decodedToken = jwt.decode(tokenSession);
     const fecha = new Date(decodedToken?.exp * 1000);
     if (fecha < new Date()) {
       localStorage.removeItem("session");
+      router.reload()
     }
-  }, []);
+  }, [router]);
 
   return (
     <ApolloProvider client={client}>

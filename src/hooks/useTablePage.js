@@ -23,8 +23,6 @@ import { Companies } from "@/graphql/Company";
 import { LoginContext } from "@/context/login";
 import { GridSelectProduct } from "@/components/GridSelectProduct";
 import { SubtitleGeneral } from "@/components/SubtitleGeneral";
-import styled from "styled-components";
-import { FaExclamationCircle } from "react-icons/fa";
 import { GiBoxTrap } from "react-icons/gi";
 //import { viewportHeight, viewportWidth } from "../../config/Constants";
 
@@ -100,6 +98,9 @@ export const useTablePage = (tableId) => {
         {
           query: Products,
         },
+        {
+          query:Bills,
+        }
       ],
     }
   );
@@ -211,8 +212,8 @@ export const useTablePage = (tableId) => {
 
   const components = [
     <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} key="products" gap={5}>
-      <Box p={3} bg={"blue.100"} borderRadius={9} w={"full"} h={"full"}>
-        <SubtitleGeneral data={"Seleccionar Productos"} />
+      <Box p={3} bg={"gray.200"} borderRadius={9} w={"full"} h={"full"}>
+        <SubtitleGeneral color="black" data={"Seleccionar Productos"} />
         <InputSearchGeneral
           value={productSearch}
           onChange={handleProductSearch}
@@ -226,7 +227,7 @@ export const useTablePage = (tableId) => {
       {productList.length > 0 ? (
         <Box
           mt={{ base: 2, md: 0, lg: 0 }}
-          bg={{ base: "transparent", md: "blue.100", lg: "blue.100" }}
+          bg={{ base: "transparent", md: "gray.200", lg: "gray.200" }}
           borderRadius={9}
           w={"100%"}
           h={"full"}
@@ -289,7 +290,7 @@ export const useTablePage = (tableId) => {
       ) : (
         <Box
         borderRadius={9}
-        bg={{ base: "transparent", md: "blue.100", lg: "blue.100" }}
+        bg={{ base: "transparent", md: "gray.200", lg: "gray.200" }}
       w="full"  // Ancho del componente al tamaño completo de la pantalla
       h="full"  // Alto del componente al tamaño completo de la pantalla
       display="flex"

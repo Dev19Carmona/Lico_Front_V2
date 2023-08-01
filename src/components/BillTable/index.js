@@ -18,19 +18,20 @@ import {
   SimpleGrid,
   Radio,
   Center,
+  Grid,
 } from "@chakra-ui/react";
-import { useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { LoginContext } from "@/context/login";
-import { Companies } from "@/graphql/Company";
 import { paymentMethods } from "../../../config/Constants.js";
 import { ButtonGeneral } from "../ButtonGeneral/index.js";
 import { AlertGeneral } from "../AlertGeneral/index.js";
+import { SubtitleGeneral } from "../SubtitleGeneral/index.js";
 
 export const BillTable = ({
   onlyWrite = false,
+  methods = { a: "method key", b: "method value", c:"semana key", d: "semana value"},
   date = new Date(),
-  productList,
+  productList = [],
   total,
   handleBillSave = () => {},
   loadSaveBill = false,
@@ -115,7 +116,7 @@ export const BillTable = ({
             {Math.floor(total).toLocaleString()}
           </Text>
         </Flex>
-        {!onlyWrite && (
+        {!onlyWrite ? (
           <>
             <Flex
               p={1.5}
@@ -169,6 +170,17 @@ export const BillTable = ({
               />
             </Flex>
           </>
+        ) : (
+          <Grid>
+            <Flex justifyContent={"start"} gap={5}>
+              <SubtitleGeneral size="xs" data={methods.a} />
+              <SubtitleGeneral size="xs" data={methods.b} />
+            </Flex>
+            <Flex justifyContent={"start"} gap={5}>
+              <SubtitleGeneral size="xs" data={methods.c} />
+              <SubtitleGeneral size="xs" data={methods.d} />
+            </Flex>
+          </Grid>
         )}
       </Box>
       {alertSaveTrue && (

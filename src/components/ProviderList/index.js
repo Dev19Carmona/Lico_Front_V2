@@ -9,7 +9,7 @@ export const ProviderList = ({
 }) => {
   return (
     <>
-      <SimpleGrid columns={{base:1, md:1, lg:3}}>
+      <SimpleGrid columns={{base:1, md:2, lg:3}}>
         {providers?.providers.map((provider, i) => (
           <Box key={i}>
             <CardGeneralBorder

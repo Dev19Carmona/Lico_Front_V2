@@ -1,9 +1,1 @@
-<Image
-        fill={true}
-        style={{ objectFit: "contain" }}
-        maxW={{ base: "100%", sm: "200px" }}
-        h="full"
-        w="full"
-        src={image}
-        alt="Caffe Latte"
-      />
+{dayCombinations: Array(1), dailyTotal: Array(1), years: Array(1)} {dayCombinations: Array(1), dailyTotal: Array(1), years: Array(1)}

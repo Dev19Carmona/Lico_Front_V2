@@ -75,7 +75,7 @@ export const ProductForm = ({
                 </FormControl>
 
                 <FormControl id="isLeave">
-                  <FormLabel>Llevar</FormLabel>
+                  <FormLabel>Venta 1</FormLabel>
                   <Field
                     name="isLeave"
                     as={Input}
@@ -85,7 +85,7 @@ export const ProductForm = ({
                 </FormControl>
 
                 <FormControl id="isStay">
-                  <FormLabel>Establecimiento</FormLabel>
+                  <FormLabel>Venta 2</FormLabel>
                   <Field
                     name="isStay"
                     as={Input}

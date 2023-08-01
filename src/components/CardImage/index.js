@@ -48,6 +48,7 @@ export const CardImage = ({
             h="100px"
             w="full"
             src={data.image}
+            alt="Image"
           />
         </Box>
         <Stack align={"center"}>

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const Bills = gql`
-  query Bills($filters: [Filters_bills], $options: Options) {
-    Bills(filters: $filters, options: $options) {
+  query Bills($filters: [Filters_bills], $options: Options, $filtersDate: Filters_bills_date) {
+  Bills(filters: $filters, options: $options, filters_Date: $filtersDate) {
       _id
       isPaid
       isRemove
@@ -27,14 +27,17 @@ export const Bills = gql`
       }
       createdAt
       dateInfo {
-      datetime
-      day
-      hours
-      minuts
-      month
-      seconds
-      year
-    }
+        datetime
+        day
+        hours
+        minuts
+        month
+        seconds
+        year
+        dayName
+        monthName
+        weekNumber
+      }
     }
   }
 `;
@@ -48,7 +51,11 @@ export const Bill_delete = gql`
     Bill_delete(_id: $_id)
   }
 `;
-
+export const billsTotal = gql`
+  query Query($filters: [Filters_bills]) {
+    billsTotal(filters: $filters)
+  }
+`;
 export const subNewBill = gql`
   subscription Subscription {
     subNewBill {

@@ -1,10 +1,47 @@
 import { useState } from "react";
 import { BiReceipt, BiSolidReceipt } from "react-icons/bi";
 import { useBillList } from "./functions/useBillList";
+import { ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import { LIMIT } from "../../config/Constants";
+import { useBills } from "./Lists/useBills";
+import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 
 export const useBillsPage = () => {
-  const { bills, handleSetType } = useBillList();
+  const { pagesTotalBills, setPageBills, pageBills } = useBillList();
+  const { useBillsPerVariables } = useBills();
+  const { shelledDate } = useFunctionsGeneral();
+  //STATES
+  const [bill, setBill] = useState({});
+  const [type, setType] = useState();
+  const [selectedDate, setSelectedDate] = useState({
+    start: null,
+    end: null,
+  });
+  const dateInfoStart = shelledDate(new Date(selectedDate.start));
+
+  //Handles
+  const handleSetType = (value) => {
+    setType(value);
+  };
+  const bills = useBillsPerVariables({
+    variables: {
+      filters: [
+        {
+          key: "type",
+          value: type,
+        },
+      ],
+      filtersDate: {
+        start: selectedDate.start,
+        end: selectedDate.end,
+      },
+    },
+  });
+  const handleDateChange = (date) => {
+    setSelectedDate({ ...selectedDate, ...date });
+  };
   //CONSTANTS
+
   const defaultShowBills = Object.freeze({
     compras: false,
     ventas: false,
@@ -19,6 +56,24 @@ export const useBillsPage = () => {
   const handleDefaultBills = () => {
     setShowBills(defaultShowBills);
   };
+
+  //Modal Settings
+  const settingsModalShowBill = useDisclosure();
+  const OverlayTwo = () => (
+    <ModalOverlay
+      bg="none"
+      backdropFilter="auto"
+      backdropInvert="80%"
+      backdropBlur="2px"
+    />
+  );
+  const [overlay, setOverlay] = useState(<OverlayTwo />);
+  const handleOpenModalShowBill = (data) => {
+    setBill(data);
+    setOverlay(<OverlayTwo />);
+    settingsModalShowBill.onOpen();
+  };
+
   const options = [
     {
       id: "Compra",
@@ -31,6 +86,7 @@ export const useBillsPage = () => {
       texto: "Ventas",
     },
   ];
+
   return {
     options,
     handleShowBills,
@@ -38,5 +94,14 @@ export const useBillsPage = () => {
     handleDefaultBills,
     handleSetType,
     bills,
+    settingsModalShowBill,
+    overlay,
+    handleOpenModalShowBill,
+    bill,
+    pagesTotalBills,
+    setPageBills,
+    pageBills,
+    handleDateChange,
+    selectedDate,
   };
 };

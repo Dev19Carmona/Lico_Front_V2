@@ -54,9 +54,9 @@ export const CardGeneralBorder = ({
               src={src}
               fill={true}
               style={{ objectFit: imageType }}
-              roundedTop={"sm"}
               h="full"
               w="full"
+              roundedTop={"sm"}
               alt={"Blog Image"}
             />
           </Box>

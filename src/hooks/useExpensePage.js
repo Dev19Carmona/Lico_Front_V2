@@ -19,8 +19,10 @@ import { BillTable } from "@/components/BillTable";
 import { Bill_save, Bills } from "@/graphql/Bill";
 import { LoginContext } from "@/context/login";
 import { CardMiniNice } from "@/components/CardMiniNice";
+import { useRouter } from "next/router";
 
 export const useExpensePage = (providerId) => {
+  const router = useRouter()
   const localSession = useContext(LoginContext);
   const userSession = {
     _id: localSession?.localSession._id,
@@ -46,7 +48,7 @@ export const useExpensePage = (providerId) => {
     handleDeleteProductList,
     setProductList,
   } = useProductList(providerId);
-  const { handleDateToday, radioPayment, handlePaymentMethod, stylizeDate } =
+  const { radioPayment, handlePaymentMethod, stylizeDate, shelledDate } =
     useFunctionsGeneral();
   //Queries
   const { data: productsByProvider } = useQuery(Products, {
@@ -96,7 +98,8 @@ export const useExpensePage = (providerId) => {
     handleDeleteProductList();
     setTimeout(() => {
       setProductList([]);
-    }, 3000);
+      router.push("/productos")
+    }, 1000);
   };
 
   //EFFECTS

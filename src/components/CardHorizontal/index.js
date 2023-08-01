@@ -34,6 +34,7 @@ export const CardHorizontal = ({
     <Container mb={3}>
       <motion.div whileHover={{ translateY: -5 }}>
         <Flex
+          cursor={showButtons?"auto":"pointer"}
           rounded="md"
           boxShadow={useColorModeValue(
             "0 4px 6px rgba(160, 174, 192, 0.6)",
