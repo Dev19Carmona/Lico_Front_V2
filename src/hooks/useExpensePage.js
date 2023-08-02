@@ -62,16 +62,6 @@ export const useExpensePage = (providerId) => {
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
-    {
-      refetchQueries: [
-        {
-          query: Products,
-        },
-        {
-          query: Bills,
-        },
-      ],
-    }
   );
 
   const handleBillSave = (obj) => {

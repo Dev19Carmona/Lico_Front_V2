@@ -24,9 +24,11 @@ import { LoginContext } from "@/context/login";
 import { GridSelectProduct } from "@/components/GridSelectProduct";
 import { SubtitleGeneral } from "@/components/SubtitleGeneral";
 import { GiBoxTrap } from "react-icons/gi";
+import { useRouter } from "next/router";
 //import { viewportHeight, viewportWidth } from "../../config/Constants";
 
 export const useTablePage = (tableId) => {
+  const router = useRouter()
   const localSession = useContext(LoginContext);
   const userSession = {
     _id: localSession?.localSession._id,
@@ -94,14 +96,16 @@ export const useTablePage = (tableId) => {
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
     {
-      refetchQueries: [
+      refetchQueries:[
         {
-          query: Products,
-        },
-        {
-          query:Bills,
+          query:Products,
+            variables: {
+              filters: {
+                search: productSearch,
+              },
+            },
         }
-      ],
+      ]
     }
   );
 
@@ -192,6 +196,7 @@ export const useTablePage = (tableId) => {
     handleDeleteProductList();
     setTimeout(() => {
       setProductList([]);
+      router.push("/ventas")
     }, 3000);
   };
 
