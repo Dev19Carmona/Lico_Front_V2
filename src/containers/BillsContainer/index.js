@@ -28,7 +28,6 @@ export const BillsContainer = () => {
     handleDateChange,
     selectedDate,
   } = useBillsPage();
-  
   return (
     <Grid  gap={3}>
       <Box

@@ -22,8 +22,12 @@ ChartJS.register(
   Filler
 );
 
-export const GraphicsGeneral = ({dataHorizontal = [],dataHorizontalB = [], dataVertical = [], labels = {a:"Beneficios", b:"Otra Linea"}}) => {
-
+export const GraphicsGeneral = ({
+  dataHorizontal = [],
+  dataHorizontalB = [],
+  dataVertical = [],
+  labels = { a: "Beneficios", b: "Otra Linea" },
+}) => {
   var midata = {
     labels: dataHorizontal,
     datasets: [
@@ -33,7 +37,6 @@ export const GraphicsGeneral = ({dataHorizontal = [],dataHorizontalB = [], dataV
         data: dataVertical,
         tension: 0.5,
         fill: true,
-        //borderColor: "rgb(255, 99, 132)",
         borderColor: "rgb(99, 200, 132)",
         backgroundColor: "rgba(99, 200, 132, 0.5)",
         pointRadius: 6,
@@ -47,7 +50,7 @@ export const GraphicsGeneral = ({dataHorizontal = [],dataHorizontalB = [], dataV
         fill: true,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
-        pointRadius: 6,
+        pointRadius: 5,
         pointBorderColor: "rgba(255, 99, 132)",
         pointBackgroundColor: "rgba(255, 99, 132)",
       },
@@ -60,7 +63,7 @@ export const GraphicsGeneral = ({dataHorizontal = [],dataHorizontalB = [], dataV
         min: 0,
       },
       x: {
-        ticks: { color: "rgb(255, 99, 132)" },
+        ticks: { color: "rgb(100, 100, 100)" },
       },
     },
   };

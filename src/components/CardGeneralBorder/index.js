@@ -76,9 +76,9 @@ export const CardGeneralBorder = ({
           </Box>
           <SubtitleGeneral data={secondPlace}/>
           
-          <Text mt={3} color={"black.500"} noOfLines={2}>
+          <Box mt={3} color={"black.500"} noOfLines={2}>
             {thirdPlace}
-          </Text>
+          </Box>
         </Box>
         {!disguiseBack && (
           <HStack borderTop={"1px"} color="black">

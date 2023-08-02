@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BiReceipt, BiSolidReceipt } from "react-icons/bi";
 import { useBillList } from "./functions/useBillList";
 import { ModalOverlay, useDisclosure } from "@chakra-ui/react";
@@ -7,18 +7,16 @@ import { useBills } from "./Lists/useBills";
 import { useFunctionsGeneral } from "./functions/useFunctionsGeneral";
 
 export const useBillsPage = () => {
-  const { pagesTotalBills, setPageBills, pageBills } = useBillList();
-  const { useBillsPerVariables } = useBills();
-  const { shelledDate } = useFunctionsGeneral();
+  
   //STATES
   const [bill, setBill] = useState({});
-  const [type, setType] = useState();
+  // const [type, setType] = useState();
   const [selectedDate, setSelectedDate] = useState({
     start: null,
     end: null,
   });
-  const dateInfoStart = shelledDate(new Date(selectedDate.start));
-
+  const { pagesTotalBills, setPageBills, pageBills, type, setType } = useBillList();
+  const { useBillsPerVariables } = useBills();
   //Handles
   const handleSetType = (value) => {
     setType(value);
@@ -35,8 +33,14 @@ export const useBillsPage = () => {
         start: selectedDate.start,
         end: selectedDate.end,
       },
+      options:{
+        limit:LIMIT,
+        page:pageBills
+      }
     },
   });
+ 
+  
   const handleDateChange = (date) => {
     setSelectedDate({ ...selectedDate, ...date });
   };

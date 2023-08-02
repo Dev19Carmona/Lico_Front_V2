@@ -4,7 +4,7 @@ import { useState } from "react";
 import { LIMIT } from "../../../config/Constants";
 
 export const useBillList = () => {
-  const [type, setType] = useState();
+  const [type, setType] = useState("Venta");
   const [pageBills, setPageBills] = useState(1);
   const {data:totalBills} = useQuery(billsTotal,{
     variables:{
@@ -37,6 +37,7 @@ export const useBillList = () => {
   const handleSetType = (value) => {
     setType(value);
   };
+  
   const pagesTotalBills = Math.ceil(totalBills?.billsTotal / LIMIT)
 
   return {
@@ -44,6 +45,8 @@ export const useBillList = () => {
     bills,
     pagesTotalBills,
     setPageBills,
-    pageBills
+    pageBills,
+    setType,
+    type,
   };
 };

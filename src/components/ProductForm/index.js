@@ -1,19 +1,16 @@
 import {
   Box,
-  Button,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Grid,
   Heading,
   Input,
   Select,
-  SelectField,
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
+import { Field, Form, Formik } from "formik";
 import { ButtonGeneral } from "../ButtonGeneral";
 import { AlertGeneral } from "../AlertGeneral";
 import Image from "next/image";
@@ -122,7 +119,8 @@ export const ProductForm = ({
                 <Field
                   name="categoryId"
                   as={Select}
-                  type="text"
+                  value={selectCategory}
+                  type="select"
                   placeholder="-----"
                   onChange={(e) => {
                     handleSelect(e);
@@ -134,7 +132,6 @@ export const ProductForm = ({
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="categoryId" component={FormErrorMessage} /> */}
               </FormControl>
               {selectCategory !== "" && (
                 <>

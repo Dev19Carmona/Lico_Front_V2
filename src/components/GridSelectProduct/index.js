@@ -6,12 +6,17 @@ import { SubtitleGeneral } from "../SubtitleGeneral";
 export const GridSelectProduct = ({ data, onClick, isStay }) => {
   const { convertPrice } = useFunctionsGeneral();
   return (
-    <SimpleGrid mt={{ base: 2, md: 5, lg: 5 }} cursor={"pointer"} columns={{ base: 3, md: 4, lg: 4 }} gap={7}>
+    <SimpleGrid
+      mt={{ base: 2, md: 5, lg: 5 }}
+      cursor={"pointer"}
+      columns={{ base: 3, md: 4, lg: 4 }}
+      gap={7}
+    >
       {data?.map((element, index) => (
         <motion.div whileHover={{ translateY: -5 }} key={index}>
           <Flex
-          p={2}
-          alignItems={'center'}
+            p={2}
+            alignItems={"center"}
             _hover={{ shadow: "xl", border: "0.5px solid grey" }}
             bg={"white"}
             borderRadius={9}
@@ -19,9 +24,12 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
               onClick({
                 _id: element._id,
                 name: element.name,
+                // price: isStay
+                //   ? convertPrice(element.isStay, element.price)
+                //   : convertPrice(element.isLeave, element.price),
                 price: isStay
-                  ? convertPrice(element.isStay, element.price)
-                  : convertPrice(element.isLeave, element.price),
+                ? element.priceB
+                : element.priceA,
                 amount: 1,
                 image: element.image,
                 remaining: element.amount,
@@ -62,16 +70,23 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
                 mb={2}
                 borderRadius={2}
               >
-                <Text fontSize={'xs'}>
-              $
-              {
-                isStay?convertPrice(element.isStay, element.price).toLocaleString()
-                : convertPrice(element.isLeave, element.price).toLocaleString()
-              }  
+                <Text fontSize={"xs"}>
+                  $
+                  {/* {isStay
+                    ? convertPrice(
+                        element.isStay,
+                        element.price
+                      ).toLocaleString()
+                    : convertPrice(
+                        element.isLeave,
+                        element.price
+                      ).toLocaleString()
+                      } */}
+                      {isStay
+                    ? (element.priceB).toLocaleString()
+                    : (element.priceA).toLocaleString()
+                      }
                 </Text>
-                  
-                
-                
               </Box>
             </Flex>
             <Divider />

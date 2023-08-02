@@ -34,6 +34,8 @@ export const Products = gql`
         name
       }
       updatedAt
+      priceA
+      priceB
     }
   }
 `;

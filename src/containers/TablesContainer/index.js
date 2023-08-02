@@ -47,7 +47,7 @@ export const TablesContainer = () => {
         gridTemplateColumns="1fr"
       >
         <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
-          {changeSell ? "Crea varias ventas" : "Realiza una venta"}{" "}
+          {changeSell ? "Carritos" : "Venta Directa"}{" "}
         </Box>
         <GridItem justifySelf={"end"}>
           <ButtonGeneral
@@ -61,7 +61,7 @@ export const TablesContainer = () => {
               ) : (
                 <Flex justifyContent={'space-between'}>
                   <RiBillLine fontSize={20} />
-                  <Text fontFamily={'mono'}>Venta</Text>
+                  <Text fontFamily={'mono'}>Venta Directa</Text>
                 </Flex>
                 
               )
@@ -77,10 +77,10 @@ export const TablesContainer = () => {
           transition={{ duration: 0.3 }}
         >
           <InputGeneral
-            autoFocus={true}
+            autoFocus={false}
             onSubmit={handleSaveTable}
             initialValues={initialValuesTable}
-            placeholder={"Agregar una nueva mesa"}
+            placeholder={"Crear Carrito"}
             icon={<GrAdd fontSize={25} />}
             required={true}
           />

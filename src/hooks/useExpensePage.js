@@ -20,6 +20,8 @@ import { Bill_save, Bills } from "@/graphql/Bill";
 import { LoginContext } from "@/context/login";
 import { CardMiniNice } from "@/components/CardMiniNice";
 import { useRouter } from "next/router";
+import { ButtonGeneral } from "@/components/ButtonGeneral";
+import { GiReturnArrow } from "react-icons/gi";
 
 export const useExpensePage = (providerId) => {
   const router = useRouter()
@@ -88,8 +90,8 @@ export const useExpensePage = (providerId) => {
     handleDeleteProductList();
     setTimeout(() => {
       setProductList([]);
-      router.push("/productos")
-    }, 1000);
+      router.reload()
+    }, 2000);
   };
 
   //EFFECTS
@@ -155,15 +157,27 @@ export const useExpensePage = (providerId) => {
         <Box
           borderRadius={10}
           boxShadow={"xl"}
-          justifyContent={"center"}
+          justifyContent={"space-around"}
           key={1}
           p={4}
           display="flex"
           gridTemplateColumns="1fr"
         >
+          <Box>
+          <ButtonGeneral
+                onClick={() => {
+                  
+                  router.push("/salidas");
+                }}
+                title={<GiReturnArrow fontSize={25} />}
+              />
+          </Box>
           <Text letterSpacing={2} fontSize={30} fontFamily={"mono"}>
             Seleccionar productos
           </Text>
+          <Box>
+
+          </Box>
         </Box>
         <SimpleGrid gap={10} columns={{ base: 1, md: 1, lg: 5 }}>
           {productsByProvider?.Products.map((product, i) => (

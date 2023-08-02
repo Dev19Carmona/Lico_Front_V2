@@ -95,18 +95,33 @@ export const useTablePage = (tableId) => {
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
-    {
-      refetchQueries:[
-        {
-          query:Products,
-            variables: {
-              filters: {
-                search: productSearch,
-              },
-            },
-        }
-      ]
-    }
+    // {
+    //   refetchQueries:[
+    //     {
+    //       query:Products,
+    //         variables: {
+    //           filters: {
+    //             search: productSearch,
+    //           },
+    //         },
+    //     },
+    //     {
+    //       query:Bills,
+    //       variables:{
+    //         filters:[
+    //           {
+    //             key: "type",
+    //             value: "Compra"
+    //           },
+    //           {
+    //             key: "type",
+    //             value: "Venta"
+    //           },
+    //         ]
+    //       }
+    //     }
+    //   ]
+    // }
   );
 
   //Effects
@@ -164,10 +179,7 @@ export const useTablePage = (tableId) => {
     }
     return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
   }, [alertSaveFalse]);
-  //Initial Values
-  const initialValuesProductSelect = {
-    name: "",
-  };
+
 
   //Handles
 
@@ -196,8 +208,8 @@ export const useTablePage = (tableId) => {
     handleDeleteProductList();
     setTimeout(() => {
       setProductList([]);
-      router.push("/ventas")
-    }, 3000);
+      router.reload()
+    }, 2000);
   };
 
   const handleProductSearch = (e) => {

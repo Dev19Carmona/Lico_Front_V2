@@ -10,21 +10,6 @@ export const ProductList = ({
   handleOpenModalDelete = () => {},
   changeView = true,
 }) => {
-  const { redondeo } = useFunctionsGeneral();
-  const index = ["Compra", "Llevar", "Establecimiento"];
-  const data = (product) => {
-    let precios = [];
-    precios.push({
-      compra: Math.round(product.price).toLocaleString(),
-      llevar: redondeo(
-        product.price * (product.isLeave / 100) + product.price
-      ).toLocaleString(),
-      establecimiento: redondeo(
-        product.price * (product.isStay / 100) + product.price
-      ).toLocaleString(),
-    });
-    return precios;
-  };
   const indexTableProductList = [
     "Cantidad",
     "Nombre",
@@ -46,7 +31,8 @@ export const ProductList = ({
                   secondPlace: product.name,
                   //  thirdPlace:`Precio: ${Math.floor(product.price).toLocaleString()} | Llevar: ${Math.floor(product.price*(product.isLeave/100)+product.price).toLocaleString()} | Establecimiento: ${Math.floor(product.price*(product.isStay/100)+product.price).toLocaleString()}`,
                   thirdPlace: (
-                    <PricesTable data={data(product)} />
+                    // <PricesTable data={data(product)} />
+                    <PricesTable data={[{compra:Math.round(product.price).toLocaleString(),llevar:Math.round(product.priceA).toLocaleString(), establecimiento:Math.round(product.priceB).toLocaleString()}]} />
                   ),
                   fourthPlace: product.category?.name,
                 }}
