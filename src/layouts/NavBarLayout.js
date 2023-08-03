@@ -25,7 +25,7 @@ import { GiExitDoor } from "react-icons/gi";
 import { AnimatedLinkItem } from "@/components/AnimatedLinkItem";
 import { useQuery } from "@apollo/client";
 import { Companies } from "@/graphql/Company";
-import { ADMIN_NAME, SELLER_NAME } from "../../config/Constants";
+import { ADMIN, SELLER } from "../../config/Constants";
 import { AiOutlineBell } from "react-icons/ai";
 import { useState } from "react";
 import { BiSolidBellRing } from "react-icons/bi";
@@ -35,11 +35,11 @@ export const NavBarLayout = () => {
   const { data: company } = useQuery(Companies);
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
-    { name: "Inicio", icon: FiHome, typeUser: [ADMIN_NAME, SELLER_NAME] },
-    { name: "Ventas", icon: BsCart4, typeUser: [ADMIN_NAME, SELLER_NAME] },
-    { name: "Salidas", icon: GiExitDoor, typeUser: [ADMIN_NAME] },
-    { name: "Facturas", icon: FaFileInvoiceDollar, typeUser: [ADMIN_NAME] },
-    { name: "Productos", icon: FaBox, typeUser: [ADMIN_NAME] },
+    { name: "Inicio", icon: FiHome, typeUser: [ADMIN.name, SELLER.name] },
+    { name: "Ventas", icon: BsCart4, typeUser: [ADMIN.name, SELLER.name] },
+    { name: "Salidas", icon: GiExitDoor, typeUser: [ADMIN.name] },
+    { name: "Facturas", icon: FaFileInvoiceDollar, typeUser: [ADMIN.name] },
+    { name: "Productos", icon: FaBox, typeUser: [ADMIN.name] },
   ];
   const {
     showUser,
@@ -78,7 +78,7 @@ export const NavBarLayout = () => {
               onMouseLeave={handleMouseLeave}
               cursor={"pointer"}
             >
-              {localSession?.rol.name === ADMIN_NAME &&
+              {localSession?.rol.name === ADMIN.name &&
                 (angle === 0 ? (
                   <AiOutlineBell fontSize={25} />
                 ) : (

@@ -28,6 +28,8 @@ import { AlertGeneral } from "../AlertGeneral/index.js";
 import { SubtitleGeneral } from "../SubtitleGeneral/index.js";
 
 export const BillTable = ({
+  billNumber = "0",
+  user="User",
   onlyWrite = false,
   methods = { a: "method key", b: "method value", c:"semana key", d: "semana value"},
   date = new Date(),
@@ -65,9 +67,13 @@ export const BillTable = ({
           <Text color="gray.600">{`${companyData.email} `}</Text>
         </Box>
         <Box textAlign="right">
-          <Heading as="h2" size="lg" mb={2}>
-            Factura
-          </Heading>
+          <Flex justifyContent={'space-between'}>
+            <Heading as="h2" size="lg" mb={2}>
+              Factura
+            </Heading>
+            <SubtitleGeneral size="xs" data={billNumber}/>
+
+          </Flex>
           <Text color="gray.600" fontWeight="bold">
             {date}
           </Text>
@@ -77,7 +83,7 @@ export const BillTable = ({
       <Box>
         <Flex justify="space-between" mb={4}>
           <Text fontWeight="bold">Usuario:</Text>
-          <Text>{localSession?.localSession.fullName}</Text>
+          <Text>{user}</Text>
         </Flex>
 
         <TableContainer border="1px solid #b32821" borderRadius={9}>

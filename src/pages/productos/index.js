@@ -2,14 +2,14 @@ import { ProductsContainer } from "@/containers/ProductsContainer";
 import { LoginContext } from "@/context/login";
 import { Box, Img } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ADMIN_NAME } from "../../../config/Constants";
+import { ADMIN } from "../../../config/Constants";
 
 function Productos() {
   const localSession = useContext(LoginContext);
 
   return (
     <>
-      {localSession?.localSession?.rol.name === ADMIN_NAME ? (
+      {localSession?.localSession?.rol.name === ADMIN.name ? (
         <Box ml={"50px"} marginRight={10} minH={"100vh"}>
           <ProductsContainer />
         </Box>

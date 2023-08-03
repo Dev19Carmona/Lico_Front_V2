@@ -28,6 +28,7 @@ export const BillsContainer = () => {
     handleDateChange,
     selectedDate,
   } = useBillsPage();
+  console.log(bill?.seller?.fullName)
   return (
     <Grid  gap={3}>
       <Box
@@ -119,6 +120,8 @@ export const BillsContainer = () => {
         title={""}
         body={
           <BillTable
+          user={bill?.seller?.fullName}
+          billNumber={bill?.billNumber}
             date={`${bill?.dateInfo?.dayName}, ${bill?.dateInfo?.day} de ${bill?.dateInfo?.monthName} del ${bill?.dateInfo?.year}`}
             productList={bill?.products}
             total={bill?.total}

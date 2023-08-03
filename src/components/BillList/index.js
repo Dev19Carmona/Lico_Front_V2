@@ -7,6 +7,7 @@ import { MONTHS } from "../../../config/Constants";
 export const BillList = ({ data = [], onClick = () => {} }) => {
   const imageBill =
     "https://uploadgerencie.com/imagenes/requisitos-factura-soporte-costos.png";
+    console.log(data);
   return (
     <Grid gap={5}>
       {data.map((element, i) => (
@@ -15,6 +16,7 @@ export const BillList = ({ data = [], onClick = () => {} }) => {
             showButtons={false}
             data={{
               image: imageBill,
+              rigthComponent: element.billNumber,
               // head: `${((element.dateInfo.day).toString()).padStart(2,"0")}-${((element.dateInfo.month).toString()).padStart(2,"0")}-${element.dateInfo.year}`,
               head: `${element.dateInfo.dayName},${element.dateInfo.day} de ${element.dateInfo.monthName} del ${element.dateInfo.year}`,
               title: "Total:",

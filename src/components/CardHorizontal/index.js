@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { CiSquareMinus, CiSquarePlus } from "react-icons/ci";
 import { BsTrash } from "react-icons/bs";
+import { SubtitleGeneral } from "../SubtitleGeneral";
 export const CardHorizontal = ({
   onDelete = () => {},
   onClick = () => {},
@@ -26,15 +27,17 @@ export const CardHorizontal = ({
     body: "Body",
     title: "Title",
     secondTitle: "Second Title",
+    rigthComponent: "",
   },
-  showButtons = true
+  showButtons = true,
 }) => {
-  const { image, head, body, title, secondTitle } = data;
+  const { image, head, body, title, secondTitle, rigthComponent } = data;
+
   return (
     <Container mb={3}>
       <motion.div whileHover={{ translateY: -5 }}>
         <Flex
-          cursor={showButtons?"auto":"pointer"}
+          cursor={showButtons ? "auto" : "pointer"}
           rounded="md"
           boxShadow={useColorModeValue(
             "0 4px 6px rgba(160, 174, 192, 0.6)",
@@ -55,17 +58,17 @@ export const CardHorizontal = ({
             w="100%"
           >
             <Flex
-            onClick={()=>{
-              onImage()
-            }}
+              onClick={() => {
+                onImage();
+              }}
               justifyContent="space-around"
               justify="center"
               alignItems="center"
               rounded="lg"
               bg="#fff"
               position="relative"
-              w={{base:10,md:20,lg:20}}
-              h={{base:10,md:20,lg:20}}
+              w={{ base: 10, md: 20, lg: 20 }}
+              h={{ base: 10, md: 20, lg: 20 }}
               overflow="hidden"
               lineHeight={0}
               boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
@@ -78,7 +81,6 @@ export const CardHorizontal = ({
                 w="full"
                 src={image}
                 alt="ProductImage"
-                
               />
             </Flex>
             <VStack spacing={0} align="center" maxW="sm" h="100%">
@@ -88,7 +90,6 @@ export const CardHorizontal = ({
                 fontWeight="extrabold"
                 letterSpacing={1}
               >
-                
                 {head}
               </Text>
               <Flex justifyContent="space-between" gap={10} mt={1}>
@@ -99,59 +100,70 @@ export const CardHorizontal = ({
                 <Text color="#b32821">{secondTitle}</Text>
               </Flex>
             </VStack>
-            {
-              showButtons&&
-            <Flex direction={"column"} justifyContent={"end"} gap={1}>
-              <Flex
-                alignItems={"center"}
-                justifyContent={"center"}
-                borderRadius={9}
-                w={"100%"}
-                bg="blue.700"
-                _hover={{ background: "blue.800" }}
+            {!showButtons && (
+              <Box
+                bg="blue.400"
+                display={"inline-block"}
+                px={2}
+                py={1}
+                color="white"
+                mr={5}
               >
-                <Text color={"white"}>{body}</Text>
-              </Flex>
-              <Flex gap={2}>
-                <Button
-                  onClick={() => {
-                    if (body > 1) {
-                      parameter.amount = -1;
-                      onClick(parameter);
-                    }
-                  }}
-                  bg="blue.400"
-                  _hover={{ background: "blue.500" }}
-                >
-                  <CiSquareMinus color="white" fontSize={24} />
-                </Button>
-                <Button
-                  onClick={() => {
-                    onClick(parameter);
-                  }}
-                  bg="blue.400"
-                  _hover={{ background: "blue.500" }}
-                >
-                  <CiSquarePlus color="white" fontSize={24} />
-                </Button>
-              </Flex>
-              <Flex>
-                <Button
-                  onClick={() => {
-                    onDelete()
-                  }}
+                <SubtitleGeneral size="xs" data={rigthComponent} />
+              </Box>
+            )}
+            {showButtons && (
+              <Flex direction={"column"} justifyContent={"end"} gap={1}>
+                <Flex
                   alignItems={"center"}
                   justifyContent={"center"}
                   borderRadius={9}
                   w={"100%"}
-                  bg="red.400"
-                  _hover={{ background: "red.500" }}
+                  bg="blue.700"
+                  _hover={{ background: "blue.800" }}
                 >
-                  <BsTrash color="white" fontSize={25} />
-                </Button>
+                  <Text color={"white"}>{body}</Text>
+                </Flex>
+                <Flex gap={2}>
+                  <Button
+                    onClick={() => {
+                      if (body > 1) {
+                        parameter.amount = -1;
+                        onClick(parameter);
+                      }
+                    }}
+                    bg="blue.400"
+                    _hover={{ background: "blue.500" }}
+                  >
+                    <CiSquareMinus color="white" fontSize={24} />
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      onClick(parameter);
+                    }}
+                    bg="blue.400"
+                    _hover={{ background: "blue.500" }}
+                  >
+                    <CiSquarePlus color="white" fontSize={24} />
+                  </Button>
+                </Flex>
+                <Flex>
+                  <Button
+                    onClick={() => {
+                      onDelete();
+                    }}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    borderRadius={9}
+                    w={"100%"}
+                    bg="red.400"
+                    _hover={{ background: "red.500" }}
+                  >
+                    <BsTrash color="white" fontSize={25} />
+                  </Button>
+                </Flex>
               </Flex>
-            </Flex>
-            }
+            )}
           </HStack>
         </Flex>
       </motion.div>

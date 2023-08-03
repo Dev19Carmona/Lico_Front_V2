@@ -1,7 +1,15 @@
 
 
-export const CLIENT_ID = "7dd41eda-1b60-4ca2-88f4-e8c0284f18c4";
-export const ADMIN_ID = "ae8b3d2d-3dac-4fe1-9d3d-f2f91661de47";
+export const SELLER_ID = "237c42bd-eb30-49f3-a727-89cd92ab69e5";
+export const ADMIN_ID = "25eefba4-201f-443a-96d6-6b0e4a82824d";
+export const SELLER = {
+  id:"237c42bd-eb30-49f3-a727-89cd92ab69e5",
+  name: "Vendedor"
+}
+export const ADMIN = {
+  id:"237c42bd-eb30-49f3-a727-89cd92ab69e5",
+  name: "Administrador"
+}
 export const SELLER_NAME = "Vendedor";
 export const ADMIN_NAME = "Administrador";
 export const LIMIT = 10;

@@ -11,6 +11,7 @@ export const Bills = gql`
       isPaid
       isRemove
       paymentMethod
+      billNumber
       products {
         _id
         name

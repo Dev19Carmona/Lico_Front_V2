@@ -4,13 +4,13 @@ import { ProductsContainer } from "@/containers/ProductsContainer";
 import { LoginContext } from "@/context/login";
 import { Box, Img } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ADMIN_NAME } from "../../../config/Constants";
+import { ADMIN } from "../../../config/Constants";
 
 function Salidas() {
   const localSession = useContext(LoginContext);
   return (
     <>
-      {localSession?.localSession?.rol.name === ADMIN_NAME ? (
+      {localSession?.localSession?.rol.name === ADMIN.name ? (
         <Box ml={"65px"} minH={"100vh"}>
           <ExpensesContainer/>
         </Box>

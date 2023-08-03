@@ -83,6 +83,7 @@ export const useTablePage = (tableId) => {
     settingsModalDeleteProduct.onOpen();
   };
   //Queries
+  const [getBills, { data: bills, loading: loadBills }] = useLazyQuery(Bills);
   const { data: products } = useQuery(Products, {
     variables: {
       filters: {
@@ -94,8 +95,35 @@ export const useTablePage = (tableId) => {
   //Mutations
   const [billSave, { data: isBillSave, loading: loadSaveBill }] = useMutation(
     Bill_save,
+    // {
+    //   refetchQueries:[
+    //     {
+    //       query:Products,
+    //         variables: {
+    //           filters: {
+    //             search: productSearch,
+    //           },
+    //         },
+    //     },
+    //     {
+    //       query:Bills,
+    //       variables:{
+    //         filters:[
+    //           {
+    //             key: "type",
+    //             value: "Compra"
+    //           },
+    //           {
+    //             key: "type",
+    //             value: "Venta"
+    //           },
+    //         ]
+    //       }
+    //     }
+    //   ]
+    // }
   );
-  
+
   //Effects
 
   useEffect(() => {
@@ -310,6 +338,12 @@ export const useTablePage = (tableId) => {
           total={handleTotal()}
           productList={productList}
           date={stylizeDate()}
+          user={localSession?.localSession.fullName}
+          // date={`${shelledDate()
+          //   .day.toString()
+          //   .padStart(2, "0")}-${shelledDate()
+          //   .month.toString()
+          //   .padStart(2, "0")}-${shelledDate().year}`}
           handleBillSave={handleBillSave}
           loadSaveBill={loadSaveBill}
           alertSaveTrue={alertSaveTrue}
@@ -322,6 +356,7 @@ export const useTablePage = (tableId) => {
   return {
     indexTabsTable,
     components,
+    bills,
     settingsModalDeleteProduct,
     overlay,
     handleDeleteProduct,

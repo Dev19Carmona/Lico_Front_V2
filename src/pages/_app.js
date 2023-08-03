@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 // const httpLink = createHttpLink({
 //   uri: "http://127.0.0.1:4000/graphql",
 // });
-//"https://mas-copas-lounge-backend.onrender.com/graphql"
+//"https://crm-back-x2m9.onrender.com/graphql"
 const authLink = setContext((_, { headers }) => {
 
   const token = localStorage.getItem("session");
@@ -36,14 +36,14 @@ const authLink = setContext((_, { headers }) => {
   };
 }).concat(
   createUploadLink({
-    uri: "https://mas-copas-lounge-backend.onrender.com/graphql",
+    uri: "http://127.0.0.1:4000/graphql",
   })
 );
 //hola
 const wsLink = new GraphQLWsLink(
   createClient({
     webSocketImpl: WebSocket,
-    url: "wss://mas-copas-lounge-backend.onrender.com/graphql",
+    url: "ws://127.0.0.1:4000/graphql",
   })
 );
 

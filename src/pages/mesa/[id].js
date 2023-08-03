@@ -1,32 +1,32 @@
-import { ButtonGeneral } from "@/components/ButtonGeneral";
-import { LoginForm } from "@/components/LoginForm";
-import { SubtitleGeneral } from "@/components/SubtitleGeneral";
-import { TableContainer } from "@/containers/TableContainer";
-import { LoginContext } from "@/context/login";
-import { Tables } from "@/graphql/Table";
-import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
-import { useQuery } from "@apollo/client";
-import { Box, Flex, Grid, Heading, Img } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import { GiReturnArrow } from "react-icons/gi";
+import { ButtonGeneral } from '@/components/ButtonGeneral';
+import { LoginForm } from '@/components/LoginForm';
+import { SubtitleGeneral } from '@/components/SubtitleGeneral';
+import { TableContainer } from '@/containers/TableContainer'
+import { LoginContext } from '@/context/login';
+import { Tables } from '@/graphql/Table';
+import { useFunctionsGeneral } from '@/hooks/functions/useFunctionsGeneral';
+import { useQuery } from '@apollo/client';
+import { Box, Flex, Grid, Heading, Img } from '@chakra-ui/react';
+import { useRouter } from 'next/router'
+import React, {useContext, useEffect} from 'react'
+import { GiReturnArrow } from 'react-icons/gi';
 
 function Mesa() {
   const localSession = useContext(LoginContext);
-  const router = useRouter();
+  const router = useRouter()
 
-  const { handleSwitchPriceProductsTables } = useFunctionsGeneral();
+  const{handleSwitchPriceProductsTables} = useFunctionsGeneral()
 
-  const { data: tables } = useQuery(Tables, {
-    variables: {
-      filters: {
-        _id: router.query.id,
-      },
-    },
-  });
+  const{data:tables}=useQuery(Tables,{
+    variables:{
+      filters:{
+        _id:router.query.id
+      }
+    }
+  })
 
   useEffect(() => {
-    localStorage.setItem("changeSell", true);
+    localStorage.setItem("changeSell",true)
   }, []);
   return (
     <>
@@ -42,7 +42,7 @@ function Mesa() {
                 title={<GiReturnArrow fontSize={25} />}
               />
             </Grid>
-            <SubtitleGeneral size="4xl" data={tables?.Tables[0].name} />
+            <SubtitleGeneral size='4xl' data={tables?.Tables[0].name}/>
             {/* <Heading>{tables?.Tables[0].name}</Heading> */}
             <Grid></Grid>
           </Flex>
@@ -65,4 +65,4 @@ function Mesa() {
   );
 }
 
-export default Mesa;
+export default Mesa
