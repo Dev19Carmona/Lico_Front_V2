@@ -83,8 +83,8 @@ export const GridSelectProduct = ({ data, onClick, isStay }) => {
                       ).toLocaleString()
                       } */}
                       {isStay
-                    ? (element.priceB).toLocaleString()
-                    : (element.priceA).toLocaleString()
+                    ? Math.floor(element.priceB).toLocaleString()
+                    : Math.floor(element.priceA).toLocaleString()
                       }
                 </Text>
               </Box>
