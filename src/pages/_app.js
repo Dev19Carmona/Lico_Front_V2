@@ -43,7 +43,7 @@ const authLink = setContext((_, { headers }) => {
 const wsLink = new GraphQLWsLink(
   createClient({
     webSocketImpl: WebSocket,
-    url: "ws://mas-copas-lounge-backend.onrender.com/graphql",
+    url: "wss://mas-copas-lounge-backend.onrender.com/graphql",
   })
 );
 
