@@ -23,7 +23,7 @@ export const ExpensesContainer = () => {
         </Box>
         
       </Box>
-      <ProviderList  disguiseBack={disguiseBack} providers={providers} />
+      <ProviderList showAdd={false}  disguiseBack={disguiseBack} providers={providers} />
     </Flex>
   );
 };

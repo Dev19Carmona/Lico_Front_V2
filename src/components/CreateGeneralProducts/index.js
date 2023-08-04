@@ -11,8 +11,6 @@ import { Field, Form, Formik } from "formik";
 import { BiSearchAlt } from "react-icons/bi";
 
 export const CreateGeneralProducts = ({
-  title,
-  onClick,
   titleTab = "Sin Titulo",
   initialValues,
   onSubmit,
@@ -22,7 +20,7 @@ export const CreateGeneralProducts = ({
       <Box
         borderRadius={10}
         boxShadow={"xl"}
-        justifyContent={"space-between"}
+        justifyContent={"center"}
         key={1}
         p={4}
         display="flex"
@@ -31,9 +29,7 @@ export const CreateGeneralProducts = ({
         <Box letterSpacing={10} fontSize={30} fontFamily={"mono"}>
           {titleTab}
         </Box>
-        <Box color="white" justifySelf="end">
-          <ButtonGeneral onClick={onClick} title={title} />
-        </Box>
+        
       </Box>
       <Box boxShadow={"xl"} margin={2} border={"0.9px solid"} p={4} borderRadius={9}>
         <Formik onSubmit={onSubmit} initialValues={initialValues}>

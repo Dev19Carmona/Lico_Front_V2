@@ -7,9 +7,10 @@ import { MONTHS } from "../../../config/Constants";
 export const BillList = ({ data = [], onClick = () => {} }) => {
   const imageBill =
     "https://uploadgerencie.com/imagenes/requisitos-factura-soporte-costos.png";
-    console.log(data);
   return (
-    <Grid gap={5}>
+    <Grid 
+    //gap={5}
+    >
       {data.map((element, i) => (
         <Box onClick={()=>{onClick(element)}} key={i}>
           <CardHorizontal
@@ -25,6 +26,7 @@ export const BillList = ({ data = [], onClick = () => {} }) => {
           />
         </Box>
       ))}
+     
     </Grid>
   );
 };

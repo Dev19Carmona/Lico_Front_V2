@@ -818,8 +818,6 @@ export const useProductsPage = () => {
   const components = [
     <Grid key="products" gap={5}>
       <CreateGeneralProducts
-        onClick={handleOpenModalCreateProduct}
-        title={<MdCreateNewFolder size={25} />}
         titleTab="Productos"
         initialValues={initialValSearch}
         onSubmit={handleSearchProduct}
@@ -850,6 +848,7 @@ export const useProductsPage = () => {
       </Grid>
 
       <ProductList
+        onClick={handleOpenModalCreateProduct}
         changeView={changeView}
         handleOpenModalUpdate={handleOpenModalUpdateProduct}
         handleOpenModalDelete={handleOpenModalDeleteProduct}
@@ -858,8 +857,6 @@ export const useProductsPage = () => {
     </Grid>,
     <Grid key="categories" gap={5}>
       <CreateGeneralProducts
-        onClick={handleOpenModalCreateCategory}
-        title={<MdCreateNewFolder size={25} />}
         titleTab="Categorias"
         initialValues={initialValSearch}
         onSubmit={handleSearchCategory}
@@ -870,6 +867,7 @@ export const useProductsPage = () => {
         setPage={setPageCategories}
       />
       <CategoryList
+        onClick={handleOpenModalCreateCategory}
         handleOpenModalUpdateCategory={handleOpenModalUpdateCategory}
         handleOpenModalDeleteCategory={handleOpenModalDeleteCategory}
         categories={categories}
@@ -877,8 +875,6 @@ export const useProductsPage = () => {
     </Grid>,
     <Grid key="subcategories" gap={5}>
       <CreateGeneralProducts
-        onClick={handleOpenModalCreateSubCategory}
-        title={<MdCreateNewFolder size={25} />}
         titleTab="Sub Categorias"
         initialValues={initialValSearch}
         onSubmit={handleSearchSubCategory}
@@ -889,6 +885,7 @@ export const useProductsPage = () => {
         setPage={setPageSubCategories}
       />
       <SubCategoryList
+        onClick={handleOpenModalCreateSubCategory}
         handleOpenModalUpdateSubCategory={handleOpenModalUpdateSubCategory}
         handleOpenModalDeleteSubCategory={handleOpenModalDeleteSubCategory}
         subCategories={subCategories}
@@ -896,8 +893,6 @@ export const useProductsPage = () => {
     </Grid>,
     <Grid key="providers" gap={5}>
       <CreateGeneralProducts
-        onClick={handleOpenModalCreateProvider}
-        title={<MdCreateNewFolder size={25} />}
         titleTab="Proveedores"
         initialValues={initialValSearch}
         onSubmit={handleSearchProvider}
@@ -909,6 +904,7 @@ export const useProductsPage = () => {
           setPage={setPageProviders}
         />
         <ProviderList
+        onClick={handleOpenModalCreateProvider}
           handleOpenModalUpdateProvider={handleOpenModalUpdateProvider}
           handleOpenModalDeleteProvider={handleOpenModalDeleteProvider}
           providers={providers}

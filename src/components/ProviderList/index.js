@@ -1,15 +1,18 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { CardGeneralBorder } from "../CardGeneralBorder";
+import { CardGeneralBorderAdd } from "../CardGeneralBorderAdd";
 export const ProviderList = ({
   providers,
+  onClick,
   handleOpenModalUpdateProvider = () => {},
   handleOpenModalDeleteProvider = () => {},
   disguiseBack = false,
-  href = "",
+  showAdd = true,
 }) => {
   return (
     <>
-      <SimpleGrid columns={{base:1, md:2, lg:3}}>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }}>
+        {showAdd && <CardGeneralBorderAdd onClick={onClick} />}
         {providers?.providers.map((provider, i) => (
           <Box key={i}>
             <CardGeneralBorder
