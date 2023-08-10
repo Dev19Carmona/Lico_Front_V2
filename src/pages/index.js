@@ -1,6 +1,4 @@
-import { GraphicsGeneral } from "@/components/GraphicsGeneral";
-import { LoadingGeneral } from "@/components/LoadingGeneral";
-import { LoginForm } from "@/components/LoginForm";
+import { LoginForm3D } from "@/components/LoginForm3D";
 import { HomeContainer } from "@/containers/HomeContainer";
 import { LoginContext } from "@/context/login";
 import { Box } from "@chakra-ui/react";
@@ -8,7 +6,6 @@ import React, { useContext } from "react";
 
 function Index() {
   const localSession = useContext(LoginContext);
-  
   
   return (
     <>
@@ -18,7 +15,8 @@ function Index() {
         </Box>
       ) : (
         <Box ml={"65px"} minH={"100vh"}>
-          ir a login
+          <LoginForm3D/>
+          
         </Box>
       )}
     </>

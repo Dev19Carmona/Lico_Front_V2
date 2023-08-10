@@ -5,6 +5,7 @@ export const ButtonGeneral = ({
   colorA = "blue.400",
   colorB = "blue.500",
   type = "button",
+  letterColor = "white"
 }) => {
   return (
     <>
@@ -17,10 +18,10 @@ export const ButtonGeneral = ({
           px={4}
           fontSize={"sm"}
           bg={colorA}
-          color={"white"}
-          boxShadow={
-            "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-          }
+          color={letterColor}
+          // boxShadow={
+          //   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+          // }
           _hover={{
             bg: colorB,
           }}

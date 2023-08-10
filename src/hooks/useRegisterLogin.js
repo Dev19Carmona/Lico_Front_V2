@@ -1,16 +1,20 @@
 import { Genders } from "@/graphql/Gender";
 import { User_login, User_save } from "@/graphql/User";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useLoader } from "./functions/userLoader";
 
 export const useRegisterLogin = () => {
+  const router = useRouter();
   //Hooks
   //Mutations
-  const [userSave, { data: IsUserCreate, loading:loadRegister }] = useMutation(User_save);
-  
+  const [userSave, { data: IsUserCreate, loading: loadRegister }] =
+    useMutation(User_save);
+
   //Queries
   const { data: genders } = useQuery(Genders);
-  const [login,{ data: token, loading:loadLogin }] = useLazyQuery(User_login);
+  const [login, { data: token, loading: loadLogin }] = useLazyQuery(User_login);
   //initalValues
   const initialValRegister = {
     fullName: "",
@@ -21,7 +25,7 @@ export const useRegisterLogin = () => {
     genderId: "",
     nit: "",
     phone: "",
-    rolPassword:""
+    rolPassword: "",
   };
   const initialValLogin = {
     email: "",
@@ -40,12 +44,11 @@ export const useRegisterLogin = () => {
           genderId: values.genderId,
           nit: values.nit,
           phone: values.phone,
-          rolPassword:values.rolPassword
+          rolPassword: values.rolPassword,
         },
       },
     });
-    resetForm()
-
+    resetForm();
   };
   const handleUserLogin = (values, { resetForm }) => {
     login({
@@ -56,35 +59,33 @@ export const useRegisterLogin = () => {
         },
       },
     });
-    resetForm()
-    
+    resetForm();
   };
   //States
-  const [alertSaveTrue, setalertSaveTrue] = useState(false)
-  const [alertSaveFalse, setalertSaveFalse] = useState(false)
+  const [alertSaveTrue, setalertSaveTrue] = useState(false);
+  const [alertSaveFalse, setalertSaveFalse] = useState(false);
 
-  const [alertLogInTrue, setalertLogInTrue] = useState(false)
-  const [alertLogInFalse, setalertLogInFalse] = useState(false)
+  const { setAlertLogIn, alertLogIn } = useLoader();
+
+  const [alertLogInTrue, setalertLogInTrue] = useState(false);
+  const [alertLogInFalse, setalertLogInFalse] = useState(false);
   //Effects
   useEffect(() => {
     if (token?.User_login) {
-      setalertLogInTrue(true)
-      if (token?.User_login!==null) {
-        localStorage.setItem("session",token?.User_login)
+      setalertLogInTrue(true);
+      if (token?.User_login !== null) {
+        localStorage.setItem("session", token?.User_login);
         setTimeout(() => {
-          location.reload();
-        }, 3000);
+          setAlertLogIn(true);
+          router.reload();
+        }, 1000);
       }
-      
-    }else{
-      if(token?.User_login===null){
-        setalertLogInFalse(true)
+    } else {
+      if (token?.User_login === null) {
+        setalertLogInFalse(true);
       }
     }
-    
-  
-    
-  }, [token])
+  }, [token]);
 
   useEffect(() => {
     let timer;
@@ -128,12 +129,12 @@ export const useRegisterLogin = () => {
 
   useEffect(() => {
     if (IsUserCreate?.User_save) {
-      setalertSaveTrue(true)
+      setalertSaveTrue(true);
     }
-    if(IsUserCreate?.User_save===false){
+    if (IsUserCreate?.User_save === false) {
       setalertSaveFalse(true);
     }
-  }, [IsUserCreate])
+  }, [IsUserCreate]);
 
   return {
     genders,
@@ -147,5 +148,6 @@ export const useRegisterLogin = () => {
     alertLogInTrue,
     alertLogInFalse,
     loadLogin,
+    alertLogIn,
   };
 };

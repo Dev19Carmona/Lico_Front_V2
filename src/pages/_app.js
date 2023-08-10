@@ -1,5 +1,7 @@
 
-import "@/styles/globals.css";
+//import "@/styles/globals.css";
+import "@/styles/LoginFormStyle.css";
+import "@/styles/RocketLoaderStyle.css";
 import {
   ApolloClient,
   ApolloProvider,

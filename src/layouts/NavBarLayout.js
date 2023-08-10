@@ -30,9 +30,12 @@ import { AiOutlineBell } from "react-icons/ai";
 import { useState } from "react";
 import { BiSolidBellRing } from "react-icons/bi";
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
+import { useRouter } from "next/router";
+import { useLoader } from "@/hooks/functions/userLoader";
+import { RocketLoader } from "@/components/RocketLoader";
 
 export const NavBarLayout = () => {
-  const { data: company } = useQuery(Companies);
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
   const LinkItems = [
     { name: "Inicio", icon: FiHome, typeUser: [ADMIN.name, SELLER.name] },
@@ -48,7 +51,7 @@ export const NavBarLayout = () => {
     loginOrRegister,
     handleClickToChangeLoginOrRegister,
   } = useNavBar();
-  const {stylizeDate} = useFunctionsGeneral()
+  const { stylizeDate } = useFunctionsGeneral();
   const showLinks = (roles) =>
     roles.some((rol) => rol === localSession?.rol.name);
   const [angle, setAngle] = useState(0);
@@ -59,8 +62,15 @@ export const NavBarLayout = () => {
   const handleMouseLeave = () => {
     setAngle(0);
   };
+
+  const { setAlertLogIn, alertLogIn } = useLoader();
+
   return (
     <Box>
+      {
+        alertLogIn&&
+        <RocketLoader/>
+      }
       <Flex
         ml={10}
         h={16}
@@ -68,7 +78,12 @@ export const NavBarLayout = () => {
         justifyContent={"space-between"}
         mr={5}
       >
-        <Box letterSpacing={1} fontSize="sm" fontFamily="monospace" fontWeight="thin">
+        <Box
+          letterSpacing={1}
+          fontSize="sm"
+          fontFamily="monospace"
+          fontWeight="thin"
+        >
           {stylizeDate()}
         </Box>
         <Flex alignItems={"center"} gap={15}>
@@ -116,23 +131,25 @@ export const NavBarLayout = () => {
                 <MenuItem
                   onClick={() => {
                     localStorage.removeItem("session");
-                    setTimeout(() => {
-                      location.reload();
-                    }, 1000);
+                    setAlertLogIn(true)
+                    setTimeout(async() => {
+                    setAlertLogIn(false)
+                      await router.push("/");
+                      router.reload();
+                    }, 4000);
                   }}
                 >
                   Logout
                 </MenuItem>
               </MenuList>
             </Menu>
-          ) : (
-            <ButtonGeneral
-              onClick={LoginOpenAndClose.onOpen}
-              title={"Log In"}
-              colorA={"blue.400"}
-              colorB={"blue.500"}
-            />
-          )}
+          ) : // <ButtonGeneral
+          //   onClick={LoginOpenAndClose.onOpen}
+          //   title={"Log In"}
+          //   colorA={"blue.400"}
+          //   colorB={"blue.500"}
+          // />
+          undefined}
         </Flex>
       </Flex>
       <DrawerGeneral

@@ -30,7 +30,7 @@ export const MONTHS = [
 ];
 
 export const DAYS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-
+export const COLOR_BUTTON = "#EC994B"
 
 // export const viewportHeight = window.innerHeight;
 // export const viewportWidth = window.innerWidth;
