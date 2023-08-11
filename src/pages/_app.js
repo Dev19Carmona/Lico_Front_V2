@@ -1,5 +1,3 @@
-
-//import "@/styles/globals.css";
 import "@/styles/LoginFormStyle.css";
 import "@/styles/RocketLoaderStyle.css";
 import {
@@ -8,7 +6,7 @@ import {
   InMemoryCache,
   split,
 } from "@apollo/client";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 import { useEffect } from "react";
@@ -27,6 +25,14 @@ import { useRouter } from "next/router";
 // });
 //"https://crm-back-x2m9.onrender.com/graphql"
 //"https://mas-copas-lounge-backend.onrender.com/graphql"
+
+const theme = extendTheme({
+  fonts: {
+    heading: `"League Spartan", sans-serif`,
+    body: `"League Spartan", sans-serif`,
+  },
+})
+
 const authLink = setContext((_, { headers }) => {
 
   const token = localStorage.getItem("session");
@@ -81,7 +87,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={client}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <LoginContextProvider>
             <NavBarLayout />
             <Component {...pageProps} />

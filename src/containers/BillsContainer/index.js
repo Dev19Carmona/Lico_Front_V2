@@ -52,7 +52,7 @@ export const BillsContainer = () => {
             />
           </Box>
         )}
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+        <Box letterSpacing={2} fontSize={30}>
           {!showBills.compras && !showBills.ventas
             ? "Facturas"
             : showBills.compras && !showBills.ventas

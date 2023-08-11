@@ -260,7 +260,6 @@ export const useTablePage = (tableId) => {
             justifyContent="space-around"
           >
             <Text
-              fontFamily={"monospace"}
               fontSize={"lg"}
               letterSpacing={2}
               fontWeight={"extrabold"}

@@ -69,7 +69,7 @@ export const NavBarLayout = () => {
     <Box>
       {
         alertLogIn&&
-        <RocketLoader/>
+        <RocketLoader title="Cerrando Sesion..."/>
       }
       <Flex
         ml={10}
@@ -79,9 +79,8 @@ export const NavBarLayout = () => {
         mr={5}
       >
         <Box
-          letterSpacing={1}
+          letterSpacing={2}
           fontSize="sm"
-          fontFamily="monospace"
           fontWeight="thin"
         >
           {stylizeDate()}

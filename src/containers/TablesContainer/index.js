@@ -46,7 +46,7 @@ export const TablesContainer = () => {
         display="flex"
         gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+        <Box letterSpacing={2} fontSize={30}>
           {changeSell ? "Carritos" : "Venta Directa"}{" "}
         </Box>
         <GridItem justifySelf={"end"}>
@@ -56,12 +56,12 @@ export const TablesContainer = () => {
               !changeSell ? (
                 <Flex justifyContent={'space-between'}>
                   <RiCheckboxMultipleBlankLine fontSize={20} />
-                  <Text fontFamily={'mono'}>Carritos</Text>
+                  <Text>Carritos</Text>
                 </Flex>
               ) : (
                 <Flex justifyContent={'space-between'}>
                   <RiBillLine fontSize={20} />
-                  <Text fontFamily={'mono'}>Venta Directa</Text>
+                  <Text>Venta Directa</Text>
                 </Flex>
                 
               )

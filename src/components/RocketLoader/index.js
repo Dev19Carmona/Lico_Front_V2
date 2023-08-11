@@ -1,4 +1,4 @@
-export const RocketLoader = () => {
+export const RocketLoader = ({title = "Cargando"}) => {
   return (
     <div className="overlay">
       <div className="centered">
@@ -19,7 +19,7 @@ export const RocketLoader = () => {
         </div>
         <div className='title-loader'>
 
-            Cargando...
+            {title}
         </div>
       </div>
     </div>

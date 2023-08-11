@@ -23,7 +23,6 @@ export const CardSelectionGeneral = ({ icono, texto }) => {
         <Box
           fontSize={30}
           letterSpacing={2}
-          fontFamily={"mono"}
           w={"100%"}
           p={10}
           borderTop={"1px solid"}

@@ -41,7 +41,7 @@ export const CardMiniNice = ({onClick = () =>{}, data={image:BLUE_BG_IMAGE, firs
                 mb={2}
                 borderRadius={2}
               >
-                <Text fontFamily={'mono'} fontSize={'xs'}>
+                <Text fontSize={'xs'}>
               {firstBox}
                 </Text>
               </Box>

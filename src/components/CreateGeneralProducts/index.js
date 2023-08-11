@@ -26,7 +26,7 @@ export const CreateGeneralProducts = ({
         display="flex"
         gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={10} fontSize={30} fontFamily={"mono"}>
+        <Box letterSpacing={10} fontSize={30}>
           {titleTab}
         </Box>
         

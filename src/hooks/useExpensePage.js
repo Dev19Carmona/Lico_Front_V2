@@ -172,7 +172,7 @@ export const useExpensePage = (providerId) => {
                 title={<GiReturnArrow fontSize={25} />}
               />
           </Box>
-          <Text letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+          <Text letterSpacing={2} fontSize={30}>
             Seleccionar productos
           </Text>
           <Box>

@@ -24,21 +24,6 @@ export const HomeContainer = () => {
       <Grid gap={5} borderRadius={9} bg={"gray.100"} p={5}>
         <Flex gap={{base:"5px",md:"50px", lg:"120px"}} justifyContent={"center"}>
           <SubtitleGeneral size="3xl" data={"Estadisticas"} />
-          {sellWeekStatistics?.years.map((year, i) => (
-            <Box
-              bg="black"
-              display={"inline-block"}
-              px={2}
-              py={1}
-              color="white"
-              mb={2}
-              key={i}
-              borderRadius={5}
-            >
-              <SubtitleGeneral size="xs" data={year} />
-              {sellWeekStatistics?.years.length > 1 && <Divider />}
-            </Box>
-          ))}
         </Flex>
         <SimpleGrid gap={5} columns={{base:1,md:2,lg:3}}>
 

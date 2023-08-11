@@ -18,7 +18,7 @@ export const ExpensesContainer = () => {
         display="flex"
         gridTemplateColumns="1fr"
       >
-        <Box letterSpacing={2} fontSize={30} fontFamily={"mono"}>
+        <Box letterSpacing={2} fontSize={30}>
         Elige un proveedor
         </Box>
         
