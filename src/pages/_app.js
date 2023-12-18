@@ -45,14 +45,14 @@ const authLink = setContext((_, { headers }) => {
   };
 }).concat(
   createUploadLink({
-    uri: "https://crm-back-dev.fl0.io/graphql",
+    uri: "http://localhost:4123/graphql",
   })
 );
 //hola
 const wsLink = new GraphQLWsLink(
   createClient({
     webSocketImpl: WebSocket,
-    url: "wss://crm-back-dev.fl0.io/graphql",
+    url: "ws://localhost:4123/graphql",
   })
 );
 

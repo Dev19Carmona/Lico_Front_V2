@@ -85,7 +85,7 @@ export const useRegisterLogin = () => {
         setalertLogInFalse(true);
       }
     }
-  }, [token]);
+  }, [token, router, setAlertLogIn]);
 
   useEffect(() => {
     let timer;

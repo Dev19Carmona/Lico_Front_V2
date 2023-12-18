@@ -1,6 +1,7 @@
 import { LoginForm3D } from "@/components/LoginForm3D";
 import { HomeContainer } from "@/containers/HomeContainer";
 import { LoginContext } from "@/context/login";
+import { NavBarLayout } from "@/layouts/NavBarLayout";
 import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 

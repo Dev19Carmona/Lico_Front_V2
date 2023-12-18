@@ -1,22 +1,22 @@
 
 
 export const SELLER_ID = "237c42bd-eb30-49f3-a727-89cd92ab69e5";
-export const ADMIN_ID = "25eefba4-201f-443a-96d6-6b0e4a82824d";
+export const ADMIN_ID = "746faa76-0322-4396-806d-e7a1e9f16d73";
 export const SELLER = {
-  id:"237c42bd-eb30-49f3-a727-89cd92ab69e5",
-  name: "Vendedor"
+  id:SELLER_ID,
+  name: "SELLER"
 }
 export const ADMIN = {
-  id:"237c42bd-eb30-49f3-a727-89cd92ab69e5",
-  name: "Administrador"
+  id:ADMIN_ID,
+  name: "ADMIN"
 }
-export const SELLER_NAME = "Vendedor";
-export const ADMIN_NAME = "Administrador";
+export const SELLER_NAME = "SELLER";
+export const ADMIN_NAME = "ADMIN";
 export const LIMIT = 10;
 export const BLUE_BG_IMAGE =
-  "https://w0.peakpx.com/wallpaper/544/472/HD-wallpaper-color-background-blue.jpg";
+  "https://us.123rf.com/450wm/claudiodivizia/claudiodivizia1604/claudiodivizia160401639/56021706-papel-de-color-azul-%C3%BAtil-como-una-textura-de-fondo.jpg";
 export const RED_BG_IMAGE =
-  "https://w0.peakpx.com/wallpaper/630/366/HD-wallpaper-red-plain.jpg";
+  "https://img.freepik.com/foto-gratis/tarjeta-plantilla-informe-papel-suave_1258-167.jpg?size=626&ext=jpg&ga=GA1.1.1687694167.1702857600&semt=sph";
 
 export const paymentMethods = [
   { id: "1", name: "Efectivo" },
