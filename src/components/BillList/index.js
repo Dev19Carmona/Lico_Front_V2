@@ -2,11 +2,11 @@ import { Box, Grid, SimpleGrid } from "@chakra-ui/react";
 import { BillTable } from "../BillTable";
 import { useFunctionsGeneral } from "@/hooks/functions/useFunctionsGeneral";
 import { CardHorizontal } from "../CardHorizontal";
-import { MONTHS } from "../../../config/Constants";
+import { BLUE_BG_IMAGE, MONTHS } from "../../../config/Constants";
 
 export const BillList = ({ data = [], onClick = () => {} }) => {
   const imageBill =
-    "https://uploadgerencie.com/imagenes/requisitos-factura-soporte-costos.png";
+    "https://cdn-icons-png.flaticon.com/512/1312/1312307.png";
   return (
     <Grid 
     //gap={5}

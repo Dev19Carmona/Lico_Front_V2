@@ -18,6 +18,7 @@ function Ventas() {
       {localSession?.localSession ? (
         <Box ml={"69px"} minH={"100vh"}>
           <TablesContainer/>
+          
         </Box>
       ) : (
         <Box ml={"65px"} minH={"100vh"}>
